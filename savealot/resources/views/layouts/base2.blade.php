@@ -25,14 +25,37 @@
 						<a class="nav-link @yield('activeShop')" href="../shop">Shop</a>
 					</li>
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @auth
+                                {{Auth::user()->name}}
+                            @endauth
+                            @guest
+                                Account
+                            @endguest
+                        </a>
 						<ul class="dropdown-menu mb-2">
-							<li><a class="dropdown-item @yield('activeLogin')" href="../login">Login</a></li>
-							<li><a class="dropdown-item @yield('activeRegister')" href="../register">Register</a></li>
+                            @auth
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            @endauth
+                            @guest
+                                <li><a class="dropdown-item @yield('activeLogin')" href="login">Login</a></li>
+                                <li><a class="dropdown-item @yield('activeRegister')" href="register">Register</a></li>
+                            @endguest
 							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item @yield('activeCart')" href="../cart">Cart</a></li>
-							<li><a class="dropdown-item @yield('activeAdmin')" href="../admin">Admin</a></li>
-                            <li><a class="dropdown-item @yield('adctiveInventory')" href="../inventory">Inventory</a></li>
+							<li><a class="dropdown-item @yield('activeCart')" href="cart">Cart</a></li>
+                            @isset(Auth::user()->email)
+                                @if (Auth::user()->email == "saladmin@localhost")
+                                    <li><a class="dropdown-item @yield('activeAdmin')" href="admin">Admin</a></li>
+                                    <li><a class="dropdown-item @yield('activeInventory')" href="/inventory">Inventory</a></li>
+                                @endif
+                            @endisset
 						</ul>
 					</li>
 				</ul>

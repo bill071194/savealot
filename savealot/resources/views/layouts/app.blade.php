@@ -15,7 +15,7 @@
 <body class="min-vh-100 d-flex flex-column">
 	<nav class="navbar navbar-expand-sm navbar-dark bg-success">
 		<div class="container-fluid align-middle">
-			<a class="navbar-brand badge text-bg-light text-success fs-5" href="index.html">Save-a-Lot</a>
+			<a class="navbar-brand badge text-bg-light text-success fs-5" href="index">Save-a-Lot</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -75,7 +75,7 @@
 	</main>
 
 	<footer class="container-fluid p-1 bg-success text-center">
-		<a class="navbar-brand badge text-bg-light text-success fs-6" href="index.html">Save-a-Lot</a>
+		<a class="navbar-brand badge text-bg-light text-success fs-6" href="index">Save-a-Lot</a>
 	</footer>
 
 </body>
