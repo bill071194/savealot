@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Cart</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="min-vh-100 d-flex flex-column">
+	<nav class="navbar navbar-expand-sm navbar-dark bg-success">
+		<div class="container-fluid align-middle">
+			<a class="navbar-brand badge text-bg-light text-success fs-5" href="index.html">Save-a-Lot</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto">
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="index.html">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="shop.html">Shop</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
+						<ul class="dropdown-menu mb-2">
+							<li><a class="dropdown-item" href="login.html">Login</a></li>
+							<li><a class="dropdown-item" href="register.html">Register</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item active" href="cart.html">Cart</a></li>
+							<li><a class="dropdown-item" href="admin.html">Admin</a></li>
+						</ul>
+					</li>
+				</ul>
+				<form class="d-flex" role="search">
+					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-light" type="submit">Search</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+	<main class="container p-3 bg-light flex-grow-1">
+		<h1 class="h1 text-center">Cart</h1>
+		<div class="">
+			<div class="col col-md-10 offset-md-1">
+				<table class="table table-light table-striped table-bordered border-dark-subtle table-hover">
+					<thead>
+						<tr class="table-dark">
+							<th>Product</th>
+							<th>Price</th>
+							<th>Qty</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody class="table-group-divider">
+						<tr>
+							<td>Salted Cashews</td>
+							<td>$12.99</td>
+							<td>1</td>
+							<td>$12.99</td>
+						</tr>
+						<tr>
+							<td>Unsalted Cashews</td>
+							<td>$12.99</td>
+							<td>2</td>
+							<td>$25.98</td>
+						</tr>
+						<tr id="tr03" class="">
+							<td id="id03Product">Yakisoba Chow Mein</td>
+							<td id="id03Price">$6.00</td>
+							<td id="id03Qty">2</td>
+							<td id="id03Total">$12.00</td>
+						</tr>
+					</tbody>
+					<tbody class="table-group-divider">
+						<tr>
+							<th colspan="3">Subtotal</th>
+							<th>$38.97</th>
+						</tr>
+						<tr>
+							<td colspan="2">Student Discount</td>
+							<td>-10%</td>
+							<td>($3.90)</td>
+						</tr>
+						<tr>
+							<td colspan="2">PST</td>
+							<td>7%</td>
+							<td>$2.73</td>
+						</tr>
+						<tr>
+							<td colspan="2">GST</td>
+							<td>5%</td>
+							<td>$1.95</td>
+						</tr>
+					</tbody>
+					<tfoot class="table-group-divider">
+						<tr class="table-success">
+							<th colspan="3">Subtotal:</th>
+							<th>$39.75</th>
+						</tr>
+					</tfoot>
+				</table>
+				<form action="" class="d-flex justify-content-end">
+					<input type="hidden">
+					<button class="btn btn-outline-success">Confirm Purchase</button>
+				</form>
+			</div>
+		</div>
+	</main>
+	<footer class="container-fluid p-1 bg-success text-center">
+		<a class="navbar-brand badge text-bg-light text-success fs-6" href="index.html">Save-a-Lot</a>
+	</footer>
+
+</body>
+</html>
