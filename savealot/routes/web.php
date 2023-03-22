@@ -53,9 +53,10 @@ Route::get('/shop', [App\Http\Controllers\InventoryController::class, 'shop']);
 Route::controller(InventoryController::class)->group(function () {
     Route::get('/inventory', 'index');
     Route::get('/inventory/create', 'create');
+    Route::post('/inventory/create', 'store');
     Route::get('/inventory/{id}', 'edit');
+    Route::post('/inventory/{id}', 'update');
     Route::get('/shop/{id}', 'show');
     // Route::post('/orders', 'store');
 });
-
 
