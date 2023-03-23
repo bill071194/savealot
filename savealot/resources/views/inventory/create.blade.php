@@ -14,12 +14,12 @@
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="ModelLabel">Edit Product</h1>
+                            <h1 class="modal-title fs-5" id="ModelLabel">Create Product</h1>
                         </div>
                         <div class="modal-body row">
                             <div class="mb-1 mb-sm-3 col-3 col-sm-4">
                                 <label for="id">ID</label>
-                                <input id="id" type="number" class="form-control rounded-3" name="id" value="new" required>
+                                <input id="id" type="number" class="form-control rounded-3" name="id" value="new" disabled readonly>
                             </div>
                             <div class="mb-1 mb-sm-3 col-9 col-sm-8">
                                 <label for="prod_name">Name</label>

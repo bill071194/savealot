@@ -46,6 +46,7 @@
         <div class="col-12 col-lg-8 col-xxl-9" id="Model" tabindex="-1">
             <div class="modal-dialog">
                 <form method="POST" action="edit">
+                    @csrf
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="{{$item->id}}ModelLabel">Edit Product</h1>
