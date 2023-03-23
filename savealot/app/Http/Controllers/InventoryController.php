@@ -24,6 +24,16 @@ class InventoryController extends Controller
         $inventory = inventory::all();
         return view('shop',['inventory' => $inventory]);
     }
+    public function addToCart(string $id)
+    {
+        session()->increment("$id");
+        return redirect()->action([InventoryController::class, 'shop']);
+    }
+    public function removeFromCart(string $id)
+    {
+        session()->decrement("$id");
+        return redirect()->action([InventoryController::class, 'shop']);
+    }
     public function cart()
     {
         //
@@ -106,10 +116,10 @@ class InventoryController extends Controller
             'prod_name' => 'required|max:255',
             'prod_description' => 'max:255'
         ]);
-        
+
         $id = $request->id;
         $inventory = Inventory::whereId($id);
-        
+
         if ($inventory->update($request->except(['_token']))) {
             return redirect('/inventory');
         } else {
