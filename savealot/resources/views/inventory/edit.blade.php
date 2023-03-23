@@ -129,7 +129,6 @@
                         <div class="flex-grow-1"></div>
                         <form action="{{$item->id}}/destroy" method="post">
                             @csrf
-                            <input type="hidden" name="increment" value="1">
                             <input type="submit" class="btn btn-danger" value="Delete">
                         </form>
                         </div>

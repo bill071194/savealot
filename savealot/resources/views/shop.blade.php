@@ -46,13 +46,13 @@
                     @if (session("$item->id") != 0)
                     <form class="" action="shop/{{$item->id}}/removeFromCart" method="post">
                         @csrf
-						<input type="submit" class="btn btn-sm btn-outline-danger" value="-">
+						<input type="submit" class="btn btn-sm btn-outline-danger rounded-5 px-3" value="-">
 					</form>
-                    <div class="badge text-bg-light">{{session("$item->id")}}</div>
+                    <div class="btn btn-sm btn-light rounded-5 px-3">{{session("$item->id")}}</div>
                     @endif
 					<form class="" action="shop/{{$item->id}}/addToCart" method="post">
                         @csrf
-						<input type="submit" class="btn btn-sm btn-outline-success" value="+">
+						<input type="submit" class="btn btn-sm btn-outline-success rounded-5 px-3" value="+">
 					</form>
 				</div>
 			</div>
