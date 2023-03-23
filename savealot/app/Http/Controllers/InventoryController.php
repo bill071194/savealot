@@ -24,6 +24,12 @@ class InventoryController extends Controller
         $inventory = inventory::all();
         return view('shop',['inventory' => $inventory]);
     }
+    public function cart()
+    {
+        //
+        $inventory = inventory::all();
+        return view('cart',['inventory' => $inventory]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -56,8 +62,8 @@ class InventoryController extends Controller
         $inventory->prod_quantity = $request->prod_quantity;
         $inventory->prod_exp_date = $request->prod_exp_date;
         $inventory->prod_picture = $request->prod_picture;
-        
-    
+
+
         // if successful we want to redirect
         if ($inventory->save()) {
             return redirect()->action([InventoryController::class, 'shop']);
@@ -111,8 +117,8 @@ class InventoryController extends Controller
         $inventory->prod_quantity = $request->prod_quantity;
         $inventory->prod_exp_date = $request->prod_exp_date;
         $inventory->prod_picture = $request->prod_picture;
-        
-    
+
+
         // if successful we want to redirect
         if ($inventory->save()) {
             return redirect()->action([InventoryController::class, 'shop']);

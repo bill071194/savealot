@@ -21,7 +21,7 @@ Route::view('/index', 'index');
 Route::view('/shop', 'shop');
 Route::view('/login', 'login');
 Route::view('/register', 'register');
-Route::view('/cart', 'cart');
+// Route::view('/cart', 'cart');
 Route::view('/admin', 'admin');
 // Route::get('/{page}', function (string $page) {
 //     return view("$page");
@@ -55,8 +55,8 @@ Route::controller(InventoryController::class)->group(function () {
     Route::get('/inventory/create', 'create');
     Route::post('/inventory/create', 'store');
     Route::get('/inventory/{id}', 'edit');
-    Route::post('/inventory/{id}', 'update');
     Route::get('/shop/{id}', 'show');
+    Route::get('/cart', 'cart');
     // Route::post('/orders', 'store');
 });
 

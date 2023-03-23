@@ -12,7 +12,7 @@
 <body class="min-vh-100 d-flex flex-column">
 	<nav class="navbar navbar-expand-sm navbar-dark bg-success">
 		<div class="container-fluid align-middle">
-			<a class="navbar-brand badge text-bg-light text-success fs-5" href="index.html">Save-a-Lot</a>
+			<a class="navbar-brand badge text-bg-light text-success fs-5" href="index">Save-a-Lot</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -25,14 +25,37 @@
 						<a class="nav-link @yield('activeShop')" href="shop">Shop</a>
 					</li>
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @auth
+                                {{Auth::user()->name}}
+                            @endauth
+                            @guest
+                                Account
+                            @endguest
+                        </a>
 						<ul class="dropdown-menu mb-2">
-							<li><a class="dropdown-item @yield('activeLogin')" href="login">Login</a></li>
-							<li><a class="dropdown-item @yield('activeRegister')" href="register">Register</a></li>
+                            @auth
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            @endauth
+                            @guest
+                                <li><a class="dropdown-item @yield('activeLogin')" href="/login">Login</a></li>
+                                <li><a class="dropdown-item @yield('activeRegister')" href="/register">Register</a></li>
+                            @endguest
 							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item @yield('activeCart')" href="cart">Cart</a></li>
-							<li><a class="dropdown-item @yield('activeAdmin')" href="admin">Admin</a></li>
-                            <li><a class="dropdown-item @yield('activeInventory')" href="inventory">Inventory</a></li>
+							<li><a class="dropdown-item @yield('activeCart')" href="/cart">Cart</a></li>
+                            @isset(Auth::user()->email)
+                                @if (Auth::user()->email == "saladmin@localhost")
+                                    <li><a class="dropdown-item @yield('activeAdmin')" href="/admin">Admin</a></li>
+                                    <li><a class="dropdown-item @yield('activeInventory')" href="/inventory">Inventory</a></li>
+                                @endif
+                            @endisset
 						</ul>
 					</li>
 				</ul>
@@ -49,7 +72,7 @@
 	</main>
 
 	<footer class="container-fluid p-1 bg-success text-center">
-		<a class="navbar-brand badge text-bg-light text-success fs-6" href="index.html">Save-a-Lot</a>
+		<a class="navbar-brand badge text-bg-light text-success fs-6" href="index">Save-a-Lot</a>
 	</footer>
 
 </body>
