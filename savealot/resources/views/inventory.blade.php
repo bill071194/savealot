@@ -36,98 +36,30 @@
 							</p>
 						</div>
 				</div>
-				<div class="card-footer align-right">
+				<div class="card-footer d-flex justify-content-evenly">
 					<!-- Button trigger modal -->
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#{{$item->id}}-Modal">Delete</button>
                     <a class="btn btn-primary" href="inventory/{{$item->id}}">Edit</a>
-					{{-- <div class="modal fade" id="{{$item->id}}Model" tabindex="-1" aria-labelledby="{{$item->id}}ModelLabel" aria-hidden="true">
+					<div class="modal fade" id="{{$item->id}}-Modal" tabindex="-1" aria-labelledby="{{$item->id}}ModelLabel" aria-hidden="true">
 						<div class="modal-dialog">
-                            <form action="">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="{{$item->id}}ModelLabel">Edit Product</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body row">
-
-                                        <div class="mb-1 mb-sm-3 col-3 col-sm-4">
-                                            <label for="id-{{$item->id}}">ID</label>
-                                            <input id="id-{{$item->id}}" type="number" class="form-control rounded-3" name="id-{{$item->id}}" value="{{$item->id}}" required>
-                                        </div>
-                                        <div class="mb-1 mb-sm-3 col-9 col-sm-8">
-                                            <label for="id-{{$item->id}}">Name</label>
-                                            <input id="prod_name-{{$item->id}}" type="text" class="form-control rounded-3" name="prod_name-{{$item->id}}" value="{{$item->prod_name}}" required>
-                                        </div>
-                                        <div class="mb-1 mb-sm-3 col-12 col-sm-12">
-                                            <label for="prod_description-{{$item->id}}">Description</label>
-                                            <textarea name="prod_description-{{$item->id}}" id="prod_description-{{$item->id}}" rows="3" class="form-control rounded-3">{{$item->prod_description}}</textarea>
-                                        </div>
-                                        <div class="mb-1 mb-sm-3 col-6 col-sm-6">
-                                            <label for="prod_purchase_price-{{$item->id}}">Purchase Price</label>
-                                            <div class="input-group rounded-3 col">
-                                                <span class="input-group-text">$</span>
-                                                <input id="prod_purchase_price-{{$item->id}}" type="text" class="form-control" name="prod_purchase_price-{{$item->id}}" value="{{$item->prod_purchase_price}}">
-                                            </div>
-                                        </div>
-                                        <div class="mb-1 mb-sm-3 col-6 col-sm-6">
-                                            <label for="prod_selling_price-{{$item->id}}">Selling Price</label>
-                                            <div class="input-group rounded-3 col">
-                                                <span class="input-group-text">$</span>
-                                                <input id="prod_selling_price-{{$item->id}}" type="text" class="form-control" name="prod_selling_price-{{$item->id}}" value="{{$item->prod_selling_price}}">
-                                            </div>
-                                        </div>
-                                        <div class="mb-1 mb-sm-3 col-6 col-sm-4">
-                                            <label for="prod_units-{{$item->id}}" class="center">Units</label>
-                                            <div class="input-group rounded-3">
-                                                <input id="prod_units-{{$item->id}}" type="text" class="form-control" name="prod_units-{{$item->id}}" value="{{$item->prod_units}}">
-                                            </div>
-                                        </div>
-                                        <div class="mb-1 mb-sm-3 col-6 col-sm-4">
-                                            <label for="prod_size-{{$item->id}}">Size</label>
-                                            <div class="input-group rounded-3">
-                                                <input id="prod_size-{{$item->id}}" type="number" class="form-control" name="prod_size-{{$item->id}}" value="{{$item->prod_size}}">
-                                                <span class="input-group-text">g</span>
-                                            </div>
-                                        </div>
-                                        <div class="mb-1 mb-sm-3 col-4 col-sm-4">
-                                            <label for="prod_quantity-{{$item->id}}">Quantity</label>
-                                            <div class="input-group rounded-3">
-                                                <input id="prod_quantity-{{$item->id}}" type="number" class="form-control" name="prod_quantity-{{$item->id}}" value="{{$item->prod_size}}">
-                                            </div>
-                                        </div>
-                                        <div class="mb-1 mb-sm-3 col-8 col-sm-4">
-                                            <label for="prod_quantity-{{$item->id}}">Expiry Date</label>
-                                            <div class="input-group rounded-3">
-                                                <input id="prod_exp_date-{{$item->id}}" type="date" class="form-control" name="prod_exp_date-{{$item->id}}" value="{{$item->prod_exp_date}}">
-                                            </div>
-                                        </div>
-                                        <div class="mb-1 mb-sm-3 col-12 col-sm-8">
-                                            <label for="prod_picture-{{$item->id}}">Picture URL</label>
-                                            <div class="input-group rounded-3">
-                                                <input id="prod_picture-{{$item->id}}" type="text" class="form-control" name="prod_picture-{{$item->prod_picture}}" value="{{$item->prod_picture}}">
-                                            </div>
-                                        </div>
-                                        <div class="mb-1 mb-sm-3 col-12 col-sm-6">
-                                            <label for="created_at-{{$item->id}}">Created at</label>
-                                            <div class="input-group rounded-3">
-                                                <input id="created_at-{{$item->id}}" type="datetime-local" class="form-control" name="created_at-{{$item->id}}" value="{{$item->created_at}}" disabled readonly>
-                                            </div>
-                                        </div>
-                                        <div class="mb-1 mb-sm-3 col-12 col-sm-6">
-                                            <label for="updated_at-{{$item->id}}">Updated at</label>
-                                            <div class="input-group rounded-3">
-                                                <input id="updated_at-{{$item->id}}" type="datetime-local" class="form-control" name="updated_at-{{$item->id}}" value="{{$item->updated_at}}" disabled readonly>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <input type="submit" class="btn btn-primary" value="Save changes">
-                                    </div>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="{{$item->id}}ModelLabel">Are you sure you want to delete this item?</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                            </form>
+                                <div class="modal-body">
+                                    <h6>Seriously it'll be gone!</h6>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No go back!</button>
+                                    <form action="inventory/{{$item->id}}/destroy" method="post">
+                                        @csrf
+                                    <input type="submit" class="btn btn-danger" value="Delete">
+                                </form>
+                                </div>
+                            </div>
 						</div>
-					</div> --}}
+					</div>
 				</div>
 			</div>
 		</div>
