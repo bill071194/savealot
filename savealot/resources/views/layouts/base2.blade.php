@@ -14,7 +14,7 @@
 <body class="min-vh-100 d-flex flex-column">
 	<nav class="navbar navbar-expand-sm navbar-dark bg-success">
 		<div class="container-fluid align-middle">
-			<a class="navbar-brand badge text-bg-light text-success fs-5" href="../index.html">Save-a-Lot</a>
+			<a class="navbar-brand badge text-bg-light text-success fs-5" href="../index">Save-a-Lot</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -61,9 +61,9 @@
 						</ul>
 					</li>
 				</ul>
-				<form class="d-flex" role="search">
-					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-light" type="submit">Search</button>
+				<form class="d-flex" action="../search" method="get" role="search">
+                    <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                    <input class="btn btn-outline-light" type="submit" value="Search">
 				</form>
 			</div>
 		</div>

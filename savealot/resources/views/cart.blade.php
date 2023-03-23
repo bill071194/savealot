@@ -22,12 +22,12 @@ $total = 0;
             </thead>
             <tbody class="table-group-divider">
                 @foreach ($inventory as $item)
-                    @if ($item->prod_quantity > 0)
+                    @if (session($item->id) > 0)
                         <tr>
                             <td>{{$item->prod_name}}</td>
                             <td>${{$item->prod_selling_price}}</td>
-                            <td>{{$item->prod_quantity}}</td>
-                            <td>${{$nextItem = number_format($item->prod_selling_price * $item->prod_quantity, 2)}}</td>
+                            <td>{{session($item->id)}}</td>
+                            <td>${{$nextItem = number_format($item->prod_selling_price * session($item->id), 2)}}</td>
                             <?php $subtotal += $nextItem ?>
                         </tr>
                     @endif
@@ -39,10 +39,13 @@ $total = 0;
                     <th>${{number_format($subtotal, 2)}}</th>
                 </tr>
                 <tr>
-                    <td colspan="2">Student Discount</td>
-                    <td>-10%</td>
+                    <td>Student Discount</td>
+                    <td colspan="2" class="text-center">-10%</td>
                     <td>(${{number_format($subtotal * (0.1),2)}})</td>
-                    <?php $total = $subtotal * 0.9; ?>
+                    @php
+                        $total = $subtotal * 0.9;
+                        session('total', number_format($total,2));
+                    @endphp
                 </tr>
             </tbody>
             <tfoot class="table-group-divider">

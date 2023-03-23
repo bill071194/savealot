@@ -24,7 +24,25 @@ class InventoryController extends Controller
         $inventory = inventory::all();
         return view('shop',['inventory' => $inventory]);
     }
+<<<<<<< HEAD
     
+=======
+    public function search(Request $request)
+    {
+        $inventory = Inventory::where('prod_name', 'like', '%' . request('search') . '%')->get();
+        return view('/shop')->with('inventory', $inventory);
+    }
+    public function addToCart(string $id)
+    {
+        session()->increment("$id");
+        return redirect()->action([InventoryController::class, 'shop']);
+    }
+    public function removeFromCart(string $id)
+    {
+        session()->decrement("$id");
+        return redirect()->action([InventoryController::class, 'shop']);
+    }
+>>>>>>> d619aa99ccc7f9ad0980a053d61239dc6a239515
     public function cart()
     {
         //
@@ -107,10 +125,10 @@ class InventoryController extends Controller
             'prod_name' => 'required|max:255',
             'prod_description' => 'max:255'
         ]);
-        
+
         $id = $request->id;
         $inventory = Inventory::whereId($id);
-        
+
         if ($inventory->update($request->except(['_token']))) {
             return redirect('/inventory');
         } else {
