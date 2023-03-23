@@ -121,7 +121,6 @@
                                     <input id="updated_at-{{$item->id}}" type="datetime-local" class="form-control" name="updated_at-{{$item->id}}" value="{{$item->updated_at}}" disabled readonly>
                                 </div>
                             </div>
-
                         </div>
                         <div class="modal-footer flex-row-reverse justify-content-start">
                         </form>
