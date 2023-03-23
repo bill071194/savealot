@@ -24,9 +24,6 @@ class InventoryController extends Controller
         $inventory = inventory::all();
         return view('shop',['inventory' => $inventory]);
     }
-<<<<<<< HEAD
-    
-=======
     public function search(Request $request)
     {
         $inventory = Inventory::where('prod_name', 'like', '%' . request('search') . '%')->get();
@@ -42,7 +39,7 @@ class InventoryController extends Controller
         session()->decrement("$id");
         return redirect()->action([InventoryController::class, 'shop']);
     }
->>>>>>> d619aa99ccc7f9ad0980a053d61239dc6a239515
+    
     public function cart()
     {
         //
