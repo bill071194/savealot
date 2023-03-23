@@ -60,7 +60,6 @@ Route::controller(InventoryController::class)->group(function () {
     Route::get('/shop/{id}', 'show');
     Route::post('/shop/{id}/addToCart', 'addToCart');
     Route::post('/shop/{id}/removeFromCart', 'removeFromCart');
+    Route::get('/search', 'search');
     Route::get('/cart', 'cart');
-    // Route::post('/orders', 'store');
 });
-
