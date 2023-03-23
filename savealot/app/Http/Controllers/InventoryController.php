@@ -1,7 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+
 class InventoryController extends Controller
 {
     /**
@@ -13,6 +16,7 @@ class InventoryController extends Controller
         $inventory = inventory::all();
         return view('inventory',['inventory' => $inventory]);
     }
+
     // Custom made
     public function shop()
     {
@@ -20,7 +24,6 @@ class InventoryController extends Controller
         $inventory = inventory::all();
         return view('shop',['inventory' => $inventory]);
     }
-
     public function cart()
     {
         //
@@ -36,6 +39,7 @@ class InventoryController extends Controller
         //
         return view('/inventory/create');
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -60,7 +64,6 @@ class InventoryController extends Controller
         $inventory->prod_picture = $request->prod_picture;
 
 
-
         // if successful we want to redirect
         if ($inventory->save()) {
             return redirect()->action([InventoryController::class, 'shop']);
@@ -72,6 +75,7 @@ class InventoryController extends Controller
     /**
      * Display the specified resource.
      */
+
     public function show(string $id)
     {
         // find the record
@@ -79,6 +83,7 @@ class InventoryController extends Controller
         // return this view
         return view('inventory.show')->with('item', $inventory);
     }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -89,6 +94,7 @@ class InventoryController extends Controller
         // return this view
         return view('inventory.edit')->with('item', $inventory);
     }
+
     /**
      * Update the specified resource in storage.
      */
