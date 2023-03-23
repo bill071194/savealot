@@ -46,6 +46,7 @@
         <div class="col-12 col-lg-8 col-xxl-9" id="Model" tabindex="-1">
             <div class="modal-dialog">
                 <form method="POST" action="edit">
+                    @csrf
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="{{$item->id}}ModelLabel">Edit Product</h1>
@@ -93,7 +94,7 @@
                             <div class="mb-1 mb-sm-3 col-4 col-sm-4">
                                 <label for="prod_quantity">Quantity</label>
                                 <div class="input-group rounded-3">
-                                    <input id="prod_quantity" type="number" class="form-control" name="prod_quantity" value="{{$item->prod_size}}">
+                                    <input id="prod_quantity" type="number" class="form-control" name="prod_quantity" value="{{$item->prod_quantity}}">
                                 </div>
                             </div>
                             <div class="mb-1 mb-sm-3 col-8 col-sm-4">

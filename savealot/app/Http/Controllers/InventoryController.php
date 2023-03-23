@@ -48,7 +48,8 @@ class InventoryController extends Controller
         // validate the form data
         $this->validate($request, [
             'prod_name' => 'required|max:255',
-            'prod_description' => 'max:255'
+            'prod_description' => 'max:255',
+            'prod_quantity' => 'required'
         ]);
         // process the data and submit it
         $inventory = new Inventory(); // this is the model Inventory
@@ -98,40 +99,35 @@ class InventoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, inventory $inventory)
+    public function update(Request $request)
     {
         // validate the form data
         $this->validate($request, [
             'prod_name' => 'required|max:255',
             'prod_description' => 'max:255'
         ]);
-        // process the data and submit it
-        $inventory = new Inventory(); // this is the model Inventory
-        $inventory->id = $request->id;
-        $inventory->prod_name = $request->prod_name;
-        $inventory->prod_description = $request->prod_description;
-        $inventory->prod_purchase_price = $request->prod_purchase_price;
-        $inventory->prod_selling_price = $request->prod_selling_price;
-        $inventory->prod_units = $request->prod_units;
-        $inventory->prod_size = $request->prod_size;
-        $inventory->prod_quantity = $request->prod_quantity;
-        $inventory->prod_exp_date = $request->prod_exp_date;
-        $inventory->prod_picture = $request->prod_picture;
-
-
-        // if successful we want to redirect
-        if ($inventory->save()) {
-            return redirect()->action([InventoryController::class, 'shop']);
-        } else {
+        
+        $id = $request->id;
+        $inventory = Inventory::whereId($id);
+        
+        if ($inventory->update($request->except(['_token']))) {
             return redirect('/inventory');
+        } else {
+            return redirect()->action([InventoryController::class, 'edit']);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(inventory $inventory)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        $inventory = Inventory::whereId($id);
+        if ($inventory->delete()) {
+            return redirect('/inventory');
+        } else {
+            return redirect()->action([InventoryController::class, 'edit']);
+        }
     }
 }
