@@ -94,7 +94,7 @@
                             <div class="mb-1 mb-sm-3 col-4 col-sm-4">
                                 <label for="prod_quantity">Quantity</label>
                                 <div class="input-group rounded-3">
-                                    <input id="prod_quantity" type="number" class="form-control" name="prod_quantity" value="{{$item->prod_size}}">
+                                    <input id="prod_quantity" type="number" class="form-control" name="prod_quantity" value="{{$item->prod_quantity}}">
                                 </div>
                             </div>
                             <div class="mb-1 mb-sm-3 col-8 col-sm-4">

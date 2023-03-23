@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.base')
 
 @section('title', 'Log in')
 
 @section('activeLogin', 'active')
 
-@section('content')
+@section('main')
 <div class="modal modal-signin position-static d-block" style="z-index: 955;" tabindex="-1" role="dialog" id="modalSignin">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content rounded-4 shadow">

@@ -48,7 +48,8 @@ class InventoryController extends Controller
         // validate the form data
         $this->validate($request, [
             'prod_name' => 'required|max:255',
-            'prod_description' => 'max:255'
+            'prod_description' => 'max:255',
+            'prod_quantity' => 'required'
         ]);
         // process the data and submit it
         $inventory = new Inventory(); // this is the model Inventory
@@ -119,8 +120,14 @@ class InventoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(inventory $inventory)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        $inventory = Inventory::whereId($id);
+        if ($inventory->delete()) {
+            return redirect('/inventory');
+        } else {
+            return redirect()->action([InventoryController::class, 'edit']);
+        }
     }
 }
