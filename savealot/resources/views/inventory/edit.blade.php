@@ -5,7 +5,7 @@
 
 @section('main')
 <h1>Inventory</h1>
-<div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-4 g-3">
+<div class="row g-3">
 	{{-- @foreach ($inventory as $item) --}}
         <div class="col-md-3 d-lg-none"></div>
 
@@ -123,12 +123,17 @@
                             </div>
 
                         </div>
-                        <div class="modal-footer">
-                            <a href="../inventory"><button type="button" class="btn btn-secondary mx-3">Close</button></a>
-                            <input type="submit" class="btn btn-primary" value="Save changes">
+                        <div class="modal-footer flex-row-reverse justify-content-start">
+                        </form>
+                        <input type="submit" class="btn btn-primary" value="Save changes">
+                        <a href="../inventory"><button type="button" class="btn btn-secondary mx-3">Close</button></a>
+                        <div class="flex-grow-1"></div>
+                        <form action="{{$item->id}}/destroy" method="post">
+                            @csrf
+                            <input type="submit" class="btn btn-danger" value="Delete">
+                        </form>
                         </div>
                     </div>
-                </form>
             </div>
         </div>
 

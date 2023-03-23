@@ -56,7 +56,7 @@ Route::controller(InventoryController::class)->group(function () {
     Route::post('/inventory/create', 'store');
     Route::get('/inventory/{id}', 'edit');
     Route::post('/inventory/{id}', 'update');
-    Route::put('/inventory/{id}', 'destroy');
+    Route::post('/inventory/{id}/destroy', 'destroy');
     Route::get('/shop/{id}', 'show');
     Route::get('/cart', 'cart');
     // Route::post('/orders', 'store');
