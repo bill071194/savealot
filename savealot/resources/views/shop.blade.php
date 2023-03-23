@@ -50,10 +50,14 @@
 					</form>
                     <div class="btn btn-sm btn-light rounded-5 px-3">{{session("$item->id")}}</div>
                     @endif
+                    @if (session("$item->id") < $item->prod_quantity)
 					<form class="" action="shop/{{$item->id}}/addToCart" method="post">
                         @csrf
 						<input type="submit" class="btn btn-sm btn-outline-success rounded-5 px-3" value="+">
 					</form>
+                    @else
+                    <input type="submit" class="btn btn-sm btn-secondary rounded-5 px-3" value="max">
+                    @endif
 				</div>
 			</div>
 		</div>
