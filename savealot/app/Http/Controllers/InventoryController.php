@@ -24,28 +24,25 @@ class InventoryController extends Controller
         $inventory = inventory::all();
         return view('shop',['inventory' => $inventory]);
     }
-<<<<<<< HEAD
-    
-=======
->>>>>>> 930ae708b5954bfdb668f2a3d73507a181528062
+
     public function search(Request $request)
     {
-        $inventory = Inventory::where('prod_name', 'like', '%' . request('search') . '%')->get();
+        $inventory = Inventory::where('prod_name', 'LIKE', '%' . request('search') . '%')->orWhere('prod_description', 'LIKE', '%' . request('search') . '%')->get();
         return view('/shop')->with('inventory', $inventory);
     }
-    
+
     public function addToCart(string $id)
     {
         session()->increment("$id");
         return redirect()->action([InventoryController::class, 'shop']);
     }
-    
+
     public function removeFromCart(string $id)
     {
         session()->decrement("$id");
         return redirect()->action([InventoryController::class, 'shop']);
     }
-    
+
     public function cart()
     {
         //
