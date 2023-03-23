@@ -24,6 +24,7 @@ class InventoryController extends Controller
         $inventory = inventory::all();
         return view('shop',['inventory' => $inventory]);
     }
+    
     public function cart()
     {
         //

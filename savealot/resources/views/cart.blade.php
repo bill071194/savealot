@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Admin')
+@section('title', 'Cart')
 
 <?php
 $subtotal = 0;
