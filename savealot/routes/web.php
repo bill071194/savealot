@@ -17,7 +17,7 @@ use App\Http\Controllers\InventoryController;
 */
 
 // Adding more default view in //
-Route::view('/index', 'index');
+// Route::view('/index', 'index');
 Route::view('/shop', 'shop');
 Route::view('/login', 'login');
 Route::view('/register', 'register');
@@ -34,9 +34,9 @@ Route::view('/admin', 'admin');
 //     return view('index.html');
 // });
 
-Route::get('/', function () {
-    return view('index');
-});
+// Route::get('/', function () {
+//     return view('index');
+// });
 
 Auth::routes();
 
@@ -51,6 +51,8 @@ Route::get('/shop', [App\Http\Controllers\InventoryController::class, 'shop']);
 
 
 Route::controller(InventoryController::class)->group(function () {
+    Route::get('/', 'homepage');
+    Route::get('/index', 'homepage');
     Route::get('/inventory', 'index');
     Route::get('/inventory/create', 'create');
     Route::post('/inventory/create', 'store');
@@ -62,4 +64,5 @@ Route::controller(InventoryController::class)->group(function () {
     Route::post('/shop/{id}/removeFromCart', 'removeFromCart');
     Route::get('/search', 'search');
     Route::get('/cart', 'cart');
+    Route::post('/emptyCart', 'emptyCart');
 });
