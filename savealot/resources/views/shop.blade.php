@@ -6,8 +6,6 @@
 @section('main')
 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-4 g-3">
 	@foreach ($inventory as $item)
-    @if ($item->prod_quantity > 0)
-    @if ($item->prod_selling_price > 0)
 		<div class="col">
 			<div class="card h-100 shadow border-success">
 				<div class="row card-body">
@@ -67,8 +65,7 @@
 				</div>
 			</div>
 		</div>
-    @endif
-    @endif
 	@endforeach
+    {{$inventory->links()}}
 </div>
 @endsection
