@@ -43,6 +43,21 @@ class InventoryController extends Controller
         return redirect()->action([InventoryController::class, 'shop']);
     }
 
+    public function emptyCart()
+    {
+        $inventory = inventory::all();
+        foreach ($inventory as $item) {
+            session(["$item->id" => "0"]);
+        }
+        return redirect()->action([InventoryController::class, 'shop']);
+    }
+
+    public function homepage()
+    {
+        $inventory = inventory::all();
+        return view('index',['inventory' => $inventory]);
+    }
+
     public function cart()
     {
         //
