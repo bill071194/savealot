@@ -44,13 +44,13 @@
                                 </div>
                             </div>
                             <div class="mb-1 mb-sm-3 col-6 col-sm-4">
-                                <label for="prod_units" class="center">Units</label>
+                                <label for="prod_units" class="center">Units (eg. 5x102g)</label>
                                 <div class="input-group rounded-3">
                                     <input id="prod_units" type="text" class="form-control" name="prod_units" value="">
                                 </div>
                             </div>
                             <div class="mb-1 mb-sm-3 col-6 col-sm-4">
-                                <label for="prod_size">Size</label>
+                                <label for="prod_size">Size (grams)</label>
                                 <div class="input-group rounded-3">
                                     <input id="prod_size" type="number" class="form-control" name="prod_size" value="">
                                     <span class="input-group-text">g</span>

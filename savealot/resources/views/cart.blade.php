@@ -27,8 +27,11 @@ $total = 0;
                             <td>{{$item->prod_name}}</td>
                             <td>${{$item->prod_selling_price}}</td>
                             <td>{{session($item->id)}}</td>
-                            <td>${{$nextItem = number_format($item->prod_selling_price * session($item->id), 2)}}</td>
-                            <?php $subtotal += $nextItem ?>
+                            <td>${{number_format($item->prod_selling_price * session($item->id), 2, '.', ',')}}</td>
+                            @php
+                                $nextItem = number_format($item->prod_selling_price * session($item->id), 2, '.', '');
+                                $subtotal += $nextItem;
+                            @endphp
                         </tr>
                     @endif
                 @endforeach
@@ -43,7 +46,7 @@ $total = 0;
                     <td colspan="2" class="text-center">-10%</td>
                     <td>(${{number_format($subtotal * (0.1),2)}})</td>
                     @php
-                        $total = $subtotal * 0.9;
+                        $total = number_format($subtotal * 0.9, 2, '.', '');
                         session('total', number_format($total,2));
                     @endphp
                 </tr>
@@ -55,10 +58,16 @@ $total = 0;
                 </tr>
             </tfoot>
         </table>
-        <form action="" class="d-flex justify-content-end">
-            <input type="hidden">
-            <button class="btn btn-outline-success">Confirm Purchase</button>
-        </form>
+        <div class="d-flex justify-content-between">
+            <form action="/emptyCart" method="post" class="d-flex justify-content-end">
+                @csrf
+                <input type="submit" class="btn btn-outline-danger rounded-5 px-3" value="Empty Cart">
+            </form>
+            <form action="" class="d-flex justify-content-end">
+                <input type="hidden">
+                <button class="btn btn-outline-success rounded-5 px-3">Confirm Purchase</button>
+            </form>
+        </div>
     </div>
 </div>
 @endsection

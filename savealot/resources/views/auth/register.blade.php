@@ -43,13 +43,13 @@
 					    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Password">
 					    <label for="password-confirm">Confirm Password</label>
 					</div>
-					
-					<button class="w-100 btn btn-lg rounded-3 btn-success" type="submit">Register</button>
+
+					<button class="w-100 btn btn-lg rounded-5 px-3 btn-success" type="submit">Register</button>
 				</form>
 					<hr class="my-4">
 					<p class="text-muted text-center">Already have an account? Log in here</p>
 					<div class="d-flex justify-content-center">
-						<a class="mb-2 btn btn rounded-3 btn-dark" href="/login">Log in</a>
+						<a class="mb-2 btn rounded-5 px-3 btn-dark" href="/login">Log in</a>
 					</div>
 			</div>
 		</div>
