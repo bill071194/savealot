@@ -13,7 +13,12 @@ class InventoryController extends Controller
     public function index()
     {
         //
-        $inventory = inventory::all();
+        $inventory = inventory::where('prod_quantity', '>', 0)->where('prod_selling_price', '>', 0)->get();
+        foreach ($inventory as $item) {
+            if (session("$item->id") < 1) {
+                session(["$item->id" => 0]);
+            }
+        }
         return view('inventory',['inventory' => $inventory]);
     }
 
@@ -21,13 +26,23 @@ class InventoryController extends Controller
     public function shop()
     {
         //
-        $inventory = inventory::all();
+        $inventory = inventory::where('prod_quantity', '>', 0)->where('prod_selling_price', '>', 0)->paginate(12);
+        foreach ($inventory as $item) {
+            if (session("$item->id") < 1) {
+                session(["$item->id" => 0]);
+            }
+        }
         return view('shop',['inventory' => $inventory]);
     }
 
     public function search(Request $request)
     {
-        $inventory = Inventory::where('prod_name', 'LIKE', '%' . request('search') . '%')->orWhere('prod_description', 'LIKE', '%' . request('search') . '%')->get();
+        $inventory = Inventory::where('prod_name', 'LIKE', '%' . request('search') . '%')->orWhere('prod_description', 'LIKE', '%' . request('search') . '%')->paginate(12);
+        foreach ($inventory as $item) {
+            if (session("$item->id") < 1) {
+                session(["$item->id" => 0]);
+            }
+        }
         return view('/shop')->with('inventory', $inventory);
     }
 
@@ -47,7 +62,7 @@ class InventoryController extends Controller
     {
         $inventory = inventory::all();
         foreach ($inventory as $item) {
-            session(["$item->id" => "0"]);
+            session(["$item->id" => 0]);
         }
         return redirect()->action([InventoryController::class, 'shop']);
     }
