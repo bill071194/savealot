@@ -14,7 +14,7 @@
 <body class="min-vh-100 d-flex flex-column">
 	<nav class="navbar navbar-expand-sm navbar-dark bg-success">
 		<div class="container-fluid align-middle">
-			<a class="navbar-brand badge text-bg-light text-success fs-5" href="../index">Save-a-Lot</a>
+			<a class="navbar-brand badge text-bg-light text-success fs-5 rounded-5" href="../index">Save-a-Lot</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -47,23 +47,23 @@
                                 </form>
                             @endauth
                             @guest
-                                <li><a class="dropdown-item @yield('activeLogin')" href="login">Login</a></li>
-                                <li><a class="dropdown-item @yield('activeRegister')" href="register">Register</a></li>
+                                <li><a class="dropdown-item @yield('activeLogin')" href="../login">Login</a></li>
+                                <li><a class="dropdown-item @yield('activeRegister')" href="../register">Register</a></li>
                             @endguest
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item @yield('activeCart')" href="cart">Cart</a></li>
                             @isset(Auth::user()->email)
                                 @if (Auth::user()->email == "saladmin@localhost")
-                                    <li><a class="dropdown-item @yield('activeAdmin')" href="admin">Admin</a></li>
-                                    <li><a class="dropdown-item @yield('activeInventory')" href="/inventory">Inventory</a></li>
+                                    <li><a class="dropdown-item @yield('activeAdmin')" href="../admin">Admin</a></li>
+                                    <li><a class="dropdown-item @yield('activeInventory')" href="../inventory">Inventory</a></li>
                                 @endif
                             @endisset
 						</ul>
 					</li>
 				</ul>
 				<form class="d-flex" action="../search" method="get" role="search">
-                    <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
-                    <input class="btn btn-outline-light" type="submit" value="Search">
+                    <input class="form-control me-2 rounded-5 px-3" type="search" name="search" placeholder="Search" aria-label="Search">
+                    <input class="btn btn-outline-light rounded-5 px-3" type="submit" value="Search">
 				</form>
 			</div>
 		</div>

@@ -13,7 +13,12 @@ class InventoryController extends Controller
     public function index()
     {
         //
-        $inventory = inventory::all();
+        $inventory = inventory::where('prod_quantity', '>', 0)->where('prod_selling_price', '>', 0)->get();
+        foreach ($inventory as $item) {
+            if (session("$item->id") < 1) {
+                session(["$item->id" => 0]);
+            }
+        }
         return view('inventory',['inventory' => $inventory]);
     }
 
@@ -21,28 +26,57 @@ class InventoryController extends Controller
     public function shop()
     {
         //
-        $inventory = inventory::all();
+        $inventory = inventory::where('prod_quantity', '>', 0)->where('prod_selling_price', '>', 0)->paginate(12);
+        foreach ($inventory as $item) {
+            if (session("$item->id") < 1) {
+                session(["$item->id" => 0]);
+            }
+        }
         return view('shop',['inventory' => $inventory]);
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 43bfdd83a0bc72d0e527b9d150c67ba78601277e
     public function search(Request $request)
     {
-        $inventory = Inventory::where('prod_name', 'like', '%' . request('search') . '%')->get();
+        $inventory = Inventory::where('prod_name', 'LIKE', '%' . request('search') . '%')->orWhere('prod_description', 'LIKE', '%' . request('search') . '%')->paginate(12);
+        foreach ($inventory as $item) {
+            if (session("$item->id") < 1) {
+                session(["$item->id" => 0]);
+            }
+        }
         return view('/shop')->with('inventory', $inventory);
     }
-    
+
     public function addToCart(string $id)
     {
         session()->increment("$id");
         return redirect()->action([InventoryController::class, 'shop']);
     }
-    
+
     public function removeFromCart(string $id)
     {
         session()->decrement("$id");
         return redirect()->action([InventoryController::class, 'shop']);
     }
-    
+
+    public function emptyCart()
+    {
+        $inventory = inventory::all();
+        foreach ($inventory as $item) {
+            session(["$item->id" => 0]);
+        }
+        return redirect()->action([InventoryController::class, 'shop']);
+    }
+
+    public function homepage()
+    {
+        $inventory = inventory::all();
+        return view('index',['inventory' => $inventory]);
+    }
+
     public function cart()
     {
         //
