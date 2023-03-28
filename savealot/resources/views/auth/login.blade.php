@@ -44,12 +44,12 @@
                                 </div>
                             </div>
                         </div>
-					<button class="w-100 btn btn-lg rounded-3 btn-success" type="submit">Log in</button>
+					<button class="w-100 btn btn-lg rounded-5 px-3 btn-success" type="submit">Log in</button>
 				</form>
 					<hr class="my-4">
 					<p class="text-muted text-center">Don't have an account? Click to register</p>
 					<div class="d-flex justify-content-center">
-						<a class="mb-2 btn btn rounded-3 btn-dark" href="/register">Register</a>
+						<a class="mb-2 btn rounded-5 px-3 btn-dark" href="/register">Register</a>
 					</div>
 			</div>
 		</div>

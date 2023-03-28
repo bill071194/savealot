@@ -11,7 +11,7 @@
 	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"> -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body class="min-vh-100 d-flex flex-column">
+<body class="min-vh-100 d-flex flex-column bg-black bg-gradient">
 	<nav class="navbar navbar-expand-sm navbar-dark bg-success">
 		<div class="container-fluid align-middle">
 			<a class="navbar-brand badge text-bg-light text-success fs-5 rounded-5" href="index">Save-a-Lot</a>
@@ -69,7 +69,7 @@
 		</div>
 	</nav>
 
-	<main class="container p-3 flex-grow-1">
+	<main class="container-fluid flex-grow-1">
 		@yield('main')
 	</main>
 

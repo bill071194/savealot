@@ -19,7 +19,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    
+
   </head>
   <body>
     <div class="container">
@@ -33,11 +33,11 @@
         <label for="description">More Information:</label>
         <textarea class="form-control" name="description" id="description" rows="4"></textarea>
 
-        <input type="submit" class="btn btn-primary" value="Submit Question" />
+        <input type="submit" class="btn btn-primary rounded-5 px-3" value="Submit Question" />
       </form>
     </div>
-    
-    
-   
+
+
+
   </body>
 </html>
