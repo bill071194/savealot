@@ -37,19 +37,29 @@ $total = 0;
                 @endforeach
             </tbody>
             <tbody class="table-group-divider">
-                <tr>
-                    <th colspan="3">Subtotal</th>
-                    <th>${{number_format($subtotal, 2)}}</th>
-                </tr>
-                <tr>
-                    <td>Student Discount</td>
-                    <td colspan="2" class="text-center">-10%</td>
-                    <td>(${{number_format($subtotal * (0.1),2)}})</td>
-                    @php
-                        $total = number_format($subtotal * 0.9, 2, '.', '');
-                        session('total', number_format($total,2));
-                    @endphp
-                </tr>
+                @isset(Auth::user()->student)
+                    @if (Auth::user()->student == 1)
+                    <tr>
+                        <th colspan="3">Subtotal</th>
+                        <th>${{number_format($subtotal, 2)}}</th>
+                    </tr>
+                    <tr>
+                        <td>Student Discount</td>
+                        <td colspan="2" class="text-center">-10%</td>
+                        <td>(${{number_format($subtotal * (0.1),2)}})</td>
+                        @php
+                            $total = number_format($subtotal * 0.9, 2, '.', '');
+                            session('total', number_format($total,2));
+                        @endphp
+                    </tr>
+                    @else
+                        @php
+                            $total = number_format($subtotal * 1.0, 2, '.', '');
+                            session('total', number_format($total,2));
+                        @endphp
+                    @endif
+                @endisset
+                
             </tbody>
             <tfoot class="table-group-divider">
                 <tr class="table-success">

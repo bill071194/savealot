@@ -34,11 +34,7 @@ class InventoryController extends Controller
         }
         return view('shop',['inventory' => $inventory]);
     }
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 43bfdd83a0bc72d0e527b9d150c67ba78601277e
     public function search(Request $request)
     {
         $inventory = Inventory::where('prod_name', 'LIKE', '%' . request('search') . '%')->orWhere('prod_description', 'LIKE', '%' . request('search') . '%')->paginate(12);
