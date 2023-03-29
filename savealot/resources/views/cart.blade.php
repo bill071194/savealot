@@ -59,7 +59,7 @@ $total = 0;
                         @endphp
                     @endif
                 @endisset
-                
+
             </tbody>
             <tfoot class="table-group-divider">
                 <tr class="table-success">
@@ -73,9 +73,9 @@ $total = 0;
                 @csrf
                 <input type="submit" class="btn btn-outline-danger rounded-5 px-3" value="Empty Cart">
             </form>
-            <form action="" class="d-flex justify-content-end">
-                <input type="hidden">
-                <button class="btn btn-outline-success rounded-5 px-3">Confirm Purchase</button>
+            <form action="/cart/checkout" method="post" class="d-flex justify-content-end">
+                @csrf
+                <input type="submit" value="Confirm Purchase" class="btn btn-outline-success rounded-5 px-3">
             </form>
         </div>
     </div>
