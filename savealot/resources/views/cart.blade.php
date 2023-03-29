@@ -73,9 +73,11 @@ $total = 0;
                 @csrf
                 <input type="submit" class="btn btn-outline-danger rounded-5 px-3" value="Empty Cart">
             </form>
-            <form action="" class="d-flex justify-content-end">
-                <input type="hidden">
-                <button class="btn btn-outline-success rounded-5 px-3">Confirm Purchase</button>
+            <form action="/cart/checkout" method="post" class="d-flex justify-content-end">
+                @csrf
+                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                <input type="hidden" name="student" value="{{Auth::user()->student}}">
+                <input type="submit" value="Confirm Purchase" class="btn btn-outline-success rounded-5 px-3">
             </form>
         </div>
     </div>
