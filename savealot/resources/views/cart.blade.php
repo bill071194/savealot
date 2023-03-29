@@ -73,12 +73,20 @@ $total = 0;
                 @csrf
                 <input type="submit" class="btn btn-outline-danger rounded-5 px-3" value="Empty Cart">
             </form>
-            <form action="/cart/checkout" method="post" class="d-flex justify-content-end">
-                @csrf
-                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                <input type="hidden" name="student" value="{{Auth::user()->student}}">
-                <input type="submit" value="Confirm Purchase" class="btn btn-outline-success rounded-5 px-3">
-            </form>
+            @auth
+                <form action="/cart/checkout" method="post" class="d-flex justify-content-end">
+                    @csrf
+                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                    <input type="hidden" name="student" value="{{Auth::user()->student}}">
+                    <input type="submit" value="Confirm Purchase" class="btn btn-outline-success rounded-5 px-3">
+                </form>
+            @endauth
+            @guest
+            <div>
+                <a href="login" class="btn btn-outline-success rounded-5 px-3">Log in</a> or
+                <a href="register" class="btn btn-outline-primary rounded-5 px-3">Create an Account</a> to checkout
+            </div>
+            @endguest
         </div>
     </div>
 </div>
