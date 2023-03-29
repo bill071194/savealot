@@ -59,7 +59,7 @@ $total = 0;
                         @endphp
                     @endif
                 @endisset
-                
+
             </tbody>
             <tfoot class="table-group-divider">
                 <tr class="table-success">
