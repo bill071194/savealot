@@ -43,7 +43,7 @@ class OrderController extends Controller
 
         if ($order->save()) {
             // session('status') = 'Purchase Successful!';
-            $row = Order::all()->sortBy('id')->first();
+            $row = Order::all()->sortBy('id')->last();
             $order_id = $row['id'];
             foreach ($inventory as $item) {
                 if (session($item->id) > 0) {
@@ -54,7 +54,7 @@ class OrderController extends Controller
                     $transaction = new Transaction();
                     $transaction->user_id = $user_id;
                     $transaction->order_id = $order_id;
-                    $transaction->prod_id = $user_id;
+                    $transaction->prod_id = $item->id;
                     $transaction->prod_price = $prod_price;
                     $transaction->item_qty = $item_qty;
                     $transaction->item_total = $item_total;
