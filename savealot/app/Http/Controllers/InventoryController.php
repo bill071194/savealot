@@ -152,7 +152,7 @@ class InventoryController extends Controller
         // validate the form data
         $this->validate($request, [
             'id' => 'required',
-            'prod_name' => 'unique:inventories|required|max:255',
+            'prod_name' => 'required|max:255',
             'prod_quantity' => 'required',
         ]);
 

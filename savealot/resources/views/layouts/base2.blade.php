@@ -53,6 +53,7 @@
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item @yield('activeCart')" href="cart">Cart</a></li>
                             @isset(Auth::user()->email)
+                                <li><a class="dropdown-item @yield('activeOrderHistory')" href="/orderhistory">Order History</a></li>
                                 @if (Auth::user()->email == "saladmin@localhost")
                                     <li><a class="dropdown-item @yield('activeAdmin')" href="../admin">Admin</a></li>
                                     <li><a class="dropdown-item @yield('activeInventory')" href="../inventory">Inventory</a></li>
