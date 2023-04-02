@@ -37,19 +37,29 @@ $total = 0;
                 @endforeach
             </tbody>
             <tbody class="table-group-divider">
-                <tr>
-                    <th colspan="3">Subtotal</th>
-                    <th>${{number_format($subtotal, 2)}}</th>
-                </tr>
-                <tr>
-                    <td>Student Discount</td>
-                    <td colspan="2" class="text-center">-10%</td>
-                    <td>(${{number_format($subtotal * (0.1),2)}})</td>
-                    @php
-                        $total = number_format($subtotal * 0.9, 2, '.', '');
-                        session('total', number_format($total,2));
-                    @endphp
-                </tr>
+                @isset(Auth::user()->student)
+                    @if (Auth::user()->student == 1)
+                    <tr>
+                        <th colspan="3">Subtotal</th>
+                        <th>${{number_format($subtotal, 2)}}</th>
+                    </tr>
+                    <tr>
+                        <td>Student Discount</td>
+                        <td colspan="2" class="text-center">-10%</td>
+                        <td>(${{number_format($subtotal * (0.1),2)}})</td>
+                        @php
+                            $total = number_format($subtotal * 0.9, 2, '.', '');
+                            session('total', number_format($total,2));
+                        @endphp
+                    </tr>
+                    @else
+                        @php
+                            $total = number_format($subtotal * 1.0, 2, '.', '');
+                            session('total', number_format($total,2));
+                        @endphp
+                    @endif
+                @endisset
+
             </tbody>
             <tfoot class="table-group-divider">
                 <tr class="table-success">
@@ -63,10 +73,20 @@ $total = 0;
                 @csrf
                 <input type="submit" class="btn btn-outline-danger rounded-5 px-3" value="Empty Cart">
             </form>
-            <form action="" class="d-flex justify-content-end">
-                <input type="hidden">
-                <button class="btn btn-outline-success rounded-5 px-3">Confirm Purchase</button>
-            </form>
+            @auth
+                <form action="/cart/checkout" method="post" class="d-flex justify-content-end">
+                    @csrf
+                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                    <input type="hidden" name="student" value="{{Auth::user()->student}}">
+                    <input type="submit" value="Confirm Purchase" class="btn btn-outline-success rounded-5 px-3">
+                </form>
+            @endauth
+            @guest
+            <div>
+                <a href="login" class="btn btn-outline-success rounded-5 px-3">Log in</a> or
+                <a href="register" class="btn btn-outline-primary rounded-5 px-3">Create an Account</a> to checkout
+            </div>
+            @endguest
         </div>
     </div>
 </div>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,4 +66,8 @@ Route::controller(InventoryController::class)->group(function () {
     Route::get('/search', 'search');
     Route::get('/cart', 'cart');
     Route::post('/emptyCart', 'emptyCart');
+});
+
+Route::controller(OrderController::class)->group(function () {
+   Route::post('/cart/checkout', 'checkOut');
 });

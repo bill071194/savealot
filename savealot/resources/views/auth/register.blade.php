@@ -31,6 +31,14 @@
 					    <label for="email">Email</label>
 					</div>
 					<div class="form-floating mb-3">
+					    <input id="student" type="hidden" class="form-control rounded-3 @error('email') is-invalid @enderror" name="student" value="0" autofocus placeholder="name@example.com">
+					    @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+					</div>
+					<div class="form-floating mb-3">
 					    <input input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
 					    @error('password')
                             <span class="invalid-feedback" role="alert">
