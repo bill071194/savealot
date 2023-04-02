@@ -34,7 +34,7 @@ class InventoryController extends Controller
         }
         return view('shop',['inventory' => $inventory]);
     }
-    
+
     public function search(Request $request)
     {
         $inventory = Inventory::where('prod_name', 'LIKE', '%' . request('search') . '%')->orWhere('prod_description', 'LIKE', '%' . request('search') . '%')->paginate(12);
@@ -96,9 +96,8 @@ class InventoryController extends Controller
     {
         // validate the form data
         $this->validate($request, [
-            'prod_name' => 'required|max:255',
-            'prod_description' => 'max:255',
-            'prod_quantity' => 'required'
+            'prod_name' => 'unique:inventories|required|max:255',
+            'prod_quantity' => 'required',
         ]);
         // process the data and submit it
         $inventory = new Inventory(); // this is the model Inventory
@@ -116,9 +115,9 @@ class InventoryController extends Controller
 
         // if successful we want to redirect
         if ($inventory->save()) {
-            return redirect()->action([InventoryController::class, 'shop']);
+            return redirect()->action([InventoryController::class, 'index']);
         } else {
-            return redirect('/inventory/create');
+            return back()->withInput();
         }
     }
 
@@ -152,8 +151,9 @@ class InventoryController extends Controller
     {
         // validate the form data
         $this->validate($request, [
-            'prod_name' => 'required|max:255',
-            'prod_description' => 'max:255'
+            'id' => 'required',
+            'prod_name' => 'unique:inventories|required|max:255',
+            'prod_quantity' => 'required',
         ]);
 
         $id = $request->id;
@@ -162,7 +162,7 @@ class InventoryController extends Controller
         if ($inventory->update($request->except(['_token']))) {
             return redirect('/inventory');
         } else {
-            return redirect()->action([InventoryController::class, 'edit']);
+            return back()->withInput();
         }
     }
 

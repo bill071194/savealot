@@ -78,75 +78,92 @@
                         <h1 class="fs-5">Edit Product</h1>
                     </div>
                     <div class="row">
+
                         <div class="mb-1 mb-sm-3 col-3 col-sm-4">
                             <label for="id">ID</label>
-                            <input id="id" type="number" class="form-control rounded-3" name="id" value="{{$item->id}}" required>
+                            <input id="id" type="number" class="form-control rounded-3 @error('id') is-invalid @enderror" name="id" @error('id')
+                                value="{{$item->id}}" @else value="{{old('id', $item->id)}}" @enderror aria-describedby="idValidation">
+                            <div id="idValidation" class="invalid-feedback">{{old('id')}} is not a unique id</div>
                         </div>
+
                         <div class="mb-1 mb-sm-3 col-9 col-sm-8">
                             <label for="prod_name">Name</label>
-                            <input id="prod_name" type="text" class="form-control rounded-3" name="prod_name" value="{{$item->prod_name}}" required>
+                            <input id="prod_name" type="text" class="form-control rounded-3 @error('prod_name') is-invalid @enderror" name="prod_name" value="{{old('prod_name',$item->prod_name)}}" aria-describedby="prod_nameValidation" required>
+                            <div id="prod_nameValidation" class="invalid-feedback">Please enter a unique product name</div>
                         </div>
+
                         <div class="mb-1 mb-sm-3 col-12 col-sm-12">
                             <label for="prod_description">Description</label>
-                            <textarea name="prod_description" id="prod_description" rows="3" class="form-control rounded-3">{{$item->prod_description}}</textarea>
+                            <textarea name="prod_description" id="prod_description" rows="3" class="form-control rounded-3">{{old('prod_description',$item->prod_description)}}</textarea>
                         </div>
+
                         <div class="mb-1 mb-sm-3 col-6 col-sm-6">
                             <label for="prod_purchase_price">Purchase Price</label>
                             <div class="input-group rounded-3 col">
                                 <span class="input-group-text">$</span>
-                                <input id="prod_purchase_price" type="text" class="form-control" name="prod_purchase_price" value="{{$item->prod_purchase_price}}">
+                                <input id="prod_purchase_price" type="text" class="form-control" name="prod_purchase_price" value="{{old('prod_purchase_price',$item->prod_purchase_price)}}">
                             </div>
                         </div>
+
                         <div class="mb-1 mb-sm-3 col-6 col-sm-6">
                             <label for="prod_selling_price">Selling Price</label>
                             <div class="input-group rounded-3 col">
                                 <span class="input-group-text">$</span>
-                                <input id="prod_selling_price" type="text" class="form-control" name="prod_selling_price" value="{{$item->prod_selling_price}}">
+                                <input id="prod_selling_price" type="text" class="form-control" name="prod_selling_price" value="{{old('prod_selling_price',$item->prod_selling_price)}}">
                             </div>
                         </div>
+
                         <div class="mb-1 mb-sm-3 col-6 col-sm-4">
                             <label for="prod_units" class="center">Units (eg. 5x102g)</label>
                             <div class="input-group rounded-3">
-                                <input id="prod_units" type="text" class="form-control" name="prod_units" value="{{$item->prod_units}}">
+                                <input id="prod_units" type="text" class="form-control" name="prod_units" value="{{old('prod_units',$item->prod_units)}}">
                             </div>
                         </div>
+
                         <div class="mb-1 mb-sm-3 col-6 col-sm-4">
                             <label for="prod_size">Size (grams)</label>
                             <div class="input-group rounded-3">
-                                <input id="prod_size" type="number" class="form-control" name="prod_size" value="{{$item->prod_size}}">
+                                <input id="prod_size" type="number" class="form-control" name="prod_size" max="100000" value="{{old('prod_size',$item->prod_size)}}">
                                 <span class="input-group-text">g</span>
                             </div>
                         </div>
+
                         <div class="mb-1 mb-sm-3 col-4 col-sm-4">
                             <label for="prod_quantity">Quantity</label>
-                            <div class="input-group rounded-3">
-                                <input id="prod_quantity" type="number" class="form-control" name="prod_quantity" value="{{$item->prod_quantity}}">
+                            <input id="prod_quantity" type="number" class="form-control rounded-3 @error('prod_quantity') is-invalid @enderror" name="prod_quantity" value="{{old('prod_quantity', $item->prod_quantity)}}" aria-describedby="prod_quantityValidation">
+                            <div id="prod_quantityValidation" class="invalid-feedback">
+                                Please enter a quantity of 0 or higher.
                             </div>
                         </div>
+
                         <div class="mb-1 mb-sm-3 col-8 col-sm-4">
                             <label for="prod_quantity">Expiry Date</label>
                             <div class="input-group rounded-3">
-                                <input id="prod_exp_date" type="date" class="form-control" name="prod_exp_date" value="{{$item->prod_exp_date}}">
+                                <input id="prod_exp_date" type="date" class="form-control" name="prod_exp_date" value="{{old('prod_exp_date',$item->prod_exp_date)}}">
                             </div>
                         </div>
+
                         <div class="mb-1 mb-sm-3 col-12 col-sm-8">
                             <label for="prod_picture">Picture URL</label>
                             <div class="input-group rounded-3">
-                                <input id="prod_picture" type="text" class="form-control" name="prod_picture" value="{{$item->prod_picture}}">
+                                <input id="prod_picture" type="text" class="form-control" name="prod_picture" maxlength="255" value="{{old('prod_picture',$item->prod_picture)}}">
                             </div>
                         </div>
+
                         <div class="mb-1 mb-sm-3 col-12 col-sm-6">
-                            <label for="created_at-{{$item->id}}">Created at</label>
+                            <label for="created_at">Created at</label>
                             <div class="input-group rounded-3">
-                                <input id="created_at-{{$item->id}}" type="datetime-local" class="form-control" name="created_at-{{$item->id}}" value="{{$item->created_at}}" disabled readonly>
+                                <input id="created_at" type="datetime-local" class="form-control" name="created_at-{{$item->id}}" value="{{old('created_at',$item->created_at)}}" disabled readonly>
                             </div>
                         </div>
+
                         <div class="mb-1 mb-sm-3 col-12 col-sm-6">
-                            <label for="updated_at-{{$item->id}}">Updated at</label>
+                            <label for="updated_at">Updated at</label>
                             <div class="input-group rounded-3">
-                                <input id="updated_at-{{$item->id}}" type="datetime-local" class="form-control" name="updated_at-{{$item->id}}" value="{{$item->updated_at}}" disabled readonly>
+                                <input id="updated_at" type="datetime-local" class="form-control" name="updated_at-{{$item->id}}" value="{{old('updated_at',$item->updated_at)}}" disabled readonly>
                             </div>
                         </div>
+
                     </div>
                     <div class="d-flex flex-row-reverse justify-content-start">
                         <input type="submit" class="btn btn-primary rounded-5 px-3" value="Save changes">
