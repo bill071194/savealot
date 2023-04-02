@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Inventory;
 use App\Models\Transaction;
 use App\Models\Order;
+use App\Models\User;
 
 class OrderController extends Controller
 {
@@ -18,6 +19,8 @@ class OrderController extends Controller
 
         foreach ($inventory as $item) {
             if (session($item->id) > 0) {
+                $prod_name = $item->prod_name;
+                $prod_picture = $item->prod_picture;
                 $prod_price = $item->prod_selling_price;
                 $item_qty = session($item->id);
                 $item_total = $prod_price * $item_qty;
@@ -47,6 +50,8 @@ class OrderController extends Controller
             $order_id = $row['id'];
             foreach ($inventory as $item) {
                 if (session($item->id) > 0) {
+                    $prod_name = $item->prod_name;
+                    $prod_picture = $item->prod_picture;
                     $prod_price = $item->prod_selling_price;
                     $item_qty = session($item->id);
                     $item_total = $prod_price * $item_qty;
@@ -55,6 +60,8 @@ class OrderController extends Controller
                     $transaction->user_id = $user_id;
                     $transaction->order_id = $order_id;
                     $transaction->prod_id = $item->id;
+                    $transaction->prod_name = $prod_name;
+                    $transaction->prod_picture = $prod_picture;
                     $transaction->prod_price = $prod_price;
                     $transaction->item_qty = $item_qty;
                     $transaction->item_total = $item_total;
@@ -65,9 +72,16 @@ class OrderController extends Controller
                     $item->update();
                 }
             }
-            return redirect('/home');
+            return redirect('/orderhistory');
         } else {
             return redirect('/cart');
         }
+    }
+
+    public function orderHistory() {
+        $orders = Order::where('user_id', '=', auth()->id())->get()->sortByDesc('id');
+        $transactions = Transaction::where('user_id', '=', auth()->id())->get();
+        $inventory = Inventory::all();
+        return view('orderhistory',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory]);
     }
 }
