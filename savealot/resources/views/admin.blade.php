@@ -5,4 +5,5 @@
 @section('activeAdmin', 'active')
 
 @section('section')
+
 @endsection
