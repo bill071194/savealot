@@ -5,6 +5,51 @@
 @section('activeOrders', 'active')
 
 @section('section')
+<canvas class="my-4 w-100" id="myChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+<script>
+		/* globals Chart:false, feather:false */
+(() => {
+	'use strict'
+
+	feather.replace({ 'aria-hidden': 'true' })
+
+	// Graphs
+	const ctx = document.getElementById('myChart')
+	// eslint-disable-next-line no-unused-vars
+	const myChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: [
+				@foreach ($orders as $order)
+                        {{$order->id}},
+                    @endforeach
+			],
+			datasets: [{
+				data: [
+                    @foreach ($orders as $order)
+                        {{$order->total}},
+                    @endforeach
+				],
+				lineTension: 0,
+				backgroundColor: 'transparent',
+				borderColor: '#007bff',
+				borderWidth: 4,
+				pointBackgroundColor: '#007bff'
+			}]
+		},
+		options: {
+			plugins: {
+				legend: {
+					display: false
+				},
+				tooltip: {
+					boxPadding: 3
+				}
+			}
+		}
+	})
+})()
+</script>
 <div class="row">
     @foreach ($orders as $order)
         <div class="col-12 col-xl-6">
