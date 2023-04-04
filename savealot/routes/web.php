@@ -71,4 +71,6 @@ Route::controller(InventoryController::class)->group(function () {
 Route::controller(OrderController::class)->group(function () {
     Route::post('/cart/checkout', 'checkOut');
     Route::get('/orderhistory', 'orderHistory');
+    Route::get('/orders', 'allOrders');
+    Route::get('/users', 'allUsers');
 });
