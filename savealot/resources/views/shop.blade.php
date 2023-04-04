@@ -9,13 +9,13 @@
 		<div class="col">
 			<div class="card h-100 shadow border-success">
 				<div class="row card-body">
-					<a class="col-4 col-sm-4 col-md-12 text-decoration-none" href="">
+					<a class="col-4 col-md-12 text-decoration-none" href="">
 						<img class="card-img text-center" src='{{ $item->prod_picture}}'>
 					</a>
-						<div class="col-8 col-sm-8 col-md-12">
+						<div class="col-8 col-md-12">
 						<div class="row gap-1 m-auto justify-content-center">
 							@isset($item->prod_selling_price)
-								<div class="col-auto badge rounded-pil rounded-5 text-bg-success">${{$item->prod_selling_price}}</div>
+								<div class="col-auto badge rounded-pil text-bg-success">${{$item->prod_selling_price}}</div>
 							@endisset
 							@isset($item->prod_units)
 								<div class="col-auto badge rounded-pil text-bg-secondary">{{$item->prod_units}}</div>
