@@ -1,22 +1,21 @@
-@extends('layouts.base')
+@extends('layouts.baseAdmin')
 
 @section('title', 'Inventory')
+@section('adminTitle', 'Inventory')
 @section('activeInventory', 'active')
 
-@section('main')
-<div class="">
-    <h1>Inventory <a class="btn btn-outline-success rounded-5 px-3" href="inventory/create">Create</a></h1>
-</div>
+@section('section')
+<h1 class="text-center mb-3"><a class="btn btn-outline-success rounded-5 px-3" href="inventory/create">Create New Item</a></h1>
 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-4 g-3">
 	@foreach ($inventory as $item)
 		<div class="col">
-			<div class="card h-100 shadow-sm border-success">
+			<div class="card h-100 shadow border-success">
 				<div class="row card-body">
-					<a class="col-4 col-sm-4 col-sm-12 text-decoration-none" href="">
+					<a class="col-4 col-md-12 text-decoration-none" href="">
 						<img class="card-img text-center" src='{{$item->prod_picture}}'>
 					</a>
-						<div class="col-8 col-sm-8 col-sm-12">
-                            <div class="row gap-1 m-auto">
+						<div class="col-8 col-md-12">
+                            <div class="row gap-1 justify-content-center">
                                 @isset($item->prod_selling_price)
                                     <div class="col-auto badge rounded-pil text-bg-success">${{$item->prod_selling_price}}</div>
                                 @endisset
@@ -96,5 +95,7 @@
 			</div>
 		</div>
 	@endforeach
+    {{$inventory->links()}}
 </div>
+<h1 class="text-center mt-1"><a class="btn btn-outline-success rounded-5 px-3" href="inventory/create">Create New Item</a></h1>
 @endsection
