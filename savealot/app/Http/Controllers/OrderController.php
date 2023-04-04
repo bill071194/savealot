@@ -84,14 +84,14 @@ class OrderController extends Controller
         $inventory = Inventory::all();
         return view('orderhistory',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory]);
     }
-    
+
     public function allOrders() {
-        $orders = Order::all();
+        $orders = Order::all()->sortByDesc('id');
         $transactions = Transaction::all();
         $inventory = Inventory::all();
         return view('orders',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory]);
     }
-    
+
     public function allUsers() {
         $users = User::all();
         return view('users', ['users' => $users]);

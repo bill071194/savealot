@@ -13,7 +13,7 @@ class InventoryController extends Controller
     public function index()
     {
         //
-        $inventory = inventory::where('prod_quantity', '>', 0)->where('prod_selling_price', '>', 0)->get();
+        $inventory = inventory::paginate(12);
         foreach ($inventory as $item) {
             if (session("$item->id") < 1) {
                 session(["$item->id" => 0]);
