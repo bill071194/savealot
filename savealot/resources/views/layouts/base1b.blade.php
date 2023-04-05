@@ -69,7 +69,7 @@
 		</div>
 	</nav>
 
-	<main class="container-fluid flex-grow-1">
+	<main style="margin-top: 3.5rem" class="container-fluid flex-grow-1">
 		@yield('main')
 	</main>
 
