@@ -23,7 +23,7 @@ Route::view('/shop', 'shop');
 Route::view('/login', 'login');
 Route::view('/register', 'register');
 // Route::view('/cart', 'cart');
-Route::view('/admin', 'admin');
+// Route::view('/admin', 'admin');
 // Route::get('/{page}', function (string $page) {
 //     return view("$page");
 // });
@@ -73,4 +73,5 @@ Route::controller(OrderController::class)->group(function () {
     Route::get('/orderhistory', 'orderHistory');
     Route::get('/orders', 'allOrders');
     Route::get('/users', 'allUsers');
+    Route::get('/admin', 'adminDashboard');
 });
