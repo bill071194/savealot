@@ -7,7 +7,6 @@
 <div class="row flex-column flex-md-row justify-content-evenly border-top py-3 border-bottom">
     @isset(Auth::user()->email)
         @if (Auth::user()->email == "saladmin@localhost")
-            <li><a class="dropdown-item @yield('activeAdmin')" href="/admin">Admin</a></li>
             <nav class="col col-md-2 mb-3 mb-md-0 px-md-2 px-lg-3">
                 <ul class="nav flex-row flex-md-column justify-content-between">
                     <li class="nav-item">

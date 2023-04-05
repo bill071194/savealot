@@ -7,6 +7,8 @@ use App\Models\Inventory;
 use App\Models\Transaction;
 use App\Models\Order;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+// use DB;
 
 class OrderController extends Controller
 {
