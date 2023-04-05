@@ -7,8 +7,6 @@ use App\Models\Inventory;
 use App\Models\Transaction;
 use App\Models\Order;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
-// use DB;
 
 class OrderController extends Controller
 {
@@ -85,6 +83,14 @@ class OrderController extends Controller
         $transactions = Transaction::where('user_id', '=', auth()->id())->get();
         $inventory = Inventory::all();
         return view('orderhistory',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory]);
+    }
+
+    public function adminDashboard() {
+        $orders = Order::all();
+        $transactions = Transaction::all();
+        $inventory = Inventory::paginate(12);
+        $users = User::all();
+        return view('admin',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'users' => $users]);
     }
 
     public function allOrders() {
