@@ -7,6 +7,7 @@ use App\Models\Inventory;
 use App\Models\Transaction;
 use App\Models\Order;
 use App\Models\User;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -16,6 +17,8 @@ class OrderController extends Controller
         $subtotal = 0;
         $discount = 0;
         $total = 0;
+        $dt = Carbon::now();
+        $date = $dt->toDateString();
 
         foreach ($inventory as $item) {
             if (session($item->id) > 0) {
@@ -43,6 +46,7 @@ class OrderController extends Controller
         $order->total = $total;
         $order->discount = $discount;
         $order->student = $student;
+        $order->date = $date;
 
         if ($order->save()) {
             // session('status') = 'Purchase Successful!';
