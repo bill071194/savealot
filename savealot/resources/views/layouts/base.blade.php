@@ -14,7 +14,9 @@
 <body class="min-vh-100 d-flex flex-column">
 	<nav class="navbar navbar-expand-sm navbar-dark bg-success fixed-top">
 		<div class="container-fluid align-middle">
-			<a class="navbar-brand badge text-bg-light text-success fs-5 rounded-5" href="index">Save-a-Lot</a>
+			<a class="navbar-brand badge text-bg-light text-success fs-5 rounded-5" href="index">
+			    <img src="pics/savealot_full.png" alt="savealot_logo" style="width:140px;height:30px;">
+			</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
 			</button>
@@ -74,7 +76,8 @@
 	</main>
 
 	<footer class="container-fluid p-1 bg-success text-center">
-		<a class="navbar-brand badge text-bg-light text-success fs-6 rounded-5" href="index">Save-a-Lot</a>
+	    <div style="margin-top: 0.5rem"></div>
+		<img src="pics/savealot_cart.png" alt="savealot_logo" style="width:80px;height:70px;">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
           <li class="nav-item">
             <a href="home" class="nav-link px-2 text-body-secondary">Home</a>
