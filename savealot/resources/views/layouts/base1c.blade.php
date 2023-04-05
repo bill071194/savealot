@@ -14,7 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js" integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG" crossorigin="anonymous"></script>
 </head>
 <body class="min-vh-100 d-flex flex-column">
-	<nav class="navbar navbar-expand-sm navbar-dark bg-success">
+	<nav class="navbar navbar-expand-sm navbar-dark bg-success fixed-top">
 		<div class="container-fluid align-middle">
 			<a class="navbar-brand badge text-bg-light text-success fs-5 rounded-5" href="index">Save-a-Lot</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,6 +77,26 @@
 
 	<footer class="container-fluid p-1 bg-success text-center">
 		<a class="navbar-brand badge text-bg-light text-success fs-6 rounded-5" href="index">Save-a-Lot</a>
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+          <li class="nav-item">
+            <a href="home" class="nav-link px-2 text-body-secondary">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="shop" class="nav-link px-2 text-body-secondary">Shop</a>
+          </li>
+          <li class="nav-item">
+            <a href="cart" class="nav-link px-2 text-body-secondary">Cart</a>
+          </li>
+          <li class="nav-item">
+            <a href="privacy" class="nav-link px-2 text-body-secondary"
+              >Privacy Policy</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">About</a>
+          </li>
+        </ul>
+        <p class="text-center text-body-secondary">© 2023 SaveALot, Inc</p>
+    </div>
 	</footer>
 
 </body>

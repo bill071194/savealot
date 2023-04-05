@@ -22,6 +22,7 @@ use App\Http\Controllers\OrderController;
 Route::view('/shop', 'shop');
 Route::view('/login', 'login');
 Route::view('/register', 'register');
+Route::view('/privacy', 'privacy');
 // Route::view('/cart', 'cart');
 // Route::view('/admin', 'admin');
 // Route::get('/{page}', function (string $page) {
