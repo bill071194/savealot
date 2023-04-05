@@ -5,7 +5,10 @@
 @section('activeOrders', 'active')
 
 @section('section')
-<canvas class="my-4 w-100" id="myChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+<div class="mb-4 border-bottom">
+    <div class="text-center w-100 fw-bold mt-4">Revenue Chart</div>
+    <canvas class="my-4 w-100" id="revenueChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+</div>
 
 <script>
 		/* globals Chart:false, feather:false */
@@ -15,9 +18,9 @@
 	feather.replace({ 'aria-hidden': 'true' })
 
 	// Graphs
-	const ctx = document.getElementById('myChart')
+	const ctx = document.getElementById('revenueChart')
 	// eslint-disable-next-line no-unused-vars
-	const myChart = new Chart(ctx, {
+	const revenueChart = new Chart(ctx, {
 		type: 'line',
 		data: {
 			labels: [
