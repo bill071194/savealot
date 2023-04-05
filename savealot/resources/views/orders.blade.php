@@ -6,6 +6,7 @@
 
 @section('section')
 <canvas class="my-4 w-100" id="myChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+
 <script>
 		/* globals Chart:false, feather:false */
 (() => {
@@ -20,21 +21,21 @@
 		type: 'line',
 		data: {
 			labels: [
-				@foreach ($orders as $order)
-                        {{$order->id}},
-                    @endforeach
+                @foreach ($orders->groupBy('date') as $order)
+                    "{{$order->first()->date}}",
+                @endforeach
 			],
 			datasets: [{
 				data: [
-                    @foreach ($orders as $order)
-                        {{$order->total}},
+                    @foreach ($orders->groupBy('date') as $order)
+                        {{number_format($order->sum('total'),2)}},
                     @endforeach
 				],
-				lineTension: 0,
-				backgroundColor: 'transparent',
-				borderColor: '#007bff',
+				lineTension: 0.25,
+				backgroundColor: 'green',
+				borderColor: 'black',
 				borderWidth: 4,
-				pointBackgroundColor: '#007bff'
+				pointBackgroundColor: 'green'
 			}]
 		},
 		options: {
@@ -51,7 +52,7 @@
 })()
 </script>
 <div class="row">
-    @foreach ($orders as $order)
+    @foreach ($orders->sortByDesc('id') as $order)
         <div class="col-12 col-xl-6">
             <table class="table table-light table-striped table-bordered border-dark-subtle table-hover">
                 <thead>

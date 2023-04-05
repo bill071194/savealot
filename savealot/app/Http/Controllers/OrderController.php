@@ -88,7 +88,7 @@ class OrderController extends Controller
     }
 
     public function allOrders() {
-        $orders = Order::all()->sortByDesc('id');
+        $orders = Order::all();
         $transactions = Transaction::all();
         $inventory = Inventory::all();
         return view('orders',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory]);
