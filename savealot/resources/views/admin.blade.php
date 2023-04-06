@@ -27,10 +27,12 @@
 
 	feather.replace({ 'aria-hidden': 'true' })
     
-    var goBackDays = 7;
+    var goBackDays = 6;
 
     var today = new Date();
     var daysSorted = [];
+    
+    daysSorted.push(today.toISOString().split('T')[0]);
     
     for(var i = 0; i < goBackDays; i++) {
       var newDate = new Date(today.setDate(today.getDate() - 1));
@@ -72,58 +74,57 @@
 <script>
     /* globals Chart:false, feather:false */
 (() => {
-'use strict'
-
-feather.replace({ 'aria-hidden': 'true' })
-
-// Graphs
-const ctx = document.getElementById('inventoryQtyChart')
-// eslint-disable-next-line no-unused-vars
-const inventoryQtyChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: [
-            @foreach ($inventory as $item)
-                "{{$item->prod_name}}",
-            @endforeach
-        ],
-        datasets: [{
-            data: [
+    'use strict'
+    
+    feather.replace({ 'aria-hidden': 'true' })
+    
+    // Graphs
+    const ctx = document.getElementById('inventoryQtyChart')
+    // eslint-disable-next-line no-unused-vars
+    const inventoryQtyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [
                 @foreach ($inventory as $item)
-                    {{$item->prod_quantity}},
+                    "{{$item->prod_name}}",
                 @endforeach
             ],
-            lineTension: 0.25,
-            backgroundColor: 'green',
-            borderColor: 'grey',
-            borderWidth: 4,
-            pointBackgroundColor: 'green'
-        }]
-    },
-    options: {
-        plugins: {
-            legend: {
-                display: false
-            },
-            tooltip: {
-                boxPadding: 3
+            datasets: [{
+                data: [
+                    @foreach ($inventory as $item)
+                        {{$item->prod_quantity}},
+                    @endforeach
+                ],
+                lineTension: 0.25,
+                backgroundColor: 'green',
+                borderColor: 'grey',
+                borderWidth: 4,
+                pointBackgroundColor: 'green'
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    boxPadding: 3
+                }
             }
         }
-    }
-})
-})()
+    })
+    })()
 </script>
 <script>
     /* globals Chart:false, feather:false */
 (() => {
 'use strict'
-
-feather.replace({ 'aria-hidden': 'true' })
-
-var goBackDays = 7;
-
+    feather.replace({ 'aria-hidden': 'true' })
+    var goBackDays = 6;
     var today = new Date();
     var daysSorted = [];
+    
+    daysSorted.push(today.toISOString().split('T')[0]);
     
     for(var i = 0; i < goBackDays; i++) {
       var newDate = new Date(today.setDate(today.getDate() - 1));

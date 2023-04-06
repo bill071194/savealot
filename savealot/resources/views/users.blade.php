@@ -17,10 +17,11 @@
 
 	feather.replace({ 'aria-hidden': 'true' })
 
-	var goBackDays = 7;
+	var goBackDays = 6;
 
     var today = new Date();
     var daysSorted = [];
+    daysSorted.push(today.toISOString().split('T')[0]);
     
     for(var i = 0; i < goBackDays; i++) {
       var newDate = new Date(today.setDate(today.getDate() - 1));
