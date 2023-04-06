@@ -1,6 +1,6 @@
 @extends('layouts.baseAdmin')
 
-@section('title', 'Inventory')
+@section('title', 'Save-a-lot Admin')
 @section('adminTitle', 'Inventory')
 @section('activeInventory', 'active')
 
@@ -36,8 +36,8 @@
                     @endforeach
 				],
 				lineTension: 0.25,
-				backgroundColor: 'grey',
-				borderColor: 'black',
+				backgroundColor: 'green',
+				borderColor: 'grey',
 				borderWidth: 4,
 				pointBackgroundColor: 'green'
 			}]

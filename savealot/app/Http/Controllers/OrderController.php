@@ -96,7 +96,8 @@ class OrderController extends Controller
         $users = User::all();
         
         $backwards_date_array = array();
-        $chartData = array();
+        $revenueData = array();
+        $usersData = array();
 
         $i = 0;
         while ($i < 7) {
@@ -110,11 +111,14 @@ class OrderController extends Controller
         if(! empty( $date_array ) ){
             foreach($date_array as $date){
                 $revenue = Order::where( 'date', '=', $date )->get()->sum('total');
-                array_push($chartData, $revenue);
+                array_push($revenueData, $revenue);
+                
+                $user_count = User::where( 'date', '=', $date )->get()->count('id');
+                array_push($usersData, $user_count);
             }
         }
         
-        return view('admin',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'users' => $users, 'chartData' => $chartData]);
+        return view('admin',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'users' => $users, 'revenueData' => $revenueData, 'usersData' => $usersData]);
     }
 
     public function allOrders() {
@@ -146,6 +150,26 @@ class OrderController extends Controller
 
     public function allUsers() {
         $users = User::all();
-        return view('users', ['users' => $users]);
+        
+        $backwards_date_array = array();
+        $chartData = array();
+
+        $i = 0;
+        while ($i < 7) {
+            $today = Carbon::today();
+            array_push( $backwards_date_array, $today->subDays($i)->format('Y-m-d') );
+            $i++;
+        }
+        
+        $date_array = array_reverse($backwards_date_array);
+    
+        if(! empty( $date_array ) ){
+            foreach($date_array as $date){
+                $user_count = User::where( 'date', '=', $date )->get()->count('id');
+                array_push($chartData, $user_count);
+            }
+        }
+        
+        return view('users', ['users' => $users, 'chartData' => $chartData]);
     }
 }

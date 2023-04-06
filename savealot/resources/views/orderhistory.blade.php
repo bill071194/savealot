@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Order History')
+@section('title', 'Save-a-lot Order History')
 @section('activeOrderHistory', 'active')
 
 @section('main')

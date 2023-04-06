@@ -1,7 +1,7 @@
 @extends('layouts.baseAdmin')
 
-@section('title', 'Admin')
-@section('adminTitle', 'Admin')
+@section('title', 'Save-a-lot Admin')
+@section('adminTitle', 'Dashboards')
 @section('activeAdmin', 'active')
 
 @section('section')
@@ -38,7 +38,7 @@
     }
     
     var days = daysSorted.reverse();
-    var chartData = {!! json_encode($chartData) !!};
+    var chartData = {!! json_encode($revenueData) !!};
 
 	// Graphs
 	const ctx = document.getElementById('revenueChart')
@@ -94,8 +94,8 @@ const inventoryQtyChart = new Chart(ctx, {
                 @endforeach
             ],
             lineTension: 0.25,
-            backgroundColor: 'grey',
-            borderColor: 'black',
+            backgroundColor: 'green',
+            borderColor: 'grey',
             borderWidth: 4,
             pointBackgroundColor: 'green'
         }]
@@ -120,30 +120,35 @@ const inventoryQtyChart = new Chart(ctx, {
 
 feather.replace({ 'aria-hidden': 'true' })
 
-// Graphs
-const ctx = document.getElementById('UsersChart')
-// eslint-disable-next-line no-unused-vars
-const UsersChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: [
-            @foreach ($users->groupBy('date') as $user)
-                "{{$user->first()->date}}",
-            @endforeach
-        ],
-        datasets: [{
-            data: [
-                @foreach ($users->groupBy('date') as $user)
-                    {{number_format($user->count())}},
-                @endforeach
-            ],
-            lineTension: 0.25,
-            backgroundColor: 'grey',
-            borderColor: 'black',
-            borderWidth: 4,
-            pointBackgroundColor: 'green'
-        }]
-    },
+var goBackDays = 7;
+
+    var today = new Date();
+    var daysSorted = [];
+    
+    for(var i = 0; i < goBackDays; i++) {
+      var newDate = new Date(today.setDate(today.getDate() - 1));
+      daysSorted.push(newDate.toISOString().split('T')[0]);
+    }
+    
+    var days = daysSorted.reverse();
+    var chartData = {!! json_encode($usersData) !!};
+
+	// Graphs
+	const ctx = document.getElementById('UsersChart')
+	// eslint-disable-next-line no-unused-vars
+	const revenueChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: days,
+			datasets: [{
+				data: chartData,
+				lineTension: 0.25,
+				backgroundColor: 'green',
+				borderColor: 'green',
+				borderWidth: 4,
+				pointBackgroundColor: 'yellow'
+			}]
+		},
     options: {
         plugins: {
             legend: {

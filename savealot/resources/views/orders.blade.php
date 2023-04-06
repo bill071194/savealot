@@ -1,6 +1,6 @@
 @extends('layouts.baseAdmin')
 
-@section('title', 'Orders')
+@section('title', 'Save-a-lot Admin')
 @section('adminTitle', 'Orders')
 @section('activeOrders', 'active')
 
@@ -43,7 +43,7 @@
 				backgroundColor: 'green',
 				borderColor: 'green',
 				borderWidth: 4,
-				pointBackgroundColor: 'white'
+				pointBackgroundColor: 'yellow'
 			}]
 		},
 		options: {
@@ -61,7 +61,8 @@
 </script>
 <div class="row">
     @foreach ($orders->sortByDesc('id') as $order)
-        <div class="col-12 col-xl-6">
+        <div>Order ID: {{$order->id}}</div>
+        <div>
             <table class="table table-light table-striped table-bordered border-dark-subtle table-hover">
                 <thead>
                     <tr class="table-dark">

@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Privacy Policy')
+@section('title', 'Save-a-lot Policies')
 
 @section('main')
 <style>

@@ -1,6 +1,6 @@
 @extends('layouts.baseAdmin')
 
-@section('title', 'Users')
+@section('title', 'Save-a-lot Admin')
 @section('adminTitle', 'Users')
 @section('activeUsers', 'active')
 
@@ -17,28 +17,33 @@
 
 	feather.replace({ 'aria-hidden': 'true' })
 
+	var goBackDays = 7;
+
+    var today = new Date();
+    var daysSorted = [];
+    
+    for(var i = 0; i < goBackDays; i++) {
+      var newDate = new Date(today.setDate(today.getDate() - 1));
+      daysSorted.push(newDate.toISOString().split('T')[0]);
+    }
+    
+    var days = daysSorted.reverse();
+    var chartData = {!! json_encode($chartData) !!};
+
 	// Graphs
 	const ctx = document.getElementById('UsersChart')
 	// eslint-disable-next-line no-unused-vars
-	const UsersChart = new Chart(ctx, {
-		type: 'bar',
+	const revenueChart = new Chart(ctx, {
+		type: 'line',
 		data: {
-			labels: [
-                @foreach ($users->groupBy('date') as $user)
-                    "{{$user->first()->date}}",
-                @endforeach
-			],
+			labels: days,
 			datasets: [{
-				data: [
-                    @foreach ($users->groupBy('date') as $user)
-                        {{number_format($user->count())}},
-                    @endforeach
-				],
+				data: chartData,
 				lineTension: 0.25,
-				backgroundColor: 'grey',
-				borderColor: 'black',
+				backgroundColor: 'green',
+				borderColor: 'green',
 				borderWidth: 4,
-				pointBackgroundColor: 'green'
+				pointBackgroundColor: 'yellow'
 			}]
 		},
 		options: {

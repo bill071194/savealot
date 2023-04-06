@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Cart')
+@section('title', 'Save-a-lot Cart')
 @section('activeCart', 'active')
 
 @php
