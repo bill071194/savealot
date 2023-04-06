@@ -16,6 +16,19 @@
 	'use strict'
 
 	feather.replace({ 'aria-hidden': 'true' })
+	
+	var goBackDays = 7;
+
+    var today = new Date();
+    var daysSorted = [];
+    
+    for(var i = 0; i < goBackDays; i++) {
+      var newDate = new Date(today.setDate(today.getDate() - 1));
+      daysSorted.push(newDate.toISOString().split('T')[0]);
+    }
+    
+    var days = daysSorted.reverse();
+    var chartData = {!! json_encode($chartData) !!};
 
 	// Graphs
 	const ctx = document.getElementById('revenueChart')
@@ -23,22 +36,14 @@
 	const revenueChart = new Chart(ctx, {
 		type: 'line',
 		data: {
-			labels: [
-                @foreach ($orders->groupBy('date') as $order)
-                    "{{$order->first()->date}}",
-                @endforeach
-			],
+			labels: days,
 			datasets: [{
-				data: [
-                    @foreach ($orders->groupBy('date') as $order)
-                        {{number_format($order->sum('total'),2)}},
-                    @endforeach
-				],
+				data: chartData,
 				lineTension: 0.25,
 				backgroundColor: 'green',
-				borderColor: 'black',
+				borderColor: 'green',
 				borderWidth: 4,
-				pointBackgroundColor: 'green'
+				pointBackgroundColor: 'white'
 			}]
 		},
 		options: {

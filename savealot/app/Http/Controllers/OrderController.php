@@ -94,14 +94,54 @@ class OrderController extends Controller
         $transactions = Transaction::all();
         $inventory = Inventory::paginate(12);
         $users = User::all();
-        return view('admin',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'users' => $users]);
+        
+        $backwards_date_array = array();
+        $chartData = array();
+
+        $i = 0;
+        while ($i < 7) {
+            $today = Carbon::today();
+            array_push( $backwards_date_array, $today->subDays($i)->format('Y-m-d') );
+            $i++;
+        }
+        
+        $date_array = array_reverse($backwards_date_array);
+    
+        if(! empty( $date_array ) ){
+            foreach($date_array as $date){
+                $revenue = Order::where( 'date', '=', $date )->get()->sum('total');
+                array_push($chartData, $revenue);
+            }
+        }
+        
+        return view('admin',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'users' => $users, 'chartData' => $chartData]);
     }
 
     public function allOrders() {
         $orders = Order::all();
         $transactions = Transaction::all();
         $inventory = Inventory::all();
-        return view('orders',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory]);
+        
+        $backwards_date_array = array();
+        $chartData = array();
+
+        $i = 0;
+        while ($i < 7) {
+            $today = Carbon::today();
+            array_push( $backwards_date_array, $today->subDays($i)->format('Y-m-d') );
+            $i++;
+        }
+        
+        $date_array = array_reverse($backwards_date_array);
+    
+        if(! empty( $date_array ) ){
+            foreach($date_array as $date){
+                $revenue = Order::where( 'date', '=', $date )->get()->sum('total');
+                array_push($chartData, $revenue);
+            }
+        }
+        
+        return view('orders',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'chartData' => $chartData]);
     }
 
     public function allUsers() {
