@@ -74,6 +74,8 @@ Route::controller(OrderController::class)->group(function () {
     Route::get('/orderhistory', 'orderHistory');
     // Route::get('/orders', 'allOrders');
     Route::get('/orders', 'OrdersDashboard');
-    Route::get('/users', 'allUsers');
-    Route::get('/admin', 'adminDashboard');
+    // Route::get('/users', 'allUsers');
+    Route::get('/users', 'UsersDashboard');
+    // Route::get('/admin', 'adminDashboard');
+    Route::get('/admin', 'Dashboard');
 });
