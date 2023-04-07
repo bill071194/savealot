@@ -173,12 +173,64 @@ class OrderController extends Controller
         return view('users', ['users' => $users, 'chartData' => $chartData]);
     }
 
+    public function UsersDashboard(Request $request) {
+        session(['dashboardDates' => $request->dashboardDates]);
+        $dates = session('dashboardDates');
+
+        $users = User::selectRaw('*, DATE_FORMAT(created_at, "%Y") as year, DATE_FORMAT(created_at, "%Y-%m") as month, DATE_FORMAT(created_at, "%Y-%m-%d") as day')->get();
+        $orders = Order::all();
+        $transactions = Transaction::all();
+        $inventory = Inventory::all();
+
+        $today = Carbon::today();
+
+        switch ($dates) {
+            case 'last5y':
+                $usersGrouped = array();
+                for ($i=4; $i >= 0; $i--) {
+                    $year = $today->subYears($i);
+                    $u = $users->where('year', '=', $year->format("Y"));
+                    $usersGrouped[$year->format("Y")] = array('date' => $year->format("Y"), 'count' => $u->count());
+                    $year->addYears($i);
+                }
+                break;
+            case 'last12m':
+                $ordersGrouped = array();
+                for ($i=11; $i >= 0; $i--) {
+                    $month = $today->subMonths($i);
+                    $u = $users->where('month', '=', $month->format("Y-m"));
+                    $usersGrouped[$month->format("Y-m")] = array('date' => $month->format("F Y"), 'count' => $u->count());
+                    $month->addMonths($i);
+                }
+                break;
+            case 'last7d':
+                $ordersGrouped = array();
+                for ($i=6; $i >= 0; $i--) {
+                    $day = $today->subDays($i);
+                    $u = $users->where('date', '=', $day->format("Y-m-d"));
+                    $usersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'count' => $u->count());
+                    $day->addDays($i);
+                }
+                break;
+            case 'last30d': default:
+                $ordersGrouped = array();
+                for ($i=29; $i >= 0; $i--) {
+                    $day = $today->subDays($i);
+                    $u = $users->where('date', '=', $day->format("Y-m-d"));
+                    $usersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'count' => $u->count());
+                    $day->addDays($i);
+                }
+                break;
+        }
+
+        return view('users',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'users' => $users, 'usersGrouped' => $usersGrouped]);
+    }
+
     public function OrdersDashboard(Request $request) {
         session(['dashboardDates' => $request->dashboardDates]);
         $dates = session('dashboardDates');
 
-        $orders = Order::selectRaw('*, DATE_FORMAT(date, "%Y") as year, DATE_FORMAT(date, "%Y-%m") as month, DATEDIFF(CURDATE(), date) as daysAgo')->get();
-        // declare arrays
+        $orders = Order::selectRaw('*, DATE_FORMAT(created_at, "%Y") as year, DATE_FORMAT(created_at, "%Y-%m") as month, DATE_FORMAT(created_at, "%Y-%m-%d") as day')->get();
         $today = Carbon::today();
 
         switch ($dates) {
@@ -187,7 +239,7 @@ class OrderController extends Controller
                 for ($i=4; $i >= 0; $i--) {
                     $year = $today->subYears($i);
                     $o = $orders->where('year', '=', $year->format("Y"));
-                    $ordersGrouped[$year->format("Y")] = array('date' => $year->format("Y"), 'orders' => $o->count(), 'revenue' => $o->sum('total'));
+                    $ordersGrouped[$year->format("Y")] = array('date' => $year->format("Y"), 'count' => $o->count(), 'revenue' => $o->sum('total'));
                     $year->addYears($i);
                 }
                 break;
@@ -196,7 +248,7 @@ class OrderController extends Controller
                 for ($i=11; $i >= 0; $i--) {
                     $month = $today->subMonths($i);
                     $o = $orders->where('month', '=', $month->format("Y-m"));
-                    $ordersGrouped[$month->format("Y-m")] = array('date' => $month->format("F Y"), 'orders' => $o->count(), 'revenue' => $o->sum('total'));
+                    $ordersGrouped[$month->format("Y-m")] = array('date' => $month->format("F Y"), 'count' => $o->count(), 'revenue' => $o->sum('total'));
                     $month->addMonths($i);
                 }
                 break;
@@ -204,8 +256,8 @@ class OrderController extends Controller
                 $ordersGrouped = array();
                 for ($i=6; $i >= 0; $i--) {
                     $day = $today->subDays($i);
-                    $o = $orders->where('date', '=', $day->format("Y-m-d"));
-                    $ordersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'orders' => $o->count(), 'revenue' => $o->sum('total'));
+                    $o = $orders->where('day', '=', $day->format("Y-m-d"));
+                    $ordersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'count' => $o->count(), 'revenue' => $o->sum('total'));
                     $day->addDays($i);
                 }
                 break;
@@ -213,8 +265,8 @@ class OrderController extends Controller
                 $ordersGrouped = array();
                 for ($i=29; $i >= 0; $i--) {
                     $day = $today->subDays($i);
-                    $o = $orders->where('date', '=', $day->format("Y-m-d"));
-                    $ordersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'orders' => $o->count(), 'revenue' => $o->sum('total'));
+                    $o = $orders->where('day', '=', $day->format("Y-m-d"));
+                    $ordersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'count' => $o->count(), 'revenue' => $o->sum('total'));
                     $day->addDays($i);
                 }
                 break;
@@ -226,4 +278,64 @@ class OrderController extends Controller
         return view('orders',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'ordersGrouped' => $ordersGrouped]);
     }
 
+    public function Dashboard(Request $request) {
+        session(['dashboardDates' => $request->dashboardDates]);
+        $dates = session('dashboardDates');
+
+        $orders = Order::selectRaw('*, DATE_FORMAT(created_at, "%Y") as year, DATE_FORMAT(created_at, "%Y-%m") as month, DATE_FORMAT(created_at, "%Y-%m-%d") as day')->get();
+        $users = User::selectRaw('*, DATE_FORMAT(created_at, "%Y") as year, DATE_FORMAT(created_at, "%Y-%m") as month, DATE_FORMAT(created_at, "%Y-%m-%d") as day')->get();
+        $transactions = Transaction::all();
+        $inventory = Inventory::paginate(12);
+
+        $today = Carbon::today();
+
+        switch ($dates) {
+            case 'last5y':
+                $ordersGrouped = array();
+                for ($i=4; $i >= 0; $i--) {
+                    $year = $today->subYears($i);
+                    $o = $orders->where('year', '=', $year->format("Y"));
+                    $ordersGrouped[$year->format("Y")] = array('date' => $year->format("Y"), 'count' => $o->count(), 'revenue' => $o->sum('total'));
+                    $u = $users->where('year', '=', $year->format("Y"));
+                    $usersGrouped[$year->format("Y")] = array('date' => $year->format("Y"), 'count' => $u->count());
+                    $year->addYears($i);
+                }
+                break;
+            case 'last12m':
+                $ordersGrouped = array();
+                for ($i=11; $i >= 0; $i--) {
+                    $month = $today->subMonths($i);
+                    $o = $orders->where('month', '=', $month->format("Y-m"));
+                    $ordersGrouped[$month->format("Y-m")] = array('date' => $month->format("F Y"), 'count' => $o->count(), 'revenue' => $o->sum('total'));
+                    $u = $users->where('month', '=', $month->format("Y-m"));
+                    $usersGrouped[$month->format("Y-m")] = array('date' => $month->format("F Y"), 'count' => $u->count());
+                    $month->addMonths($i);
+                }
+                break;
+            case 'last7d':
+                $ordersGrouped = array();
+                for ($i=6; $i >= 0; $i--) {
+                    $day = $today->subDays($i);
+                    $o = $orders->where('day', '=', $day->format("Y-m-d"));
+                    $ordersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'count' => $o->count(), 'revenue' => $o->sum('total'));
+                    $u = $users->where('date', '=', $day->format("Y-m-d"));
+                    $usersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'count' => $u->count());
+                    $day->addDays($i);
+                }
+                break;
+            case 'last30d': default:
+                $ordersGrouped = array();
+                for ($i=29; $i >= 0; $i--) {
+                    $day = $today->subDays($i);
+                    $o = $orders->where('day', '=', $day->format("Y-m-d"));
+                    $ordersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'count' => $o->count(), 'revenue' => $o->sum('total'));
+                    $u = $users->where('date', '=', $day->format("Y-m-d"));
+                    $usersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'count' => $u->count());
+                    $day->addDays($i);
+                }
+                break;
+        }
+
+        return view('admin',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'users' => $users, 'ordersGrouped' => $ordersGrouped, 'usersGrouped' => $usersGrouped]);
+    }
 }
