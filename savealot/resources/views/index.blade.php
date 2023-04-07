@@ -43,4 +43,41 @@
     </button>
 </div>
 
+<div class="container marketing">
+
+    <!-- START THE FEATURETTES -->
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h2 class="featurette-heading fw-normal lh-1">Fresh meets affordable. <span class="text-body-secondary">It all starts here.</span></h2>
+        <p class="lead">Save-a-lot is an online exclusive grocery shopping experience with freshness and affordability in mind. We strive to 
+        provide amazing produce curated from only local farmers and manufacturers. All products are guaranteed to satisfy your cravings while maintaining 
+        health and wellness.</p>
+      </div>
+      <div class="col-md-5">
+        <img class="featurette" src="pics/featurette1.png">
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading fw-normal lh-1">Student-friendly. <span class="text-body-secondary">We understand.</span></h2>
+        <p class="lead">Students with verified accounts get an automatic 10% discount of their total order. The discount is effective indefinitely.
+        Save-a-lot strives to assist the future generation of leaders and citizens. Stop worrying about putting food on the table and get those As!</p>
+      </div>
+      <div class="col-md-5 order-md-1">
+        <img class="featurette" src="pics/featurette2.png">
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <!-- /END THE FEATURETTES -->
+
+  </div>
+
 @endsection

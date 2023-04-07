@@ -18,6 +18,7 @@
     <link rel="manifest" href="/docs/5.3/assets/img/favicons/manifest.json">
     <link rel="mask-icon" href="/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
     <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico">
+    <link href="carousel.css" rel="stylesheet">
     <meta name="theme-color" content="#712cf9">
 
 
@@ -27,6 +28,10 @@
         margin-left: auto;
         margin-right: auto;
         width: 100%;
+        }
+        
+        .featurette {
+            width: 100%;
         }
 
       @media (min-width: 768px) {
