@@ -168,7 +168,7 @@
 		</div>
 	</nav>
 
-	<main style="margin-top: 3.5rem" class="container-fluid flex-grow-1">
+	<main style="margin-top: 3.75rem" class="container-fluid flex-grow-1">
 		@yield('main')
 	</main>
 
