@@ -22,8 +22,9 @@ use App\Http\Controllers\OrderController;
 Route::view('/shop', 'shop');
 Route::view('/login', 'login');
 Route::view('/register', 'register');
+Route::view('/privacy', 'privacy');
 // Route::view('/cart', 'cart');
-Route::view('/admin', 'admin');
+// Route::view('/admin', 'admin');
 // Route::get('/{page}', function (string $page) {
 //     return view("$page");
 // });
@@ -71,6 +72,8 @@ Route::controller(InventoryController::class)->group(function () {
 Route::controller(OrderController::class)->group(function () {
     Route::post('/cart/checkout', 'checkOut');
     Route::get('/orderhistory', 'orderHistory');
-    Route::get('/orders', 'allOrders');
+    // Route::get('/orders', 'allOrders');
+    Route::get('/orders', 'OrdersDashboard');
     Route::get('/users', 'allUsers');
+    Route::get('/admin', 'adminDashboard');
 });
