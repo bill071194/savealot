@@ -5,7 +5,7 @@
 @section('activeAdmin', 'active')
 
 @section('section')
-<div class="mb-4 border-bottom">
+<div class="mb-4 border-bottom row">
     <div class="btn-group w-100 justify-content-center">
         <form class="" action="" method="get">
             <input type="hidden" name="dashboardDates" value="last7d">
@@ -24,111 +24,150 @@
             <input type="submit" class="btn rounded-start-0 @if (session('dashboardDates') == 'last5y') btn-primary @else btn-outline-primary @endif" value="Last 5 years">
         </form>
     </div>
-    <div class="text-center w-100 fw-bold my-2">Revenue Chart</div>
-    <canvas class="my-2 w-100" id="revenueChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
-    <div class="text-center w-100 fw-bold my-2">New Users</div>
-    <canvas class="my-2 w-100" id="usersChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
-</div>
-<div class="row">
-    <div class="mb-3 border-bottom">
-        <div class="text-center w-100 fw-bold mt-4">Inventory in Stock</div>
-        <canvas class="my-4 w-100" id="inventoryQtyChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
-        {{$inventory->links()}}
+    <div class="col-12">
+        <div class="text-center w-100 fw-bold my-2">Revenue Chart</div>
+        <canvas class="my-2 w-100" id="ordersChart" width="3000" height="1000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
     </div>
+    <div class="col-12">
+        <div class="text-center w-100 fw-bold my-2">New Users</div>
+        <canvas class="my-2 w-100" id="usersChart" width="3000" height="1000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+    </div>
+    <div class="col-12">
+        <div class="text-center w-100 fw-bold my-2">Most Popular Items by Revenue</div>
+        <canvas class="my-2 w-100" id="transactionsChart" width="3000" height="2000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+    </div>
+    <div class="col-12">
+        <div class="text-center w-100 fw-bold my-2">Inventory</div>
+        <canvas class="my-2 w-100" id="inventoryChart" width="3000" height="2000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+    </div>
+    {{$inventory->links()}}
 </div>
 
 <script>
-    /* globals Chart:false, feather:false */
-(() => {
-'use strict'
-
-feather.replace({ 'aria-hidden': 'true' })
-
-// Graphs
-const ctx = document.getElementById('inventoryQtyChart')
-// eslint-disable-next-line no-unused-vars
-const inventoryQtyChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: [
-            @foreach ($inventory as $item)
-                "{{$item->prod_name}}",
-            @endforeach
-        ],
-        datasets: [{
-            data: [
-                @foreach ($inventory as $item)
-                    {{$item->prod_quantity}},
-                @endforeach
-            ],
-            lineTension: 0.25,
-            backgroundColor: 'green',
-            borderColor: 'grey',
-            borderWidth: 4,
-            pointBackgroundColor: 'green'
-        }]
-    },
-    options: {
-        plugins: {
-            legend: {
-                display: false
-            },
-            tooltip: {
-                boxPadding: 3
-            }
-        }
-    }
-})
-})()
-</script>
-
-<script>
-	const usersChart = new Chart(document.getElementById('usersChart'), {
-		type: 'line',
-		data: {
-			labels: [@foreach ($usersGrouped as $userGroup) "{{$userGroup['date']}}", @endforeach],
-			datasets: [{
-				data: [@foreach ($usersGrouped as $userGroup) {{$userGroup['count']}}, @endforeach],
-				lineTension: 0.25,
-				backgroundColor: 'green',
-				borderColor: 'green',
-				borderWidth: 4,
-				pointBackgroundColor: 'yellow'
-			}]
-		},
-		options: {
-			plugins: {
-				legend: {
-					display: false
-				},
-				tooltip: {
-					boxPadding: 3
-				}
-			}
-		}
-	});
-</script>
-<script>
-	const revenueChart = new Chart(document.getElementById('revenueChart'), {
+	new Chart(document.getElementById('ordersChart'), {
 		type: 'line',
 		data: {
 			labels: [@foreach ($ordersGrouped as $order) "{{$order['date']}}", @endforeach],
 			datasets: [{
 				data: [@foreach ($ordersGrouped as $order) {{$order['revenue']}}, @endforeach],
 				lineTension: 0.25,
-				backgroundColor: 'green',
-				borderColor: 'green',
+				backgroundColor: '#40845899',
+				borderColor: '#0009',
 				borderWidth: 4,
-				pointBackgroundColor: 'yellow'
+                fill: true,
 			}]
 		},
 		options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                }
+            },
 			plugins: {
 				legend: {
-					display: false
+					display: false,
 				},
 				tooltip: {
-					boxPadding: 3
+					boxPadding: 3,
+				}
+			}
+		}
+	});
+
+    new Chart(document.getElementById('usersChart'), {
+		type: 'line',
+		data: {
+			labels: [@foreach ($usersGrouped as $userGroup) "{{$userGroup['date']}}", @endforeach],
+			datasets: [{
+				data: [@foreach ($usersGrouped as $userGroup) {{$userGroup['count']}}, @endforeach],
+				lineTension: 0.25,
+				backgroundColor: '#40845899',
+				borderColor: '#0009',
+				borderWidth: 4,
+                fill: true,
+			}]
+		},
+		options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                }
+            },
+			plugins: {
+				legend: {
+					display: false,
+				},
+				tooltip: {
+					boxPadding: 3,
+				}
+			}
+		}
+	});
+
+	new Chart(document.getElementById('transactionsChart'), {
+		type: 'bar',
+		data: {
+			labels: [@foreach ($transactionsGrouped as $item) "{!! $item['prod_name'] !!}", @endforeach],
+			datasets: [{
+                label: "Revenue",
+				data: [@foreach ($transactionsGrouped as $item) {{$item['revenue']}}, @endforeach],
+                backgroundColor: ['#40845899', '#6DB75799', '#87BD5399', '#F4CE4699'],
+                borderColor: '#0009',
+				borderWidth: 1,
+			},
+            {
+                label: "Qty sold",
+				data: [@foreach ($transactionsGrouped as $item) {{$item['qty']}}, @endforeach],
+                backgroundColor: '#0009',
+                borderColor: ['#40845899', '#6DB75799', '#87BD5399', '#F4CE4699'],
+				borderWidth: 1,
+			},
+        ]
+		},
+		options: {
+            indexAxis: 'y',
+            scales: {
+                y: {
+                    beginAtZero: true,
+                }
+            },
+			plugins: {
+				legend: {
+					display: false,
+				},
+				tooltip: {
+					boxPadding: 3,
+				}
+			}
+		}
+	});
+
+    new Chart(document.getElementById('inventoryChart'), {
+		type: 'bar',
+		data: {
+			labels: [@foreach ($inventory as $item) "{!! $item['prod_name'] !!}", @endforeach],
+			datasets: [{
+                label: "Qty in stock",
+				data: [@foreach ($inventory as $item) {{$item['prod_quantity']}}, @endforeach],
+                backgroundColor: ['#40845899', '#6DB75799', '#87BD5399', '#F4CE4699'],
+                borderColor: '#0009',
+				borderWidth: 1,
+			},
+        ]
+		},
+		options: {
+            indexAxis: 'y',
+            scales: {
+                y: {
+                    beginAtZero: true,
+                }
+            },
+			plugins: {
+				legend: {
+					display: false,
+				},
+				tooltip: {
+					boxPadding: 3,
 				}
 			}
 		}
