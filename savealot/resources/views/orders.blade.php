@@ -1,6 +1,6 @@
 @extends('layouts.baseAdmin')
 
-@section('title', 'Save-a-lot Admin')
+@section('title', 'Orders')
 @section('adminTitle', 'Orders')
 @section('activeOrders', 'active')
 
@@ -30,7 +30,7 @@
 
 <div class="row">
     <table class="table table-light table-striped table-bordered border-dark-subtle table-hover">
-        <thead>
+        <thead class="table-dark">
             <tr>
                 <th>Date</th>
                 <th>Orders</th>
@@ -41,11 +41,42 @@
             @foreach (array_reverse($ordersGrouped) as $orderGroup)
                 <tr>
                     <td>{{$orderGroup['date']}}</td>
-                    <td>{{$orderGroup['orders']}}</td>
+                    <td>{{$orderGroup['count']}}</td>
                     <td>${{number_format($orderGroup['revenue'], 2, '.', ',')}}</td>
                 </tr>
             @endforeach
         </tbody>
+        <tfoot>
+            <tr class="table-success">
+                <th>
+                    @switch(session('dashboardDates'))
+                        @case('last5y')
+                            5 year total
+                            @break
+                        @case('last12m')
+                            12 month total
+                            @break
+                        @case('last30d')
+                            30 day total
+                            @break
+                        @case('last7d')
+                            7 day total
+                            @break
+                        @default
+                            30 day total
+                            @break
+                    @endswitch
+                </th>
+                @php($totalCount = 0)
+                @php($totalRevenue = 0)
+                @foreach ($ordersGrouped as $orderGroup)
+                    @php($totalCount += $orderGroup['count'])
+                    @php($totalRevenue += $orderGroup['revenue'])
+                @endforeach
+                <th>{{$totalCount}}</th>
+                <th>${{number_format($totalRevenue, 2, '.', ',')}}</th>
+            </tr>
+        </tfoot>
     </table>
     {{-- @foreach ($orders->sortByDesc('id') as $order)
         <div>Order ID: {{$order->id}}</div>
@@ -97,7 +128,7 @@
 </div>
 
 <script>
-	new Chart(document.getElementById('revenueChart'), {
+	const revenueChart = new Chart(document.getElementById('revenueChart'), {
 		type: 'line',
 		data: {
 			labels: [@foreach ($ordersGrouped as $order) "{{$order['date']}}", @endforeach],
