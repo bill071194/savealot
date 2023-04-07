@@ -9,6 +9,7 @@ $nextItem = 0;
 $total = 0;
 @endphp
 @section('main')
+<div class="p-1 mb-1 bg-light">
 <h1 class="h1 text-center">Cart</h1>
 <div class="">
     <div class="col col-md-10 offset-md-1">
@@ -92,4 +93,6 @@ $total = 0;
         </div>
     </div>
 </div>
+</div>
+
 @endsection
