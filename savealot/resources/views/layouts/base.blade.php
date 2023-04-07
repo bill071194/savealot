@@ -10,6 +10,11 @@
 	<link rel="stylesheet" href="bootstrap.css">
 	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"> -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+	<style>
+	    body {
+            background-image: url(pics/carousel_bg.png);
+        }
+	</style>
 </head>
 <body class="min-vh-100 d-flex flex-column">
 	<nav class="navbar navbar-expand-sm navbar-dark bg-success fixed-top">
