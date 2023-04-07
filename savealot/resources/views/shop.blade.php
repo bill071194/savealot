@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Shop')
+@section('title', 'Save-a-lot Shop')
 @section('activeShop', 'active')
 
 @section('main')

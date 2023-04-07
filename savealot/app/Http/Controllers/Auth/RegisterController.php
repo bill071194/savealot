@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
@@ -73,11 +74,15 @@ class RegisterController extends Controller
             $data['student'] = "0";
         }
         
+        $dt = Carbon::now();
+        $date = $dt->toDateString();
+        
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'student' => (int)$data['student']
+            'student' => (int)$data['student'],
+            'date' => $date
         ]);
     }
 }

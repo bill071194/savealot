@@ -1,5 +1,7 @@
 @extends('layouts.base')
 
+@section('title','Welcome to Save-a-lot!');
+
 @section('main')
 <div class="container">
     <div class="row justify-content-center">

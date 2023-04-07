@@ -1,5 +1,5 @@
 @extends('layouts.base')
-@section('title', 'Register')
+@section('title', 'Save-a-lot Register')
 @section('activeRegister', 'active')
 @section('main')
 <div class="modal modal-signin position-static d-block" style="z-index: 955;" tabindex="-1" role="dialog" id="modalSignin">

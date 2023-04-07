@@ -1,51 +1,61 @@
 @extends('layouts.baseAdmin')
 
-@section('title', 'Admin')
-@section('adminTitle', 'Admin')
+@section('title', 'Save-a-lot Admin')
+@section('adminTitle', 'Dashboards')
 @section('activeAdmin', 'active')
 
 @section('section')
-<canvas class="my-4 w-100" id="myChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+<div class="row">
+    <div class="mb-3 border-bottom">
+        <div class="text-center w-100 fw-bold mt-4">Revenue Chart</div>
+        <canvas class="my-4 w-100" id="revenueChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+    </div>
+    <div class="mb-3 border-bottom">
+        <div class="text-center w-100 fw-bold mt-4">Inventory in Stock</div>
+        <canvas class="my-4 w-100" id="inventoryQtyChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+        {{$inventory->links()}}
+    </div>
+    <div class="mb-3 border-bottom">
+        <div class="text-center w-100 fw-bold mt-4">New Users</div>
+        <canvas class="my-4 w-100" id="UsersChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+    </div>
+</div>
 
-	<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js" integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG" crossorigin="anonymous"></script>
 <script>
-		/* globals Chart:false, feather:false */
 (() => {
 	'use strict'
 
 	feather.replace({ 'aria-hidden': 'true' })
+    
+    var goBackDays = 6;
+
+    var today = new Date();
+    var daysSorted = [];
+    
+    daysSorted.push(today.toISOString().split('T')[0]);
+    
+    for(var i = 0; i < goBackDays; i++) {
+      var newDate = new Date(today.setDate(today.getDate() - 1));
+      daysSorted.push(newDate.toISOString().split('T')[0]);
+    }
+    
+    var days = daysSorted.reverse();
+    var chartData = {!! json_encode($revenueData) !!};
 
 	// Graphs
-	const ctx = document.getElementById('myChart')
+	const ctx = document.getElementById('revenueChart')
 	// eslint-disable-next-line no-unused-vars
-	const myChart = new Chart(ctx, {
+	const revenueChart = new Chart(ctx, {
 		type: 'line',
 		data: {
-			labels: [
-				'Sunday',
-				'Monday',
-				'Tuesday',
-				'Wednesday',
-				'Thursday',
-				'Friday',
-				'Saturday'
-			],
+			labels: days,
 			datasets: [{
-				data: [
-					15339,
-					21345,
-					18483,
-					24003,
-					23489,
-					24092,
-					12034
-				],
-				lineTension: 0,
-				backgroundColor: 'transparent',
-				borderColor: '#007bff',
+				data: chartData,
+				lineTension: 0.25,
+				backgroundColor: 'green',
+				borderColor: 'green',
 				borderWidth: 4,
-				pointBackgroundColor: '#007bff'
+				pointBackgroundColor: 'white'
 			}]
 		},
 		options: {
@@ -61,5 +71,98 @@
 	})
 })()
 </script>
+<script>
+    /* globals Chart:false, feather:false */
+(() => {
+    'use strict'
+    
+    feather.replace({ 'aria-hidden': 'true' })
+    
+    // Graphs
+    const ctx = document.getElementById('inventoryQtyChart')
+    // eslint-disable-next-line no-unused-vars
+    const inventoryQtyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [
+                @foreach ($inventory as $item)
+                    "{{$item->prod_name}}",
+                @endforeach
+            ],
+            datasets: [{
+                data: [
+                    @foreach ($inventory as $item)
+                        {{$item->prod_quantity}},
+                    @endforeach
+                ],
+                lineTension: 0.25,
+                backgroundColor: 'green',
+                borderColor: 'grey',
+                borderWidth: 4,
+                pointBackgroundColor: 'green'
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    boxPadding: 3
+                }
+            }
+        }
+    })
+    })()
+</script>
+<script>
+    /* globals Chart:false, feather:false */
+(() => {
+'use strict'
+    feather.replace({ 'aria-hidden': 'true' })
+    var goBackDays = 6;
+    var today = new Date();
+    var daysSorted = [];
+    
+    daysSorted.push(today.toISOString().split('T')[0]);
+    
+    for(var i = 0; i < goBackDays; i++) {
+      var newDate = new Date(today.setDate(today.getDate() - 1));
+      daysSorted.push(newDate.toISOString().split('T')[0]);
+    }
+    
+    var days = daysSorted.reverse();
+    var chartData = {!! json_encode($usersData) !!};
+
+	// Graphs
+	const ctx = document.getElementById('UsersChart')
+	// eslint-disable-next-line no-unused-vars
+	const revenueChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: days,
+			datasets: [{
+				data: chartData,
+				lineTension: 0.25,
+				backgroundColor: 'green',
+				borderColor: 'green',
+				borderWidth: 4,
+				pointBackgroundColor: 'yellow'
+			}]
+		},
+    options: {
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                boxPadding: 3
+            }
+        }
+    }
+})
+})()
+</script>
+
 
 @endsection

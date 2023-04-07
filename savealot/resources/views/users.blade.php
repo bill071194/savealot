@@ -1,10 +1,65 @@
 @extends('layouts.baseAdmin')
 
-@section('title', 'Users')
+@section('title', 'Save-a-lot Admin')
 @section('adminTitle', 'Users')
 @section('activeUsers', 'active')
 
 @section('section')
+<div class="mb-4 border-bottom">
+    <div class="text-center w-100 fw-bold mt-4">New Users</div>
+    <canvas class="my-4 w-100" id="UsersChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+</div>
+
+<script>
+		/* globals Chart:false, feather:false */
+(() => {
+	'use strict'
+
+	feather.replace({ 'aria-hidden': 'true' })
+
+	var goBackDays = 6;
+
+    var today = new Date();
+    var daysSorted = [];
+    daysSorted.push(today.toISOString().split('T')[0]);
+    
+    for(var i = 0; i < goBackDays; i++) {
+      var newDate = new Date(today.setDate(today.getDate() - 1));
+      daysSorted.push(newDate.toISOString().split('T')[0]);
+    }
+    
+    var days = daysSorted.reverse();
+    var chartData = {!! json_encode($chartData) !!};
+
+	// Graphs
+	const ctx = document.getElementById('UsersChart')
+	// eslint-disable-next-line no-unused-vars
+	const revenueChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: days,
+			datasets: [{
+				data: chartData,
+				lineTension: 0.25,
+				backgroundColor: 'green',
+				borderColor: 'green',
+				borderWidth: 4,
+				pointBackgroundColor: 'yellow'
+			}]
+		},
+		options: {
+			plugins: {
+				legend: {
+					display: false
+				},
+				tooltip: {
+					boxPadding: 3
+				}
+			}
+		}
+	})
+})()
+</script>
 <table class="table table-light table-striped table-bordered border-dark-subtle table-hover m-0">
     <thead>
         <tr class="table-dark">

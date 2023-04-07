@@ -10,11 +10,18 @@
 	<link rel="stylesheet" href="bootstrap.css">
 	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"> -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+	<style>
+	    body {
+            background-image: url(pics/carousel_bg.png);
+        }
+	</style>
 </head>
 <body class="min-vh-100 d-flex flex-column">
-	<nav class="navbar navbar-expand-sm navbar-dark bg-success">
+	<nav class="navbar navbar-expand-sm navbar-dark bg-success fixed-top">
 		<div class="container-fluid align-middle">
-			<a class="navbar-brand badge text-bg-light text-success fs-5 rounded-5" href="index">Save-a-Lot</a>
+			<a class="navbar-brand badge text-bg-light text-success fs-5 rounded-5" href="index">
+			    <img src="pics/savealot_full.png" alt="savealot_logo" style="width:140px;height:30px;">
+			</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
 			</button>
@@ -69,12 +76,32 @@
 		</div>
 	</nav>
 
-	<main class="container p-3 flex-grow-1">
+	<main style="margin-top: 3.5rem" class="container p-3 flex-grow-1">
 		@yield('main')
 	</main>
 
 	<footer class="container-fluid p-1 bg-success text-center">
-		<a class="navbar-brand badge text-bg-light text-success fs-6 rounded-5" href="index">Save-a-Lot</a>
+	    <div style="margin-top: 0.5rem"></div>
+		<img src="pics/savealot_cart.png" alt="savealot_logo" style="width:80px;height:70px;">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+          <li class="nav-item">
+            <a href="home" class="nav-link px-2 text-body-secondary">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="shop" class="nav-link px-2 text-body-secondary">Shop</a>
+          </li>
+          <li class="nav-item">
+            <a href="cart" class="nav-link px-2 text-body-secondary">Cart</a>
+          </li>
+          <li class="nav-item">
+            <a href="privacy" class="nav-link px-2 text-body-secondary">Privacy Policy</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link px-2 text-body-secondary">About</a>
+          </li>
+        </ul>
+        <p class="text-center text-body-secondary">© 2023 SaveALot, Inc</p>
+    </div>
 	</footer>
 
 </body>

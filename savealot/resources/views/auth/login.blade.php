@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Log in')
+@section('title', 'Save-a-lot Login')
 
 @section('activeLogin', 'active')
 
