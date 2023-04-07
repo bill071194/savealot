@@ -93,6 +93,8 @@
       .bd-mode-toggle {
         z-index: 1500;
       }
+
+	</style>
     </style>
 
     <!-- Custom styles for this template -->

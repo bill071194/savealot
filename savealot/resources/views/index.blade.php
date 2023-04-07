@@ -11,7 +11,7 @@
       <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class=""></button>
     </div>
     <div class="carousel-inner">
-      <div class="carousel-item active" style="background-image: url(pics/carousel_bg.png)">
+      <div class="carousel-item active">
         <img src="pics/carousel1.png" alt="carousel1" class="center">
         <div class="container">
           <div class="carousel-caption">
@@ -19,7 +19,7 @@
           </div>
         </div>
       </div>
-      <div class="carousel-item" style="background-image: url(pics/carousel_bg.png)">
+      <div class="carousel-item">
         <img src="pics/carousel2.png" alt="carousel2" class="center">
         <div class="container">
           <div class="carousel-caption text-end">
@@ -27,7 +27,7 @@
           </div>
         </div>
       </div>
-      <div class="carousel-item" style="background-image: url(pics/carousel_bg.png)">
+      <div class="carousel-item">
         <img src="pics/carousel3.png" alt="carousel3" class="center">
         <div class="container">
         </div>
