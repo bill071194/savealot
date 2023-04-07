@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use App\Models\Order;
 use App\Models\User;
 use Carbon\Carbon;
+use DB;
 
 class OrderController extends Controller
 {
@@ -279,19 +280,23 @@ class OrderController extends Controller
     }
 
     public function Dashboard(Request $request) {
-        session(['dashboardDates' => $request->dashboardDates]);
-        $dates = session('dashboardDates');
+        if (isset($request->dashboardDates)) {
+            session(['dashboardDates' => $request->dashboardDates]);
+            $dates = session('dashboardDates');
+        } else {
+            $dates = session('dashboardDates');
+        }
 
         $orders = Order::selectRaw('*, DATE_FORMAT(created_at, "%Y") as year, DATE_FORMAT(created_at, "%Y-%m") as month, DATE_FORMAT(created_at, "%Y-%m-%d") as day')->get();
         $users = User::selectRaw('*, DATE_FORMAT(created_at, "%Y") as year, DATE_FORMAT(created_at, "%Y-%m") as month, DATE_FORMAT(created_at, "%Y-%m-%d") as day')->get();
-        $transactions = Transaction::all();
-        $inventory = Inventory::paginate(12);
+        // $transactions = Transaction::all();
+        $transactions = Transaction::selectRaw("*, SUM(item_total) as revenue, COUNT(item_total) as orders, SUM(item_qty) as qty")->groupByRaw('prod_id')->orderByDesc('revenue')->get();
+        $inventory = Inventory::select('*')->orderByDesc('prod_revenue')->paginate(12);
 
         $today = Carbon::today();
 
         switch ($dates) {
             case 'last5y':
-                $ordersGrouped = array();
                 for ($i=4; $i >= 0; $i--) {
                     $year = $today->subYears($i);
                     $o = $orders->where('year', '=', $year->format("Y"));
@@ -300,31 +305,9 @@ class OrderController extends Controller
                     $usersGrouped[$year->format("Y")] = array('date' => $year->format("Y"), 'count' => $u->count());
                     $year->addYears($i);
                 }
+                $transactionsGrouped = Transaction::selectRaw('*, SUM(item_total) as revenue, COUNT(item_total) as orders, SUM(item_qty) as qty')->where("created_at", ">=", $today->subYears(4)->format("Y")."01-01 00:00:00")->groupBy('prod_id')->orderByDesc('revenue')->paginate(12);
                 break;
-            case 'last12m':
-                $ordersGrouped = array();
-                for ($i=11; $i >= 0; $i--) {
-                    $month = $today->subMonths($i);
-                    $o = $orders->where('month', '=', $month->format("Y-m"));
-                    $ordersGrouped[$month->format("Y-m")] = array('date' => $month->format("F Y"), 'count' => $o->count(), 'revenue' => $o->sum('total'));
-                    $u = $users->where('month', '=', $month->format("Y-m"));
-                    $usersGrouped[$month->format("Y-m")] = array('date' => $month->format("F Y"), 'count' => $u->count());
-                    $month->addMonths($i);
-                }
-                break;
-            case 'last7d':
-                $ordersGrouped = array();
-                for ($i=6; $i >= 0; $i--) {
-                    $day = $today->subDays($i);
-                    $o = $orders->where('day', '=', $day->format("Y-m-d"));
-                    $ordersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'count' => $o->count(), 'revenue' => $o->sum('total'));
-                    $u = $users->where('date', '=', $day->format("Y-m-d"));
-                    $usersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'count' => $u->count());
-                    $day->addDays($i);
-                }
-                break;
-            case 'last30d': default:
-                $ordersGrouped = array();
+            case 'last30d':
                 for ($i=29; $i >= 0; $i--) {
                     $day = $today->subDays($i);
                     $o = $orders->where('day', '=', $day->format("Y-m-d"));
@@ -333,9 +316,32 @@ class OrderController extends Controller
                     $usersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'count' => $u->count());
                     $day->addDays($i);
                 }
+                $transactionsGrouped = Transaction::selectRaw('*, SUM(item_total) as revenue, COUNT(item_total) as orders, SUM(item_qty) as qty')->where("created_at", ">=", $today->subDays(29)->format("Y-m-d")." 00:00:00")->groupBy('prod_id')->orderByDesc('revenue')->paginate(12);
+                break;
+            case 'last7d':
+                for ($i=6; $i >= 0; $i--) {
+                    $day = $today->subDays($i);
+                    $o = $orders->where('day', '=', $day->format("Y-m-d"));
+                    $ordersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'count' => $o->count(), 'revenue' => $o->sum('total'));
+                    $u = $users->where('date', '=', $day->format("Y-m-d"));
+                    $usersGrouped[$day->format("Y-m-d")] = array('date' => $day->format("F d"), 'count' => $u->count());
+                    $day->addDays($i);
+                }
+                $transactionsGrouped = Transaction::selectRaw('*, SUM(item_total) as revenue, COUNT(item_total) as orders, SUM(item_qty) as qty')->where("created_at", ">=", $today->subDays(6)->format("Y-m-d")." 00:00:00")->groupBy('prod_id')->orderByDesc('revenue')->paginate(12);
+                break;
+            case 'last12m': default:
+                for ($i=11; $i >= 0; $i--) {
+                    $month = $today->subMonths($i);
+                    $o = $orders->where('month', '=', $month->format("Y-m"));
+                    $ordersGrouped[$month->format("Y-m")] = array('date' => $month->format("F Y"), 'count' => $o->count(), 'revenue' => $o->sum('total'));
+                    $u = $users->where('month', '=', $month->format("Y-m"));
+                    $usersGrouped[$month->format("Y-m")] = array('date' => $month->format("F Y"), 'count' => $u->count());
+                    $month->addMonths($i);
+                }
+                $transactionsGrouped = Transaction::selectRaw('*, SUM(item_total) as revenue, COUNT(item_total) as orders, SUM(item_qty) as qty')->where("created_at", ">=", $today->subMonths(11)->format("Y-m")."-01 00:00:00")->groupBy('prod_id')->orderByDesc('revenue')->paginate(12);
                 break;
         }
 
-        return view('admin',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'users' => $users, 'ordersGrouped' => $ordersGrouped, 'usersGrouped' => $usersGrouped]);
+        return view('admin',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'users' => $users, 'ordersGrouped' => $ordersGrouped, 'usersGrouped' => $usersGrouped, 'transactionsGrouped' => $transactionsGrouped]);
     }
 }
