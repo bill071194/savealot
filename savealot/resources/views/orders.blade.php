@@ -6,63 +6,48 @@
 
 @section('section')
 <div class="mb-4 border-bottom">
-    <div class="text-center w-100 fw-bold mt-4">Revenue Chart</div>
-    <canvas class="my-4 w-100" id="revenueChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+    <div class="btn-group w-100 justify-content-center">
+        <form class="" action="" method="get">
+            <input type="hidden" name="dashboardDates" value="last7d">
+            <input type="submit" class="btn rounded-end-0 @if (session('dashboardDates') == 'last7d') btn-primary @else btn-outline-primary @endif" value="Last 7 days">
+        </form>
+        <form class="" action="" method="get">
+            <input type="hidden" name="dashboardDates" value="last30d">
+            <input type="submit" class="btn rounded-0 @if (session('dashboardDates') == 'last30d') btn-primary @else btn-outline-primary @endif" value="Last 30 days">
+        </form>
+        <form class="" action="" method="get">
+            <input type="hidden" name="dashboardDates" value="last12m">
+            <input type="submit" class="btn rounded-0 @if (session('dashboardDates') == 'last12m') btn-primary @else btn-outline-primary @endif" value="Last 12 months">
+        </form>
+        <form class="" action="" method="get">
+            <input type="hidden" name="dashboardDates" value="last5y">
+            <input type="submit" class="btn rounded-start-0 @if (session('dashboardDates') == 'last5y') btn-primary @else btn-outline-primary @endif" value="Last 5 years">
+        </form>
+    </div>
+    <div class="text-center w-100 fw-bold my-2">Revenue Chart</div>
+    <canvas class="my-2 w-100" id="revenueChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
 </div>
 
-<script>
-		/* globals Chart:false, feather:false */
-(() => {
-	'use strict'
-
-	feather.replace({ 'aria-hidden': 'true' })
-	
-	var goBackDays = 6;
-
-    var today = new Date();
-    var daysSorted = [];
-    
-    daysSorted.push(today.toISOString().split('T')[0]);
-    
-    for(var i = 0; i < goBackDays; i++) {
-      var newDate = new Date(today.setDate(today.getDate() - 1));
-      daysSorted.push(newDate.toISOString().split('T')[0]);
-    }
-    
-    var days = daysSorted.reverse();
-    var chartData = {!! json_encode($chartData) !!};
-
-	// Graphs
-	const ctx = document.getElementById('revenueChart')
-	// eslint-disable-next-line no-unused-vars
-	const revenueChart = new Chart(ctx, {
-		type: 'line',
-		data: {
-			labels: days,
-			datasets: [{
-				data: chartData,
-				lineTension: 0.25,
-				backgroundColor: 'green',
-				borderColor: 'green',
-				borderWidth: 4,
-				pointBackgroundColor: 'yellow'
-			}]
-		},
-		options: {
-			plugins: {
-				legend: {
-					display: false
-				},
-				tooltip: {
-					boxPadding: 3
-				}
-			}
-		}
-	})
-})()
-</script>
 <div class="row">
-    @foreach ($orders->sortByDesc('id') as $order)
+    <table class="table table-light table-striped table-bordered border-dark-subtle table-hover">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Orders</th>
+                <th>Revenue</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach (array_reverse($ordersGrouped) as $orderGroup)
+                <tr>
+                    <td>{{$orderGroup['date']}}</td>
+                    <td>{{$orderGroup['orders']}}</td>
+                    <td>${{number_format($orderGroup['revenue'], 2, '.', ',')}}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    {{-- @foreach ($orders->sortByDesc('id') as $order)
         <div>Order ID: {{$order->id}}</div>
         <div>
             <table class="table table-light table-striped table-bordered border-dark-subtle table-hover">
@@ -108,6 +93,34 @@
                 </tfoot>
             </table>
         </div>
-    @endforeach
+    @endforeach --}}
 </div>
+
+<script>
+	new Chart(document.getElementById('revenueChart'), {
+		type: 'line',
+		data: {
+			labels: [@foreach ($ordersGrouped as $order) "{{$order['date']}}", @endforeach],
+			datasets: [{
+				data: [@foreach ($ordersGrouped as $order) {{$order['revenue']}}, @endforeach],
+				lineTension: 0.25,
+				backgroundColor: 'green',
+				borderColor: 'green',
+				borderWidth: 4,
+				pointBackgroundColor: 'yellow'
+			}]
+		},
+		options: {
+			plugins: {
+				legend: {
+					display: false
+				},
+				tooltip: {
+					boxPadding: 3
+				}
+			}
+		}
+	});
+</script>
+
 @endsection
