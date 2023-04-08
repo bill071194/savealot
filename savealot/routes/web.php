@@ -72,10 +72,10 @@ Route::controller(InventoryController::class)->group(function () {
 Route::controller(OrderController::class)->group(function () {
     Route::post('/cart/checkout', 'checkOut');
     Route::get('/orderhistory', 'orderHistory');
-    // Route::get('/orders', 'allOrders');
-    Route::get('/orders', 'OrdersDashboard');
-    // Route::get('/users', 'allUsers');
-    Route::get('/users', 'UsersDashboard');
-    // Route::get('/admin', 'adminDashboard');
-    Route::get('/admin', 'Dashboard');
+    Route::get('/admin', 'adminDashboard');
+    Route::get('/orders', 'ordersDashboard');
+    Route::get('/ordersList', 'allOrders');
+    Route::get('/users', 'usersDashboard');
+    Route::get('/usersList', 'allUsers');
+    Route::get('/transactions', 'transactionsDashboard');
 });
