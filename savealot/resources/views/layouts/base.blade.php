@@ -106,8 +106,7 @@
             <a href="#" class="nav-link px-2">About</a>
           </li>
         </ul>
-        <p class="text-center text-body-success">© 2023 SaveALot, Inc</p>
-    </div>
+        <p style="color: #a3cfbb;" class="text-center">© 2023 SaveALot, Inc</p>
 	</footer>
 
     <script>
@@ -115,12 +114,12 @@
         var lastScrollPos = window.pageYOffset;
         window.onscroll = function() {
         var currentScrollPos = window.pageYOffset;
-          if (lastScrollPos > currentScrollPos) {
-            navbarTop.style.top = "0";
-          } else {
-            navbarTop.style.top = - navbarTop.offsetHeight + "px";
-          }
-          lastScrollPos = currentScrollPos;
+            if (lastScrollPos > currentScrollPos) {
+                navbarTop.style.top = "0";
+            } else {
+                navbarTop.style.top = - currentScrollPos + "px";
+            }
+            lastScrollPos = currentScrollPos;
         }
     </script>
 
