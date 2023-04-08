@@ -3,7 +3,7 @@
 @section('title', 'Save-a-lot Cart')
 @section('activeCart', 'active')
 
-@php $subtotal = 0 @endphp
+@php $subtotal = 0; $nextItem = 0; $total = 0 @endphp
 
 @section('main')
 <div class="col-12 mx-auto">
