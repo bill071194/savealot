@@ -98,6 +98,12 @@
       .bd-mode-toggle {
         z-index: 1500;
       }
+      
+      .lead {
+        margin-top: 1em;
+        font-size: 1.5em;
+        line-height: 1.7em;
+      }
 
 	</style>
     </style>

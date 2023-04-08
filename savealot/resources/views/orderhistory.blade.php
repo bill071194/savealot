@@ -4,6 +4,7 @@
 @section('activeOrderHistory', 'active')
 
 @section('main')
+<div class="p-1 mb-1 bg-light rounded-4">
 <h1 class="h1 text-center">Order History</h1>
 <div class="">
     @foreach ($orders as $order)
@@ -52,5 +53,6 @@
             </table>
         </div>
     @endforeach
+</div>
 </div>
 @endsection
