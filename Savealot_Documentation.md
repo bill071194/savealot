@@ -202,9 +202,10 @@ The view also restricts access of the dashboards to only the admin user, using t
 ![](img/final18.jpg)
 ![](img/final19.jpg)
 ![](img/final20.jpg)
+![](img/final23.jpg)
 
 ### <ins>Admin controller functions </ins>
-The controller functions comprise of dashboard() functions for each data visualization tool, and inventory control functions to edit or create inventory items:
+The controller functions comprise of dashboard() functions for each data visualization tool, order control functions to modify or delete existing orders, and inventory control functions to edit, create, or delete inventory items:
 - OrdersDashboard(): calculates the time series for the charts' X labels and pass queried data from the model to the view to be fed to the Canvas API object. Data in this function pertains to orders and revenue.
 - UsersDashboard(): calculates the time series for the charts' X labels and pass queried data from the model to the view to be fed to the Canvas API object. Data in this function pertains to the count of new users being created.
 - InventoriesDashboard(): calculates the count of in stock items for each item in the inventory.
