@@ -192,13 +192,19 @@ The view template of the admin function enables powerful data visualization of b
 
 ![](img/final13.jpg)
 
-The view also restricts access of the dashboards to only the admin user, using the Auth model. Therefore, the dashboards cannot be access using their URLs without logging in first.  The admin user can monitor in different time intervals such as last 7 days, last 12 months, and last 12 years.
+The view also restricts access of the dashboards to only the admin user, using the Auth model. Therefore, the dashboards cannot be access using their URLs without logging in first.  The admin user can monitor revenue, inventory, and users in different time intervals such as last 7 days, last 12 months, and last 12 years.
 <br></br>
 
 ![](img/final14.jpg)
+![](img/final15.jpg)
+![](img/final16.jpg)
+![](img/final17.jpg)
+![](img/final18.jpg)
+![](img/final19.jpg)
+![](img/final20.jpg)
 
 ### <ins>Admin controller functions </ins>
-The controller functions comprise of dashboard() functions for each data visualization tool:
+The controller functions comprise of dashboard() functions for each data visualization tool, and inventory control functions to edit or create inventory items:
 - OrdersDashboard(): calculates the time series for the charts' X labels and pass queried data from the model to the view to be fed to the Canvas API object. Data in this function pertains to orders and revenue.
 - UsersDashboard(): calculates the time series for the charts' X labels and pass queried data from the model to the view to be fed to the Canvas API object. Data in this function pertains to the count of new users being created.
 - InventoriesDashboard(): calculates the count of in stock items for each item in the inventory.
@@ -255,6 +261,14 @@ public function OrdersDashboard(Request $request) {
         return view('orders',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'ordersGrouped' => $ordersGrouped]);
     }
 ```
+
+- store(): stores a newly created item in the inventory database.
+- update(): edits an existing item in the inventory database.
+- destroy(): delete an existing item in the inventory database.
+
+<br></br>
+![](img/final21.jpg)
+![](img/final22.jpg)
 <br></br>
 
 # V. Potential updates for future iterations
