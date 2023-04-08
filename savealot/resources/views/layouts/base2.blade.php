@@ -30,7 +30,7 @@
                 <span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse text-center row flex-row mt-1 mt-sm-0 ps-sm-2" id="navbarSupportedContent">
-                <ul style="flex-grow: 2.5" class="navbar-nav me-auto col flex-row justify-content-evenly justify-content-sm-start py-1 py-sm-0">
+                <ul style="flex-grow: 2.5" class="navbar-nav me-auto col flex-row justify-content-evenly justify-content-sm-start py-1 py-sm-0 pe-0">
                     <li class="nav-item d-none d-md-block">
                         <a class="nav-link @yield('activeHome')" aria-current="page" href="index">Home</a>
                     </li>
@@ -47,6 +47,11 @@
                             @endguest
                         </a>
                         <ul class="dropdown-menu mb-2 text-center">
+                            @guest
+                                <li><a class="dropdown-item @yield('activeLogin')" href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
+                                <li><a class="dropdown-item @yield('activeRegister')" href="/register"><i class="bi bi-person-add"></i> Register</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                            @endguest
                             <li><a class="dropdown-item @yield('activeCart')" href="/cart"><i class="bi bi-cart"></i> Cart</a></li>
                             @isset(Auth::user()->email)
                                 <li><a class="dropdown-item @yield('activeOrderHistory')" href="/orderhistory"><i class="bi bi-receipt"></i> Order History</a></li>
@@ -55,8 +60,8 @@
                                     <li><a class="dropdown-item @yield('activeAdmin')" href="/admin"><i class="bi bi-file-earmark-bar-graph"></i> Admin</a></li>
                                 @endif
                             @endisset
-                            <li><hr class="dropdown-divider"></li>
                             @auth
+                                <li><hr class="dropdown-divider"></li>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();"><i class="bi bi-box-arrow-right"></i>
@@ -66,14 +71,10 @@
                                     @csrf
                                 </form>
                             @endauth
-                            @guest
-                                <li><a class="dropdown-item @yield('activeLogin')" href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
-                                <li><a class="dropdown-item @yield('activeRegister')" href="/register"><i class="bi bi-person-add"></i> Register</a></li>
-                            @endguest
                         </ul>
                     </li>
                 </ul>
-				<form style="flex-basis: 160px" class="col d-flex" action="/search" method="get" role="search">
+				<form style="flex-basis: 160px" class="col d-flex my-auto ps-0" action="/search" method="get" role="search">
                     <input class="form-control me-2 rounded-5 px-3" type="search" name="search" placeholder="Search" aria-label="Search">
                     <input class="btn btn-outline-light rounded-5 px-3" type="submit" value="Search">
 				</form>
