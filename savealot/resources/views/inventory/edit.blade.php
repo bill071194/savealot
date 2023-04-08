@@ -136,14 +136,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-1 mb-sm-3 col-8 col-sm-4">
-                            <label for="prod_quantity">Expiry Date</label>
-                            <div class="input-group rounded-3">
-                                <input id="prod_exp_date" type="date" class="form-control" name="prod_exp_date" value="{{old('prod_exp_date',$item->prod_exp_date)}}">
-                            </div>
-                        </div>
-
-                        <div class="mb-1 mb-sm-3 col-12 col-sm-8">
+                        <div class="mb-1 mb-sm-3 col-12 col-sm-12">
                             <label for="prod_picture">Picture URL</label>
                             <div class="input-group rounded-3">
                                 <input id="prod_picture" type="text" class="form-control" name="prod_picture" maxlength="255" value="{{old('prod_picture',$item->prod_picture)}}">

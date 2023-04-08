@@ -28,11 +28,13 @@
                                 <td>
                                     <form class="d-none" action="shop/{{$item->id}}/removeFromCart" method="post">
                                         @csrf
+                                        <input type="hidden" name="redirect" value="redirectToCart">
                                         <input type="submit" id="remove-{{$item->id}}" class="hidden" value="-">
                                     </form>
                                     @if (session("$item->id") < $item->prod_quantity)
                                         <form class="d-none" action="shop/{{$item->id}}/addToCart" method="post">
                                             @csrf
+                                            <input type="hidden" name="redirect" value="redirectToCart">
                                             <input type="submit" id="add-{{$item->id}}" class="hidden" value="+">
                                         </form>
                                         @else
