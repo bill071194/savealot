@@ -20,11 +20,11 @@ class OrderController extends Controller
         $total = 0;
 
         foreach ($inventory as $item) {
-            if (session($item->id) > 0) {
+            if (session("cart-$item->id") > 0) {
                 $prod_name = $item->prod_name;
                 $prod_picture = $item->prod_picture;
                 $prod_price = $item->prod_selling_price;
-                $item_qty = session($item->id);
+                $item_qty = session("cart-$item->id");
                 $item_total = $prod_price * $item_qty;
                 $subtotal += $item_total;
             }
@@ -51,11 +51,11 @@ class OrderController extends Controller
             $row = Order::all()->sortBy('id')->last();
             $order_id = $row['id'];
             foreach ($inventory as $item) {
-                if (session($item->id) > 0) {
+                if (session("cart-$item->id") > 0) {
                     $prod_name = $item->prod_name;
                     $prod_picture = $item->prod_picture;
                     $prod_price = $item->prod_selling_price;
-                    $item_qty = session($item->id);
+                    $item_qty = session("cart-$item->id");
                     $item_total = $prod_price * $item_qty;
                     // Transaction
                     $transaction = new Transaction();
@@ -68,7 +68,7 @@ class OrderController extends Controller
                     $transaction->item_qty = $item_qty;
                     $transaction->item_total = $item_total;
                     $transaction->save();
-                    session(["$item->id" => 0]);
+                    session(["cart-$item->id" => 0]);
                     // Inventory
                     $item->prod_quantity -= $item_qty;
                     $item->prod_sold += $item_qty;
@@ -82,12 +82,94 @@ class OrderController extends Controller
         }
     }
 
+    public function update(Request $request)
+    {
+        $id = $request->id;
+        $updateQty = $request->updateQty;
+        $transaction = Transaction::findOrFail($id);
+        $prod_price = $transaction->prod_price;
+        $order = Order::findOrFail($transaction->order_id);
+        $item = Inventory::findOrFail($transaction->prod_id);
+
+        $transaction->item_qty += $updateQty;
+        $transaction->item_total += $updateQty * $prod_price;
+
+        $item->prod_quantity -= $updateQty;
+        $item->prod_sold += $updateQty;
+        $item->prod_revenue += $updateQty * $prod_price;
+
+        $order->subtotal += $updateQty * $prod_price;
+
+        if ($order->student == 1) {
+            $discount = number_format($order->subtotal * 0.1, 2, '.', '');
+            $order->discount = $discount;
+            $order->total = $order->subtotal - $discount;
+        } else {
+            $order->total = $order->subtotal;
+        }
+
+        if ($transaction->update()) {
+            $item->update();
+            $order->update();
+            return redirect(url()->previous()."#id-$transaction->order_id");
+        } else {
+            return back()->withInput();
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        $id = $request->id;
+        $order = Order::findOrFail($id);
+
+        if ($order->delete()) {
+            $transactions = Transaction::where('order_id', '=', $id)->get();
+            $inventory = Inventory::all();
+            foreach ($transactions as $transaction) {
+                foreach ($inventory as $item) {                 // this foreach loop is necessary for reasons I don't understand
+                    if ($item->id == $transaction->prod_id) {   // efficient methods throw "does not exist" exceptions
+                        $item_qty = $transaction->item_qty;
+                        $item_total = $transaction->item_total;
+                        $item->prod_quantity += $item_qty;      // efficient methods throw "does not exist" on $item->prod_quantity
+                        $item->prod_sold -= $item_qty;          // probably on $item->prod_sold
+                        $item->prod_revenue -= $item_total;     // and $item->prod_revenue too
+                        $item->update();
+                    }
+                }
+                $transaction->delete();
+            }
+            return back();
+        } else {
+            return back();
+        }
+    }
+
     public function orderHistory() {
-        $orders = Order::where('user_id', '=', auth()->id())->get()->sortByDesc('id');
+        $orders = Order::selectRaw('*, DATE_FORMAT(created_at, "%M %D, %Y") as date, DATE_FORMAT(created_at, "%W %M %D, %Y, at %l:%i %p") as dateFull')->where('user_id', '=', auth()->id())->get()->sortByDesc('created_at');
         $transactions = Transaction::where('user_id', '=', auth()->id())->get();
         $inventory = Inventory::all();
         return view('orderhistory',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory]);
     }
+
+    public function adminRedirect(Request $request) {
+        $lastAdmin = session('lastAdmin');
+        switch ($lastAdmin) {
+            case 'inventory':
+                return redirect('/inventory');
+            case 'orders':
+                return redirect('/orders');
+            case 'users':
+                return redirect('/users');
+            case 'transactions':
+                return redirect('/transactions');
+            case 'ordersList':
+                return redirect('/ordersList');
+            case 'usersList':
+                return redirect('/usersList');
+            case 'adminDashboard': default:
+                return redirect('/adminDashboard');
+        }
+    } // admin.admin OR last admin page viewed
 
     public function adminDashboard(Request $request) {
         if (isset($request->dashboardDates)) {
@@ -148,8 +230,9 @@ class OrderController extends Controller
                 break;
         }
 
+        session(['lastAdmin' => 'adminDashboard']);
         return view('admin.admin',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'users' => $users, 'ordersGrouped' => $ordersGrouped, 'usersGrouped' => $usersGrouped, 'transactionsGrouped' => $transactionsGrouped]);
-    }
+    } // admin.admin
 
     public function ordersDashboard(Request $request) {
         if (isset($request->dashboardDates)) {
@@ -195,8 +278,9 @@ class OrderController extends Controller
                 break;
         }
 
+        session(['lastAdmin' => 'orders']);
         return view('admin.orders',['orders' => $orders, 'ordersGrouped' => $ordersGrouped]);
-    }
+    } // admin.orders
 
     public function usersDashboard(Request $request) {
         if (isset($request->dashboardDates)) {
@@ -242,8 +326,9 @@ class OrderController extends Controller
                 break;
         }
 
+        session(['lastAdmin' => 'users']);
         return view('admin.users',['users' => $users, 'usersGrouped' => $usersGrouped]);
-    }
+    } // admin.users
 
     public function transactionsDashboard(Request $request) {
         if (isset($request->dashboardDates)) {
@@ -304,20 +389,24 @@ class OrderController extends Controller
                 break;
         }
 
+        session(['lastAdmin' => 'transactions']);
         return view('admin.transactions',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'users' => $users, 'ordersGrouped' => $ordersGrouped, 'usersGrouped' => $usersGrouped, 'transactionsGrouped' => $transactionsGrouped]);
-    }
+    } // admin.transactions
 
     public function allOrders() {
         $orders = Order::selectRaw('*, DATE_FORMAT(created_at, "%M %D, %Y") as date, DATE_FORMAT(created_at, "%W %M %D, %Y, at %l:%i %p") as dateFull')->orderByDesc('created_at')->paginate(12);
         $transactions = Transaction::all();
+        $inventory = Inventory::all();
 
-        return view('admin.ordersList',['orders' => $orders, 'transactions' => $transactions]);
-    }
+        session(['lastAdmin' => 'ordersList']);
+        return view('admin.ordersList',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory]);
+    } // admin.ordersList
 
     public function allUsers() {
-        $users = User::selectRaw('*, DATE_FORMAT(created_at, "%M %D, %Y") as date, DATE_FORMAT(created_at, "%W %M %D, %Y, at %l:%i %p") as dateFull')->orderBy('created_at')->paginate(10);
+        $users = User::selectRaw('*, DATE_FORMAT(created_at, "%M %D, %Y") as date, DATE_FORMAT(created_at, "%W %M %D, %Y, at %l:%i %p") as dateFull')->orderBy('created_at')->paginate(12);
 
+        session(['lastAdmin' => 'usersList']);
         return view('admin.usersList',['users' => $users]);
-    }
+    } // admin.usersList
 
 }
