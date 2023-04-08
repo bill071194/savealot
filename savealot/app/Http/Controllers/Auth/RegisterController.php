@@ -73,16 +73,12 @@ class RegisterController extends Controller
         else {
             $data['student'] = "0";
         }
-        
-        $dt = Carbon::now();
-        $date = $dt->toDateString();
-        
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'student' => (int)$data['student'],
-            'date' => $date
         ]);
     }
 }

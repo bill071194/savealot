@@ -46,16 +46,24 @@ class InventoryController extends Controller
         return view('/shop')->with('inventory', $inventory);
     }
 
-    public function addToCart(string $id)
+    public function addToCart(string $id, Request $request)
     {
         session()->increment("$id");
-        return redirect()->action([InventoryController::class, 'shop']);
+        if ($request->redirect == "redirectToCart") {
+            return redirect()->action([InventoryController::class, 'cart']);
+        } else {
+            return redirect()->action([InventoryController::class, 'shop']);
+        }
     }
 
-    public function removeFromCart(string $id)
+    public function removeFromCart(string $id, Request $request)
     {
         session()->decrement("$id");
-        return redirect()->action([InventoryController::class, 'shop']);
+        if ($request->redirect == "redirectToCart") {
+            return redirect()->action([InventoryController::class, 'cart']);
+        } else {
+            return redirect()->action([InventoryController::class, 'shop']);
+        }
     }
 
     public function emptyCart()
