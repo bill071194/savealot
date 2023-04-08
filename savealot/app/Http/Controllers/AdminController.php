@@ -224,6 +224,26 @@ class AdminController extends Controller {
         return view('admin.usersList',['users' => $users]);
     } // admin.usersList
     
+    public function deleteUser(request $request) 
+    {
+        $id = $request->id;
+        $user = User::whereId($id);
+        
+        if ($user->update([
+            'name'=>'deleted',
+            'email'=>'deleted@localhost',
+            'password'=>'deleted123!',
+            'student'=>$request->student
+            ])) 
+        {
+            return redirect('/usersList');
+        } 
+        else 
+        {
+            return back()->withInput();
+        }
+    } // usersList.delete
+    
     public function transactionsDashboard(Request $request) {
         if (isset($request->dashboardDates)) {
             session(['dashboardDates' => $request->dashboardDates]);

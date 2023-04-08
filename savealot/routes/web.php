@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,5 +61,6 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/ordersList', 'allOrders');
     Route::get('/users', 'usersDashboard');
     Route::get('/usersList', 'allUsers');
+    Route::post('/usersList/{id}/delete', 'deleteUser'); 
     Route::get('/transactions', 'transactionsDashboard');
 });
