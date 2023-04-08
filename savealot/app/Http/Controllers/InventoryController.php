@@ -12,79 +12,91 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        //
-        $inventory = inventory::paginate(12);
-        foreach ($inventory as $item) {
-            if (session("$item->id") < 1) {
-                session(["$item->id" => 0]);
+        $inventories = Inventory::all();
+        foreach ($inventories as $item) {
+            if (session("cart-$item->id") > 0) {
+            } else {
+                session(["cart-$item->id" => 0]);
             }
         }
+        $inventory = inventory::orderByDesc('prod_revenue', 'prod_sold')->paginate(12);
+        session(['lastAdmin' => 'inventory']);
         return view('inventory',['inventory' => $inventory]);
     }
 
     // Custom made
     public function shop()
     {
-        //
-        $inventory = inventory::where('prod_quantity', '>', 0)->where('prod_selling_price', '>', 0)->paginate(12);
-        foreach ($inventory as $item) {
-            if (session("$item->id") < 1) {
-                session(["$item->id" => 0]);
+        $inventories = Inventory::all();
+        foreach ($inventories as $item) {
+            if (session("cart-$item->id") > 0) {
+            } else {
+                session(["cart-$item->id" => 0]);
             }
         }
+        $inventory = inventory::where('prod_quantity', '>', 0)->where('prod_selling_price', '>', 0)->orderByDesc('prod_revenue', 'prod_sold')->paginate(12);
         return view('shop',['inventory' => $inventory]);
     }
 
     public function search(Request $request)
     {
-        $inventory = Inventory::where('prod_name', 'LIKE', '%' . request('search') . '%')->orWhere('prod_description', 'LIKE', '%' . request('search') . '%')->paginate(12);
-        foreach ($inventory as $item) {
-            if (session("$item->id") < 1) {
-                session(["$item->id" => 0]);
+        $inventories = Inventory::all();
+        foreach ($inventories as $item) {
+            if (session("cart-$item->id") > 0) {
+            } else {
+                session(["cart-$item->id" => 0]);
             }
         }
+        $inventory = Inventory::where('prod_name', 'LIKE', '%' . request('search') . '%')->orWhere('prod_description', 'LIKE', '%' . request('search') . '%')->orderByDesc('prod_revenue', 'prod_sold')->paginate(12);
         return view('/shop')->with('inventory', $inventory);
     }
 
     public function addToCart(string $id, Request $request)
     {
-        session()->increment("$id");
+        session()->increment("cart-$id");
         if ($request->redirect == "redirectToCart") {
             return redirect()->action([InventoryController::class, 'cart']);
         } else {
-            return redirect()->action([InventoryController::class, 'shop']);
+            return redirect(url()->previous()."#id-$id");
         }
     }
 
     public function removeFromCart(string $id, Request $request)
     {
-        session()->decrement("$id");
+        session()->decrement("cart-$id");
         if ($request->redirect == "redirectToCart") {
             return redirect()->action([InventoryController::class, 'cart']);
         } else {
-            return redirect()->action([InventoryController::class, 'shop']);
+            return redirect(url()->previous()."#id-$id");
         }
     }
 
     public function emptyCart()
     {
-        $inventory = inventory::all();
-        foreach ($inventory as $item) {
-            session(["$item->id" => 0]);
+        $inventories = Inventory::all();
+        foreach ($inventories as $item) {
+            session(["cart-$item->id" => 0]);
         }
         return redirect()->action([InventoryController::class, 'shop']);
     }
 
     public function homepage()
     {
-        $inventory = inventory::all();
+        $inventories = Inventory::all();
+        foreach ($inventories as $item) {
+            if (session("cart-$item->id") > 0) {
+            } else {
+                session(["cart-$item->id" => 0]);
+            }
+        }
+        $inventory = $inventories;
         return view('index',['inventory' => $inventory]);
     }
 
     public function cart()
     {
         //
-        $inventory = inventory::all();
+        $inventory = inventory::orderByDesc('prod_revenue', 'prod_sold')->get();
         return view('cart',['inventory' => $inventory]);
     }
 
@@ -117,8 +129,10 @@ class InventoryController extends Controller
         $inventory->prod_units = $request->prod_units;
         $inventory->prod_size = $request->prod_size;
         $inventory->prod_quantity = $request->prod_quantity;
-        $inventory->prod_exp_date = $request->prod_exp_date;
         $inventory->prod_picture = $request->prod_picture;
+        $inventory->competitor_saveonfoods = $request->competitor_saveonfoods;
+        $inventory->competitor_tnt = $request->competitor_tnt;
+        $inventory->competitor_walmart = $request->competitor_walmart;
 
 
         // if successful we want to redirect
@@ -159,7 +173,6 @@ class InventoryController extends Controller
     {
         // validate the form data
         $this->validate($request, [
-            'id' => 'required',
             'prod_name' => 'required|max:255',
             'prod_quantity' => 'required',
         ]);
@@ -171,6 +184,22 @@ class InventoryController extends Controller
             return redirect('/inventory');
         } else {
             return back()->withInput();
+        }
+    }
+
+    /*
+    * Update the quantity only
+    */
+    public function updateQuantity(Request $request, String $id)
+    {
+        $updateQty = $request->updateQty;
+        $inventory = Inventory::findOrFail($id);
+        $inventory->prod_quantity += $updateQty;
+
+        if ($inventory->update()) {
+            return redirect(url()->previous()."#id-$id");
+        } else {
+            return back();
         }
     }
 
