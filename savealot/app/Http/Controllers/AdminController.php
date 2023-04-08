@@ -232,11 +232,10 @@ class AdminController extends Controller {
         if ($user->update([
             'name'=>'deleted',
             'email'=>'deleted'.$request->id.'@localhost',
-            'password'=>'deleted123!',
-            'student'=>$request->student
+            'password'=>'deleted123!'
             ])) 
         {
-            return redirect('/usersList');
+            return back();
         } 
         else 
         {
