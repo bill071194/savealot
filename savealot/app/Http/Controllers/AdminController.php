@@ -231,7 +231,7 @@ class AdminController extends Controller {
         
         if ($user->update([
             'name'=>'deleted',
-            'email'=>'deleted@localhost',
+            'email'=>'deleted'.$request->id.'@localhost',
             'password'=>'deleted123!',
             'student'=>$request->student
             ])) 
