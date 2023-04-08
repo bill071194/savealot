@@ -18,8 +18,6 @@ class OrderController extends Controller
         $subtotal = 0;
         $discount = 0;
         $total = 0;
-        $dt = Carbon::now();
-        $date = $dt->toDateString();
 
         foreach ($inventory as $item) {
             if (session($item->id) > 0) {
@@ -73,6 +71,8 @@ class OrderController extends Controller
                     session(["$item->id" => 0]);
                     // Inventory
                     $item->prod_quantity -= $item_qty;
+                    $item->prod_sold += $item_qty;
+                    $item->prod_revenue += $item_total;
                     $item->update();
                 }
             }
