@@ -47,7 +47,6 @@ class OrderController extends Controller
         $order->total = $total;
         $order->discount = $discount;
         $order->student = $student;
-        $order->date = $date;
 
         if ($order->save()) {
             // session('status') = 'Purchase Successful!';
