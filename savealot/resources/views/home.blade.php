@@ -7,7 +7,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header fw-bold text-success">{{ __('Welcome to Save-a-lot, ') }}
+                    @auth
+                        {{Auth::user()->name}}
+                    @endauth
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))
