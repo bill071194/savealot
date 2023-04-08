@@ -7,24 +7,6 @@ use Illuminate\Http\Request;
 
 class InventoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $inventories = Inventory::all();
-        foreach ($inventories as $item) {
-            if (session("cart-$item->id") > 0) {
-            } else {
-                session(["cart-$item->id" => 0]);
-            }
-        }
-        $inventory = inventory::orderByDesc('prod_revenue', 'prod_sold')->paginate(12);
-        session(['lastAdmin' => 'inventory']);
-        return view('inventory',['inventory' => $inventory]);
-    }
-
-    // Custom made
     public function shop()
     {
         $inventories = Inventory::all();
