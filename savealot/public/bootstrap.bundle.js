@@ -3773,7 +3773,7 @@
         Manipulator.setDataAttribute(this._menu, 'popper', 'static'); // todo:v6 remove
         defaultBsPopperConfig.modifiers = [{
           name: 'applyStyles',
-          enabled: false
+          enabled: true // THIS HAS BEEN CUSTOMIZED, BY DEFUALT IT'S FALSE - JACOB
         }];
       }
       return {
