@@ -56,11 +56,12 @@ Route::controller(InventoryController::class)->group(function () {
     Route::get('/', 'homepage');
     Route::get('/index', 'homepage');
     Route::get('/inventory', 'index');
-    Route::get('/inventory/create', 'create');
-    Route::post('/inventory/create', 'store');
-    Route::get('/inventory/{id}', 'edit');
-    Route::post('/inventory/{id}', 'update');
+    Route::get('/inventory-create', 'create');
+    Route::post('/inventory-create', 'store');
+    Route::get('/inventory-{id}', 'edit');
+    Route::post('/inventory-{id}', 'update');
     Route::post('/inventory/{id}/destroy', 'destroy');
+    Route::post('/inventory/{id}/updateQty', 'updateQuantity');
     Route::get('/shop/{id}', 'show');
     Route::post('/shop/{id}/addToCart', 'addToCart');
     Route::post('/shop/{id}/removeFromCart', 'removeFromCart');
@@ -72,10 +73,14 @@ Route::controller(InventoryController::class)->group(function () {
 Route::controller(OrderController::class)->group(function () {
     Route::post('/cart/checkout', 'checkOut');
     Route::get('/orderhistory', 'orderHistory');
-    Route::get('/admin', 'adminDashboard');
+    Route::get('/admin', 'adminRedirect');
+    Route::get('/adminDashboard', 'adminDashboard');
     Route::get('/orders', 'ordersDashboard');
     Route::get('/ordersList', 'allOrders');
     Route::get('/users', 'usersDashboard');
     Route::get('/usersList', 'allUsers');
     Route::get('/transactions', 'transactionsDashboard');
+
+    Route::put('/order/{id}', 'update');
+    Route::delete('/order/{id}', 'destroy');
 });
