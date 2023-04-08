@@ -5,7 +5,7 @@
 @section('activeUsers', 'active')
 
 @section('section')
-<div class="mb-4 border-bottom">
+<div class="mb-4 border-bottom row">
     <div class="btn-group w-100 justify-content-center">
         <form class="" action="" method="get">
             <input type="hidden" name="dashboardDates" value="last7d">
@@ -24,102 +24,75 @@
             <input type="submit" class="btn rounded-start-0 @if (session('dashboardDates') == 'last5y') btn-primary @else btn-outline-primary @endif" value="Last 5 years">
         </form>
     </div>
-    <div class="text-center w-100 fw-bold my-2">New Users</div>
-    <canvas class="my-2 w-100" id="usersChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+    <div class="col-12">
+        <div class="text-center w-100 fw-bold my-2">New Users Chart</div>
+        <canvas class="my-2 w-100" id="usersChart" width="3000" height="1000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+    </div>
 </div>
 
 <div class="row">
     <table class="table table-light table-striped table-bordered border-dark-subtle table-hover">
-        <thead>
-            <tr class="table-dark">
+        <thead class="table-dark">
+            <tr>
                 <th>Date</th>
-                <th>New Users</th>
+                <th>Accounts Created</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
             @foreach (array_reverse($usersGrouped) as $userGroup)
-            <tr>
-                <td>{{$userGroup['date']}}</td>
-                <td>{{$userGroup['count']}}</td>
-            </tr>
+                <tr>
+                    <td>{{$userGroup['date']}}</td>
+                    <td>{{$userGroup['count']}}</td>
+                </tr>
             @endforeach
         </tbody>
         <tfoot>
-            <tr class="table-success">
+            <tr class="table-info">
                 <th>
                     @switch(session('dashboardDates'))
-                        @case('last5y')
-                            5 year total
-                            @break
-                        @case('last12m')
-                        12 month total
-                            @break
-                        @case('last30d')
-                        30 day total
-                            @break
-                        @case('last7d')
-                        7 day total
-                            @break
-                        @default
-                            30 day total
-                            @break
+                        @case('last5y') 5 year total @break
+                        @case('last30d') 30 day total @break
+                        @case('last7d') 7 day total @break
+                        @default 12 month total @break
                     @endswitch
                 </th>
-                @php($total = 0)
+                @php($totalCount = 0)
                 @foreach ($usersGrouped as $userGroup)
-                    @php($total += $userGroup['count'])
+                    @php($totalCount += $userGroup['count'])
                 @endforeach
-                <th>{{$total}}</th>
+                <th>{{$totalCount}}</th>
             </tr>
         </tfoot>
     </table>
-    <table class="table table-light table-striped table-bordered border-dark-subtle table-hover m-0">
-        <thead>
-            <tr class="table-dark">
-                <th><span class="d-none d-xl-inline">User</span> ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Student <span class="d-none d-xl-inline">Status</span></th>
-                <th>Created <span class="d-none d-lg-inline">at</span></th>
-                <th>Updated <span class="d-none d-lg-inline">at</span></th>
-            </tr>
-        </thead>
-        <tbody class="table-group-divider">
-            @foreach ($users as $user)
-            <tr>
-                <td>{{$user->id}}</td>
-                <td>{{$user->name}}</td>
-                <td>{{$user->email}}</td>
-                <td>{{$user->student}}</td>
-                <td>{{$user->created_at}}</td>
-                <td>{{$user->updated_at}}</td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
 </div>
 
+
 <script>
-	const usersChart = new Chart(document.getElementById('usersChart'), {
+    new Chart(document.getElementById('usersChart'), {
 		type: 'line',
 		data: {
 			labels: [@foreach ($usersGrouped as $userGroup) "{{$userGroup['date']}}", @endforeach],
 			datasets: [{
 				data: [@foreach ($usersGrouped as $userGroup) {{$userGroup['count']}}, @endforeach],
 				lineTension: 0.25,
-				backgroundColor: 'green',
-				borderColor: 'green',
+				backgroundColor: '#0dcaf099',
+				borderColor: '#0009',
 				borderWidth: 4,
-				pointBackgroundColor: 'yellow'
+                fill: true,
 			}]
 		},
 		options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                }
+            },
 			plugins: {
 				legend: {
-					display: false
+					display: false,
 				},
 				tooltip: {
-					boxPadding: 3
+					boxPadding: 3,
 				}
 			}
 		}

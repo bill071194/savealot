@@ -5,56 +5,14 @@
 @section('activeInventory', 'active')
 
 @section('section')
-{{$inventory->links()}}
-<div class="mb-4 border-bottom">
-    <div class="text-center w-100 fw-bold mt-4">Inventory in Stock</div>
-    <canvas class="my-4 w-100" id="inventoryQtyChart" width="1430" height="603" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+<div class="mb-4 border-bottom row">
+    <div class="col-12">
+        <div class="text-center w-100 fw-bold my-2">Inventory</div>
+        <canvas class="my-2 w-100" id="inventoryChart" width="3000" height="2000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+    </div>
+    {{$inventory->links()}}
 </div>
 
-<script>
-		/* globals Chart:false, feather:false */
-(() => {
-	'use strict'
-
-	feather.replace({ 'aria-hidden': 'true' })
-
-	// Graphs
-	const ctx = document.getElementById('inventoryQtyChart')
-	// eslint-disable-next-line no-unused-vars
-	const inventoryQtyChart = new Chart(ctx, {
-		type: 'bar',
-		data: {
-			labels: [
-                @foreach ($inventory as $item)
-                    "{{$item->prod_name}}",
-                @endforeach
-			],
-			datasets: [{
-				data: [
-                    @foreach ($inventory as $item)
-                        {{$item->prod_quantity}},
-                    @endforeach
-				],
-				lineTension: 0.25,
-				backgroundColor: 'green',
-				borderColor: 'grey',
-				borderWidth: 4,
-				pointBackgroundColor: 'green'
-			}]
-		},
-		options: {
-			plugins: {
-				legend: {
-					display: false
-				},
-				tooltip: {
-					boxPadding: 3
-				}
-			}
-		}
-	})
-})()
-</script>
 <h1 class="text-center mb-3"><a class="btn btn-outline-success rounded-5 px-3" href="inventory/create">Create New Item</a></h1>
 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-4 g-3">
 	@foreach ($inventory as $item)
@@ -148,4 +106,38 @@
     {{$inventory->links()}}
 </div>
 <h1 class="text-center mt-1"><a class="btn btn-outline-success rounded-5 px-3" href="inventory/create">Create New Item</a></h1>
+
+<script>
+	new Chart(document.getElementById('inventoryChart'), {
+		type: 'bar',
+		data: {
+			labels: [@foreach ($inventory as $item) "{!! $item['prod_name'] !!}", @endforeach],
+			datasets: [{
+                label: "Qty in stock",
+				data: [@foreach ($inventory as $item) {{$item['prod_quantity']}}, @endforeach],
+                backgroundColor: ['#40845899', '#6DB75799', '#87BD5399', '#F4CE4699'],
+                borderColor: '#0009',
+				borderWidth: 1,
+			},
+        ]
+		},
+		options: {
+            indexAxis: 'y',
+            scales: {
+                y: {
+                    beginAtZero: true,
+                }
+            },
+			plugins: {
+				legend: {
+					display: false,
+				},
+				tooltip: {
+					boxPadding: 3,
+				}
+			}
+		}
+	});
+</script>
+
 @endsection
