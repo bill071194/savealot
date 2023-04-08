@@ -8,16 +8,16 @@
 <div class="mb-4 border-bottom row">
     <div class="col-12">
         <div class="text-center w-100 fw-bold my-2">Inventory</div>
-        <canvas class="my-2 w-100" id="inventoryChart" width="3000" height="2000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+        <canvas class="my-2 w-100" id="inventoryChart" width="3000" height="1000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
     </div>
     {{$inventory->links()}}
 </div>
 
-<h1 class="text-center mb-3"><a class="btn btn-outline-success rounded-5 px-3" href="inventory/create">Create New Item</a></h1>
+<h1 class="text-center mb-3"><a class="btn btn-outline-success rounded-5 px-3" href="inventory-create">Create New Item</a></h1>
 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-4 g-3">
 	@foreach ($inventory as $item)
-		<div class="col">
-			<div class="card h-100 shadow border-success">
+		<div class="col" id="id-{{$item->id}}">
+			<div class="card h-100 shadow border-success rounded-4">
 				<div class="row card-body">
 					<a class="col-4 col-md-12 text-decoration-none" href="">
 						<img class="card-img text-center" src='{{$item->prod_picture}}'>
@@ -43,41 +43,45 @@
 							</p>
 						</div>
 				</div>
-				<div class="card-footer p-2">
-					<!-- Button trigger modal -->
-                    <div class="d-flex justify-content-evenly">
-                        @php
-                        if (session()->has("$item->id")) {
 
-                        } else {
-                            session(["$item->id" => 0]);
-                        }
-                        @endphp
-                        @if (true)
-                            @if (session("$item->id") == 0)
-                                <input type="submit" class="btn btn-sm btn-secondary rounded-5 px-3" value="min"></input>
-                                @else
-                                <form class="" action="shop/{{$item->id}}/removeFromCart" method="post">
-                                    @csrf
-                                    <input type="submit" class="btn btn-sm btn-outline-danger rounded-5 px-3" value="-">
-                                </form>
-                            @endif
-                            <a class="btn btn-sm btn-light rounded-5 px-3" href="cart">{{session("$item->id")}} in cart</a>
-                        @endif
-                        @if (session("$item->id") < $item->prod_quantity)
-                            <form class="" action="shop/{{$item->id}}/addToCart" method="post">
+				<div class="card-footer p-2">
+                    <div class="d-flex justify-content-evenly">
+                        <div class="d-none">
+                            <form action="/inventory/{{$item->id}}/updateQty" method="post">
                                 @csrf
-                                <input type="submit" class="btn btn-sm btn-outline-success rounded-5 px-3" value="+">
-                        </form>
-                            @else
-                            <input type="submit" class="btn btn-sm btn-secondary rounded-5 px-3" value="max">
-                        @endif
+                                <input type="hidden" name="updateQty" @if ($item->prod_quantity >= 10) value="-10" @else value="-{{$item->prod_quantity}}" @endif">
+                                <input type="submit" id="updateQty(-10)-{{$item->id}}">
+                            </form>
+                            <form action="inventory/{{$item->id}}/updateQty" method="post">
+                                @csrf
+                                <input type="hidden" name="updateQty" @if ($item->prod_quantity >= 1) value="-1" @else value="-{{$item->prod_quantity}}" @endif">
+                                <input type="submit" id="updateQty(-1)-{{$item->id}}">
+                            </form>
+                            <form action="inventory/{{$item->id}}/updateQty" method="post">
+                                @csrf
+                                <input type="hidden" name="updateQty" value="1">
+                                <input type="submit" id="updateQty(+1)-{{$item->id}}">
+                            </form>
+                            <form action="/inventory/{{$item->id}}/updateQty" method="post">
+                                @csrf
+                                <input type="hidden" name="updateQty" value="10">
+                                <input type="submit" id="updateQty(+10)-{{$item->id}}">
+                            </form>
+                        </div>
+                        <div class="btn-group">
+                            <label for="updateQty(-10)-{{$item->id}}" class="btn btn-outline-warning">@if ($item->prod_quantity >= 10) -10 @else -{{$item->prod_quantity}} @endif</label>
+                            <label for="updateQty(-1)-{{$item->id}}" class="btn btn-outline-warning">@if ($item->prod_quantity >= 1) -1 @else -0 @endif</label>
+                            <label for="" class="btn btn-secondary border-0">{{$item->prod_quantity}}</label>
+                            <label for="updateQty(+1)-{{$item->id}}" class="btn btn-outline-info">+1</label>
+                            <label for="updateQty(+10)-{{$item->id}}" class="btn btn-outline-info">+10</label>
+                        </div>
                     </div>
                 </div>
+
                 <div class="card-footer p-2">
                     <div class="d-flex justify-content-between">
                         <button class="btn btn-sm btn-danger rounded-5 px-3" type="button" data-bs-toggle="modal" data-bs-target="#{{$item->id}}-Modal">Delete</button>
-                        <a class="btn btn-sm btn-primary rounded-5 px-3" href="inventory/{{$item->id}}">Edit</a>
+                        <a class="btn btn-sm btn-primary rounded-5 px-3" href="inventory-{{$item->id}}">Edit</a>
                         <div class="modal fade" id="{{$item->id}}-Modal" tabindex="-1" aria-labelledby="{{$item->id}}ModelLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -105,7 +109,7 @@
 	@endforeach
     {{$inventory->links()}}
 </div>
-<h1 class="text-center mt-1"><a class="btn btn-outline-success rounded-5 px-3" href="inventory/create">Create New Item</a></h1>
+<h1 class="text-center mt-1"><a class="btn btn-outline-success rounded-5 px-3" href="inventory-create">Create New Item</a></h1>
 
 <script>
 	new Chart(document.getElementById('inventoryChart'), {

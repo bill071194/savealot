@@ -38,7 +38,7 @@
     </div>
     <div class="col-12">
         <div class="text-center w-100 fw-bold my-2">Inventory</div>
-        <canvas class="my-2 w-100" id="inventoryChart" width="3000" height="2000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+        <canvas class="my-2 w-100" id="inventoryChart" width="3000" height="1000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
     </div>
     {{$inventory->links()}}
 </div>
