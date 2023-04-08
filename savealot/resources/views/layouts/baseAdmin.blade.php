@@ -8,7 +8,7 @@
     @isset(Auth::user()->email)
         @if (Auth::user()->email == "saladmin@localhost")
             <ul class="col nav nav-pills justify-content-center justify-content-md-start p-0 flex-md-column text-center mb-3">
-                <li class="nav-item"><a class="nav-link px-1 @yield('activeAdmin')" href="admin"><i class="bi bi-file-earmark-bar-graph"></i> Admin</a></li>
+                <li class="nav-item"><a class="nav-link px-1 @yield('activeAdmin')" href="adminDashboard"><i class="bi bi-file-earmark-bar-graph"></i> Admin</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle @yield('activeOrders') @yield('activeOrdersList')" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><i class="bi bi-receipt-cutoff"></i> Orders</a>
                     <ul class="dropdown-menu text-center">

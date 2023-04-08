@@ -19,6 +19,7 @@
                             <th>Email</th>
                             <th>Student <span class="d-none d-xl-inline">Status</span></th>
                             <th>Created <span class="d-none d-lg-inline">at</span></th>
+                            <th>Admin</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
@@ -30,6 +31,29 @@
                             <td>@if($user->student) student @endif</td>
                             <td class="d-sm-none">{{date_format($user->created_at, "M d")}}</td>
                             <td class="d-none d-sm-table-cell">{{$user->date}}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger rounded-5 px-3" type="button" data-bs-toggle="modal" data-bs-target="#{{$user->id}}-Modal">Delete</button>
+                                <div class="modal fade" id="{{$user->id}}-Modal" tabindex="-1" aria-labelledby="{{$user->id}}ModelLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="{{$user->id}}ModelLabel">Are you sure you want to delete this item?</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h6>Seriously it'll be gone!</h6>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary rounded-5 px-3" data-bs-dismiss="modal">No go back!</button>
+                                                <form action="usersList/{{$user->id}}/delete" method="post">
+                                                    @csrf
+                                                <input type="submit" class="btn btn-danger rounded-5 px-3" value="Delete">
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

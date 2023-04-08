@@ -1,14 +1,15 @@
-@extends('layouts.base2')
+@extends('layouts.baseAdmin')
 
-@section('title', 'Inventory')
+@section('title', 'Save-a-lot Inventory')
+@section('adminTitle', 'Inventory')
 @section('activeInventory', 'active')
 
-@section('main')
-<h1>Inventory</h1>
+@section('section')
+<h1 class="text-center">{{$item->prod_name}}</h1>
 <div class="row g-3">
-    <div class="col-md-3 d-lg-none"></div>
-    <div class="col-12 col-md-6 col-lg-4 col-xxl-3">
-        <div class="card h-100 shadow-sm border-success">
+    {{-- <div class="col-md-3 d-lg-none"></div> --}}
+    <div class="col-12 col-md-6 col-lg-4 col-xxl-3 offset-md-3 offset-lg-0">
+        <div class="card h-100 shadow-sm border-success rounded-4">
             <div class="row card-body">
                 <a class="col-4 col-md-12 text-decoration-none" href="">
                     <img class="card-img text-center" src='../{{$item->prod_picture}}'>
@@ -43,8 +44,8 @@
                             session(["$item->id" => 0]);
                         }
                     @endphp
-                    @if (session("$item->id") != 0)
-                        @if (session("$item->id") == 0)
+                    @if (session("cart-$item->id") != 0)
+                        @if (session("cart-$item->id") == 0)
                             <input type="submit" class="btn btn-sm btn-secondary rounded-5 px-3" value="min">
                             @else
                             <form class="" action="shop/{{$item->id}}/removeFromCart" method="post">
@@ -52,9 +53,9 @@
                                 <input type="submit" class="btn btn-sm btn-outline-danger rounded-5 px-3" value="-">
                             </form>
                         @endif
-                        <a class="btn btn-sm btn-light rounded-5 px-3" href="cart">{{session("$item->id")}} in cart</a>
+                        <a class="btn btn-sm btn-light rounded-5 px-3" href="cart">{{session("cart-$item->id")}} in cart</a>
                     @endif
-                    @if (session("$item->id") < $item->prod_quantity)
+                    @if (session("cart-$item->id") < $item->prod_quantity)
                         <form class="" action="../shop/{{$item->id}}/addToCart" method="post">
                             @csrf
                             <input type="submit" class="btn btn-sm btn-outline-success rounded-5 px-3" value="+">
@@ -67,11 +68,9 @@
         </div>
     </div>
 
-    <div class="col-md-3 d-lg-none"></div>
-
-    <div class="col-12 col-lg-8 col-xxl-9">
+    <div class="col-12 col-lg-8">
         <div class="">
-            <form method="POST" action="edit">
+            <form method="POST" action="inventory-{{$item->id}}">
                 @csrf
                 <div class="">
                     <div class="">
@@ -82,13 +81,13 @@
                         <div class="mb-1 mb-sm-3 col-3 col-sm-4">
                             <label for="id">ID</label>
                             <input id="id" type="number" class="form-control rounded-3 @error('id') is-invalid @enderror" name="id" @error('id')
-                                value="{{$item->id}}" @else value="{{old('id', $item->id)}}" @enderror aria-describedby="idValidation">
+                                value="{{$item->id}}" @else value="{{old('id', $item->id)}}" @enderror aria-describedby="idValidation" disabled>
                             <div id="idValidation" class="invalid-feedback">{{old('id')}} is not a unique id</div>
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-9 col-sm-8">
                             <label for="prod_name">Name</label>
-                            <input id="prod_name" type="text" class="form-control rounded-3 @error('prod_name') is-invalid @enderror" name="prod_name" value="{{old('prod_name',$item->prod_name)}}" aria-describedby="prod_nameValidation" required>
+                            <input id="prod_name" type="text" class="form-control rounded-3 @error('prod_name') is-invalid @enderror" name="prod_name" value="{{old('prod_name',$item->prod_name)}}" aria-describedby="prod_nameValidation" required autofocus>
                             <div id="prod_nameValidation" class="invalid-feedback">Please enter a unique product name</div>
                         </div>
 
@@ -136,11 +135,26 @@
                             </div>
                         </div>
 
-                        <div class="mb-1 mb-sm-3 col-12 col-sm-12">
+                        <div class="mb-1 mb-sm-3 col-8 col-sm-12">
                             <label for="prod_picture">Picture URL</label>
                             <div class="input-group rounded-3">
                                 <input id="prod_picture" type="text" class="form-control" name="prod_picture" maxlength="255" value="{{old('prod_picture',$item->prod_picture)}}">
                             </div>
+                        </div>
+
+                        <div class="mb-1 mb-sm-3 col-4 col-sm-4">
+                            <label for="competitor_saveonfoods"><span class="d-inline d-md-none d-lg-inline d-xl-none">SAF</span><span class="d-none d-md-inline d-lg-none d-xl-inline">Save-on-Foods</span> pricing</label>
+                            <input id="competitor_saveonfoods" type="number" class="form-control rounded-3" name="competitor_saveonfoods" value="{{old('competitor_saveonfoods', $item->competitor_saveonfoods)}}" min="0" max="1000" step="0.01">
+                        </div>
+
+                        <div class="mb-1 mb-sm-3 col-4 col-sm-4">
+                            <label for="competitor_tnt">T&T pricing</label>
+                            <input id="competitor_tnt" type="number" class="form-control rounded-3" name="competitor_tnt" value="{{old('competitor_tnt', $item->competitor_tnt)}}" min="0" max="1000" step="0.01">
+                        </div>
+
+                        <div class="mb-1 mb-sm-3 col-4 col-sm-4">
+                            <label for="competitor_walmart">Walmart pricing</label>
+                            <input id="competitor_walmart" type="number" class="form-control rounded-3" name="competitor_walmart" value="{{old('competitor_walmart', $item->competitor_walmart)}}" min="0" max="1000" step="0.01">
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-12 col-sm-6">
@@ -160,7 +174,7 @@
                     </div>
                     <div class="d-flex flex-row-reverse justify-content-start">
                         <input type="submit" class="btn btn-primary rounded-5 px-3" value="Save changes">
-                        <a href="../inventory" type="button" class="btn btn-secondary rounded-5 px-3 mx-3">Close</a>
+                        <a href="{{url()->previous()."#id-$item->id"}}" type="button" class="btn btn-secondary rounded-5 px-3 mx-3">Close</a>
                         <div class="flex-grow-1"></div>
                         <button class="btn btn-sm btn-danger rounded-5 px-3" type="button" data-bs-toggle="modal" data-bs-target="#{{$item->id}}-Modal">Delete</button>
                     </div>

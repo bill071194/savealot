@@ -1,16 +1,17 @@
-@extends('layouts.base2')
+@extends('layouts.baseAdmin')
 
-@section('title', 'Inventory')
+@section('title', 'Save-a-lot Inventory')
+@section('adminTitle', 'Inventory')
 @section('activeInventory', 'active')
 
-@section('main')
+@section('section')
 <h1>Inventory</h1>
 <div class="row row-cols-1 g-3">
 	{{-- @foreach ($inventory as $item) --}}
 
 		<div class="col" id="Model" tabindex="-1" aria-labelledby="ModelLabel">
 			<div class="modal-dialog">
-				<form method="POST" action="create">
+				<form method="POST" action="inventory-create">
 					@csrf
 					<div class="modal-content">
 						<div class="modal-header">
@@ -66,14 +67,26 @@
                                 </div>
 							</div>
 
-							<div class="mb-1 mb-sm-3 col-8 col-sm-4">
-								<label for="prod_quantity">Expiry Date</label>
-                                <input id="prod_exp_date" type="date" class="form-control rounded-3" name="prod_exp_date" value="{{old('prod_exp_date')}}">
-							</div>
-							<div class="mb-1 mb-sm-3 rounded-3 col-12 col-sm-8">
+							<div class="mb-1 mb-sm-3 col-8 col-sm-12">
 								<label for="prod_picture">Picture URL</label>
                                 <input id="prod_picture" type="text" class="form-control" name="prod_picture" maxlength="255" value="{{old('prod_picture', 'pics/')}}">
 							</div>
+
+                            <div class="mb-1 mb-sm-3 col-4 col-sm-4">
+                                <label for="competitor_saveonfoods"><span class="d-inline d-md-none d-lg-inline d-xl-none">SAF</span><span class="d-none d-md-inline d-lg-none d-xl-inline">Save-on-Foods</span> pricing</label>
+                                <input id="competitor_saveonfoods" type="number" class="form-control rounded-3" name="competitor_saveonfoods" value="{{old('competitor_saveonfoods')}}" min="0" max="1000" step="0.01">
+                            </div>
+
+                            <div class="mb-1 mb-sm-3 col-4 col-sm-4">
+                                <label for="competitor_tnt">T&T pricing</label>
+                                <input id="competitor_tnt" type="number" class="form-control rounded-3" name="competitor_tnt" value="{{old('competitor_tnt')}}" min="0" max="1000" step="0.01">
+                            </div>
+
+                            <div class="mb-1 mb-sm-3 col-4 col-sm-4">
+                                <label for="competitor_walmart">Walmart pricing</label>
+                                <input id="competitor_walmart" type="number" class="form-control rounded-3" name="competitor_walmart" value="{{old('competitor_walmart')}}" min="0" max="1000" step="0.01">
+                            </div>
+
 							<div class="mb-1 mb-sm-3 rounded-3 col-12 col-sm-6">
 								<label for="created_at-new">Created at</label>
                                 <input id="created_at-new" type="datetime-local" class="form-control" name="created_at-new" value="" disabled readonly>
