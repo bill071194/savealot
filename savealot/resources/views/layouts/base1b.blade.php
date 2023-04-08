@@ -18,6 +18,7 @@
     <link rel="manifest" href="/docs/5.3/assets/img/favicons/manifest.json">
     <link rel="mask-icon" href="/docs/5.3/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
     <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico">
+    <link href="carousel.css" rel="stylesheet">
     <meta name="theme-color" content="#712cf9">
 
 
@@ -27,6 +28,10 @@
         margin-left: auto;
         margin-right: auto;
         width: 100%;
+        }
+        
+        .featurette {
+            width: 100%;
         }
 
       @media (min-width: 768px) {
@@ -93,6 +98,14 @@
       .bd-mode-toggle {
         z-index: 1500;
       }
+      
+      .lead {
+        margin-top: 1em;
+        font-size: 1.5em;
+        line-height: 1.7em;
+      }
+
+	</style>
     </style>
 
     <!-- Custom styles for this template -->
@@ -161,7 +174,7 @@
 		</div>
 	</nav>
 
-	<main style="margin-top: 3.5rem" class="container-fluid flex-grow-1">
+	<main style="margin-top: 3.75rem" class="container-fluid flex-grow-1">
 		@yield('main')
 	</main>
 
@@ -170,7 +183,7 @@
 		<img src="pics/savealot_cart.png" alt="savealot_logo" style="width:80px;height:70px;">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
           <li class="nav-item">
-            <a href="home" class="nav-link px-2 text-body-secondary">Home</a>
+            <a href="index" class="nav-link px-2 text-body-secondary">Home</a>
           </li>
           <li class="nav-item">
             <a href="shop" class="nav-link px-2 text-body-secondary">Shop</a>

@@ -72,7 +72,7 @@
 		</div>
 	</nav>
 
-	<main style="margin-top: 3.5rem" class="container p-3 flex-grow-1">
+	<main style="margin-top: 3.75rem" class="container p-3 flex-grow-1">
 		@yield('main')
 	</main>
 	
@@ -81,7 +81,7 @@
 		<img src="pics/savealot_cart.png" alt="savealot_logo" style="width:80px;height:70px;">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
           <li class="nav-item">
-            <a href="home" class="nav-link px-2 text-body-secondary">Home</a>
+            <a href="index" class="nav-link px-2 text-body-secondary">Home</a>
           </li>
           <li class="nav-item">
             <a href="shop" class="nav-link px-2 text-body-secondary">Shop</a>

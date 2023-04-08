@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('layouts.base1c')
 
 @section('title', 'Save-a-lot Policies')
 
