@@ -232,7 +232,7 @@ The controller methods for the cart comprise of 4 functions: addToCart(), remove
 - addToCart(): adds item in the shop model to the cart session.
 - removeFromCart(): removes the added item from the cart.
 - emptyCart(): empties session and removes all items from the cart.
-- cart(): return inventory items and pass item information to the cart view. If the user is trying to order more items than available in the inventory, an alert message will inform them that the item has insufficient in-stock quantity.
+- cart(): returns inventory items and passes item information to the cart view. If the user is trying to order more items than available in the inventory, an alert message will inform them that the item has insufficient in-stock quantity and that items have been removed from their cart.
 
 All functions were invoked using the GET method of the URL, routed to the controller in the web.php file.
 <br></br>
