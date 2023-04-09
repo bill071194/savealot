@@ -32,7 +32,13 @@
         }
 
         .featurette {
-            width: 100%;
+          width: 100%;
+        }
+        
+        .steps {
+          width:70%;
+          margin-top: 3.5rem;
+          margin-bottom: 2.5rem;
         }
 
       @media (min-width: 768px) {
