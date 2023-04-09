@@ -12,8 +12,11 @@
     </div>
     {{$inventory->links()}}
 </div>
-
-<h1 class="text-center mb-3" id="items"><a class="btn btn-outline-success rounded-5 px-3" href="inventory-create">Create New Item</a></h1>
+<div class="text-center justify-content-evenly d-flex mt-3 mb-4" id="items">
+    <a class="btn btn-outline-success rounded-5 px-3" href="inventory-create">Create New Item</a>
+    <a class="btn btn-outline-success rounded-5 px-3" href="uploadpicture">Add a Product Image</a>
+    <a class="btn btn-outline-success rounded-5 px-3" href="uploadfile">Import CSV File</a>
+</div>
 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-4 g-3">
 	@foreach ($inventory as $item)
 		<div class="col" id="id-{{$item->id}}">

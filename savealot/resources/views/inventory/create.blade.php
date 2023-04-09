@@ -69,7 +69,7 @@
 
 							<div class="mb-1 mb-sm-3 col-8 col-sm-12">
 								<label for="prod_picture">Picture URL</label>
-                                <input id="prod_picture" type="text" class="form-control" name="prod_picture" maxlength="255" value="{{old('prod_picture', 'pics/')}}">
+                                <input id="prod_picture" type="text" class="form-control" name="prod_picture" maxlength="255" value="{{old('prod_picture')}}" disabled readonly>
 							</div>
 
                             <div class="mb-1 mb-sm-3 col-8 col-sm-8">

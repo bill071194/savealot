@@ -44,6 +44,10 @@ Route::controller(InventoryController::class)->group(function () {
     Route::get('/search', 'search');
     Route::get('/cart', 'cart');
     Route::post('/emptyCart', 'emptyCart');
+    Route::get('/uploadfile', 'uploadCSV');
+    Route::post('/uploadfile', 'importCSV');
+    Route::get('/uploadpicture', 'uploadPicture');
+    Route::post('/uploadpicture', 'movePicture');
 });
 
 Route::controller(OrderController::class)->group(function () {
