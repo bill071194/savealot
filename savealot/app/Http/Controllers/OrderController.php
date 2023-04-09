@@ -12,7 +12,7 @@ use DB;
 
 class OrderController extends Controller
 {
-    public function checkOut(Request $request) {
+        public function checkOut(Request $request) {
 
         $user_id = $request->user_id;
         $inventory = inventory::all();
