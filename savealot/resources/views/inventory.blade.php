@@ -13,11 +13,12 @@
     {{$inventory->links()}}
 </div>
 
-<h1 class="text-center mb-3"><a class="btn btn-outline-success rounded-5 px-3" href="inventory-create">Create New Item</a></h1>
+<h1 class="text-center mb-3" id="items"><a class="btn btn-outline-success rounded-5 px-3" href="inventory-create">Create New Item</a></h1>
 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-4 g-3">
 	@foreach ($inventory as $item)
 		<div class="col" id="id-{{$item->id}}">
-			<div class="card h-100 shadow border-success rounded-4">
+			<div class="card h-100 shadow border-dark rounded-4">
+                <div class="card-header rounded-top-4" style="background-color: {{$item->prod_color}}"></div>
 				<div class="row card-body align-items-center">
 					<a class="col-4 col-md-12 text-decoration-none">
 						<img class="card-img text-center" src='{{$item->prod_picture}}'>
@@ -119,8 +120,8 @@
 			datasets: [{
                 label: "Qty in stock",
 				data: [@foreach ($inventory as $item) {{$item['prod_quantity']}}, @endforeach],
-                backgroundColor: ['#40845899', '#6DB75799', '#87BD5399', '#F4CE4699'],
-                borderColor: '#0009',
+                backgroundColor: [@foreach ($inventory as $item) "{{$item['prod_color']}}cc", @endforeach],
+                borderColor: '#000c',
 				borderWidth: 1,
 			},
         ]

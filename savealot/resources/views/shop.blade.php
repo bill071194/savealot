@@ -7,7 +7,7 @@
 <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-4 g-3">
 	@foreach ($inventory as $item)
 		<div class="col" id="id-{{$item->id}}">
-			<div class="card h-100 shadow border-success rounded-4">
+			<div class="card h-100 shadow border-dark rounded-4">
 				<div class="row card-body align-items-center">
 					<a class="col-3 col-md-12 text-decoration-none">
 						<img class="card-img text-center" src='{{ $item->prod_picture}}'>
