@@ -34,8 +34,10 @@ With Save-a-lot, you can get your groceries with just 3 easy steps:
 ### <ins>Functional Requirements:</ins>
 - Shop interface displaying products with their picture, size, price, quantity in stock, and description.
 - Login and registration system to allow for personalized accounts and order histories.
-- Cart system that allows for added items to be checked out.
-- Admin function with business intelligence dashboards and inventory management.
+- Cart system that allows for added items to be checked out, provided that there is inventory in stock.
+- Admin functions to to edit or delete orders, as well as updating users account information upon request.
+- Inventory can be added or edited through the site either one at a time, or added in bulk via a csv file upload.
+- Business intelligence dashboards graphically summarize information such as daily, monthly, and yearly sales reports.
 
 ### <ins>Non-functional Requirements:</ins>
 - Software development framework that accommodates front end, back end, and database functions.
@@ -230,7 +232,7 @@ The controller methods for the cart comprise of 4 functions: addToCart(), remove
 - addToCart(): adds item in the shop model to the cart session.
 - removeFromCart(): removes the added item from the cart.
 - emptyCart(): empties session and removes all items from the cart.
-- cart(): return inventory items and pass item information to the cart view. If the user is trying to order more items than available in the inventory, an alert message will inform them that the item has insufficient in-stock quantity.
+- cart(): returns inventory items and passes item information to the cart view. If the user is trying to order more items than available in the inventory, an alert message will inform them that the item has insufficient in-stock quantity and that items have been removed from their cart.
 
 All functions were invoked using the GET method of the URL, routed to the controller in the web.php file.
 <br></br>
