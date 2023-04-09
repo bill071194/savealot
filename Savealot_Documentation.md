@@ -16,6 +16,17 @@
 ![](img/savealot_full.png)
 
 Save-a-lot is an online-exclusive grocery shop aiming to provide fresh and high-quality products with savings in mind. The target demographic includes everyone, however prioritizes students by offering a total 10% discount on their total order.
+
+With Save-a-lot, you can get your groceries with just 3 easy steps:
+- Step 1: Place your order on the layout-responsive website that works seamlessly on both desktop and mobile.
+<img src="img/step1.png"  width="300" height="300">
+<br></br>
+- Step 2: Visit a Save-a-lot local pick up sites and pay for your order.
+<img src="img/step2.png"  width="300" height="300">
+<br></br>
+- Step 3: Pick up your order and enjoy your fresh and affordable products!
+<img src="img/step3.png"  width="300" height="300">
+
 <br></br>
 
 # II. Functional and Non-functional Requirements
@@ -64,6 +75,64 @@ To understand how the MVC components interact with each other, below is a sequen
 <br></br>
 
 # IV. Implementation
+
+## Route list
+This is the list of routes and all controller functions that are associated with the routes
+```
+Route::view('/login', 'login');
+Route::view('/register', 'register');
+Route::view('/privacy', 'privacy');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::controller(InventoryController::class)->group(function () {
+    Route::get('/', 'homepage');
+    Route::get('/index', 'homepage');
+    Route::get('/inventory-create', 'create');
+    Route::post('/inventory-create', 'store');
+    Route::get('/inventory-{id}', 'edit');
+    Route::post('/inventory-{id}', 'update');
+    Route::post('/inventory/{id}/destroy', 'destroy');
+    Route::post('/inventory/{id}/updateQty', 'updateQuantity');
+    Route::get('/shop', 'shop');
+    Route::get('/shop/{id}', 'show');
+    Route::post('/shop/{id}/addToCart', 'addToCart');
+    Route::post('/shop/{id}/removeFromCart', 'removeFromCart');
+    Route::get('/search', 'search');
+    Route::get('/cart', 'cart');
+    Route::post('/emptyCart', 'emptyCart');
+    Route::get('/uploadfile', 'uploadCSV');
+    Route::post('/uploadfile', 'importCSV');
+    Route::get('/uploadpicture', 'uploadPicture');
+    Route::post('/uploadpicture', 'movePicture');
+});
+
+Route::controller(OrderController::class)->group(function () {
+    Route::post('/cart/checkout', 'checkOut');
+    Route::get('/orderhistory', 'orderHistory');
+    Route::put('/order/{id}', 'update');
+    Route::delete('/order/{id}', 'destroy');
+});
+
+Route::controller(AdminController::class)->group(function () {
+    Route::get('/inventory', 'inventoriesDashboard');
+    Route::get('/admin', 'adminRedirect');
+    Route::get('/adminDashboard', 'adminDashboard');
+    Route::get('/orders', 'ordersDashboard');
+    Route::get('/ordersList', 'allOrders');
+    Route::get('/users', 'usersDashboard');
+    Route::get('/usersList', 'allUsers');
+    Route::get('/transactions', 'transactionsDashboard');
+});
+
+Route::controller(UserController::class)->group(function () {
+    Route::put('/user/{id}', 'update');
+    Route::delete('/user/{id}', 'destroy');
+});
+
+```
 
 ## Login and Registration and Authentication System
 
@@ -161,7 +230,7 @@ The controller methods for the cart comprise of 4 functions: addToCart(), remove
 - addToCart(): adds item in the shop model to the cart session.
 - removeFromCart(): removes the added item from the cart.
 - emptyCart(): empties session and removes all items from the cart.
-- cart(): return inventory items and pass item information to the cart view.
+- cart(): return inventory items and pass item information to the cart view. If the user is trying to order more items than available in the inventory, an alert message will inform them that the item has insufficient in-stock quantity.
 
 All functions were invoked using the GET method of the URL, routed to the controller in the web.php file.
 <br></br>
@@ -201,6 +270,8 @@ The view also restricts access of the dashboards to only the admin user, using t
 ![](img/final17.jpg)
 ![](img/final18.jpg)
 ![](img/final19.jpg)
+![](img/final26.jpg)
+![](img/final27.jpg)
 ![](img/final20.jpg)
 ![](img/final23.jpg)
 
@@ -272,10 +343,17 @@ public function OrdersDashboard(Request $request) {
 ![](img/final22.jpg)
 <br></br>
 
+- uploadCSV(): allows for mass importing of inventory items using a CSV file.
+<br></br>
+![](img/final24.jpg)
+![](img/final25.jpg)
+<br></br>
+
 # V. Potential updates for future iterations
 Due to the shortage of time in the development cycle, several implementations were postponed to future updates of the application. Some of the most notable additions to the software are:
 - Dedicated OLAP database: the current business intelligence queries are made with transactional OLTP data, which compromises a lot of data warehouse design principals. Future BI activities will be conducted on an OLAP database instead. An ETL process will take place to load data from the OLTP database to the OLAP system, enabling BI queries.
 - Application deployment: the application will be deployed on a dedicated server instead of using the Laravel artisan server on the development environment.
+- Location API: a feature that would help users locating the nearest Save-a-lot pick up locations to them.
 <br></br>
 
 # Glossary

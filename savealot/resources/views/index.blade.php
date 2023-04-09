@@ -79,6 +79,27 @@
     <hr class="featurette-divider">
 
     <!-- /END THE FEATURETTES -->
+    
+    <!-- START 3 COLUMNS OF STEPS -->
+    <div class="row featurette justify-content-evenly my-5">
+      <h2 class="featurette-heading fw-bold lh-1 text-success text-center">Start your order. <span class="text-body-secondary">With just 3 easy steps:</span></h2>
+      <div class="col-lg-3 text-center">
+        <img class="steps" src="pics/step1.png" alt="step1">
+        <h2 class="featurette-heading fw-bold lh-1 text-success text-center">Step <span class="text-body-secondary">1</span></h2>
+        <p class="lead">Place your order on the layout-responsive website that works seamlessly on both desktop and mobile.</p>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-3 text-center">
+        <img class="steps" src="pics/step2.png" alt="step1">
+        <h2 class="featurette-heading fw-bold lh-1 text-success text-center">Step <span class="text-body-secondary">2</span></h2>
+        <p class="lead">Visit one of the Save-a-lot local pick up sites and pay for your order.</p>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-3 text-center">
+        <img class="steps" src="pics/step3.png" alt="step1">
+        <h2 class="featurette-heading fw-bold lh-1 text-success text-center">Step <span class="text-body-secondary">3</span></h2>
+        <p class="lead">Pick up your order and enjoy your fresh and affordable products!</p>
+      </div><!-- /.col-lg-4 -->
+    </div>
+    <!-- END COLUMNS -->
 
   </div>
 
