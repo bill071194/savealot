@@ -21,7 +21,7 @@
 	</style>
 </head>
 <body class="min-vh-100 d-flex flex-column">
-	<nav class="navbar navbar-expand-sm navbar-dark bg-success fixed-top" id="navbarTop">
+	<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top" id="navbarTop">
 		<div class="container-fluid align-middle">
 			<a class="navbar-brand badge text-bg-light text-success fs-5 rounded-5" href="index">
 			    <img src="pics/savealot_full.png" alt="savealot_logo" style="width:140px;height:30px;">
@@ -29,8 +29,8 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse text-center row flex-row mt-1 mt-sm-0 ps-sm-2" id="navbarSupportedContent">
-                <ul style="flex-grow: 2.5" class="navbar-nav me-auto col flex-row justify-content-evenly justify-content-sm-start py-1 py-sm-0 pe-0">
+			<div class="collapse navbar-collapse text-center row flex-row mt-1 mt-md-0 ps-md-2" id="navbarSupportedContent">
+                <ul style="flex-grow: 2.5; flex-basis:280px" class="navbar-nav me-auto col flex-row justify-content-evenly justify-content-md-start py-1 py-md-0 pe-0">
                     <li class="nav-item d-none d-md-block">
                         <a class="nav-link @yield('activeHome')" aria-current="page" href="index">Home</a>
                     </li>
@@ -74,7 +74,7 @@
                         </ul>
                     </li>
                 </ul>
-				<form style="flex-basis: 160px" class="col d-flex my-auto ps-0" action="/search" method="get" role="search">
+				<form style="flex: 0 300px;" class="col d-flex my-auto px-auto mx-auto" action="/search" method="get" role="search">
                     <input class="form-control me-2 rounded-5 px-3" type="search" name="search" placeholder="Search" aria-label="Search">
                     <input class="btn btn-outline-light rounded-5 px-3" type="submit" value="Search">
 				</form>
@@ -102,11 +102,8 @@
           <li class="nav-item">
             <a href="privacy" class="nav-link px-2">Privacy Policy</a>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link px-2">About</a>
-          </li>
         </ul>
-        <p style="color: #a3cfbb;" class="text-center">© 2023 SaveALot, Inc</p>
+        <p style="color: #a3cfbb;" class="text-center">© 2023 Save-A-Lot, Inc</p>
 	</footer>
 
     <script>
