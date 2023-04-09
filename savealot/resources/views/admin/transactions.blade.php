@@ -9,20 +9,24 @@
     <div class="btn-group w-100 justify-content-center">
         <form class="" action="" method="get">
             <input type="hidden" name="dashboardDates" value="last7d">
-            <input type="submit" class="btn rounded-end-0 @if (session('dashboardDates') == 'last7d') btn-primary @else btn-outline-primary @endif" value="Last 7 days">
+            <input type="submit" id="last7d-sumbit" name="last7d-sumbit" hidden>
         </form>
         <form class="" action="" method="get">
             <input type="hidden" name="dashboardDates" value="last30d">
-            <input type="submit" class="btn rounded-0 @if (session('dashboardDates') == 'last30d') btn-primary @else btn-outline-primary @endif" value="Last 30 days">
+            <input type="submit" id="last30d-sumbit" name="last30d-sumbit" hidden>
         </form>
         <form class="" action="" method="get">
             <input type="hidden" name="dashboardDates" value="last12m">
-            <input type="submit" class="btn rounded-0 @if (session('dashboardDates') == 'last12m') btn-primary @else btn-outline-primary @endif" value="Last 12 months">
+            <input type="submit" id="last12m-sumbit" name="last12m-sumbit" hidden>
         </form>
         <form class="" action="" method="get">
             <input type="hidden" name="dashboardDates" value="last5y">
-            <input type="submit" class="btn rounded-start-0 @if (session('dashboardDates') == 'last5y') btn-primary @else btn-outline-primary @endif" value="Last 5 years">
+            <input type="submit" id="last5y-sumbit" name="last5y-sumbit" hidden>
         </form>
+        <label for="last7d-sumbit" class="btn rounded-start-3 @if (session('dashboardDates') == 'last7d') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last 7 days</span>7 days</label>
+        <label for="last30d-sumbit" class="btn rounded-0 @if (session('dashboardDates') == 'last30d') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>30 days</label>
+        <label for="last12m-sumbit" class="btn rounded-0 @if (session('dashboardDates') == 'last12m') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>12 months</label>
+        <label for="last5y-sumbit" class="btn rounded-end-3 @if (session('dashboardDates') == 'last5y') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>5 years</label>
     </div>
     <div class="col-12">
         <div class="text-center w-100 fw-bold my-2">Most Popular Items by Revenue</div>
