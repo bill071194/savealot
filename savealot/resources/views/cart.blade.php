@@ -39,7 +39,7 @@
                                             <input type="hidden" name="redirect" value="redirectToCart">
                                             <input type="submit" id="remove-{{$item->id}}" class="hidden" value="-">
                                         </form>
-                                        @if (session("cart-$item->id") < $item->prod_quantity)
+                                        @if ((session("cart-$item->id") < round($item->prod_quantity / 2)) and session("cart-$item->id") < 10)
                                             <form class="d-none" action="shop/{{$item->id}}/addToCart" method="post">
                                                 @csrf
                                                 <input type="hidden" name="redirect" value="redirectToCart">
@@ -99,6 +99,17 @@
                         </tr>
                     </tfoot>
                 </table>
+                @if (session('cart-update') == 'true' or true)
+                    @foreach ($inventory as $item)
+                    @if (session("cart-update-$item->id") == "true")
+                        <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                            {{session("cart-update-$item->id-message")}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                    @endif
+                    @endforeach
+
+                @endif
             </div>
             <div class="card-footer">
                 <div class="d-flex justify-content-between">
@@ -125,6 +136,16 @@
         @else
         <div class="card-body">
             <div class="text-center h4">You don't have anything in your cart</div>
+            @if (session('cart-update') == 'true' or true)
+                @foreach ($inventory as $item)
+                    @if (session("cart-update-$item->id") == "true")
+                        <div class="alert alert-warning alert-dismissible fade show mt-4" role="alert">
+                            {{session("cart-update-$item->id-message")}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                @endforeach
+            @endif
         </div>
         <div class="card-footer">
             <div class="d-flex justify-content-between">
