@@ -132,8 +132,8 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse text-center row flex-row mt-1 mt-md-0 ps-md-2" id="navbarSupportedContent">
-                <ul style="flex-grow: 2.5; flex-basis:280px" class="navbar-nav me-auto col flex-row justify-content-evenly justify-content-md-start py-1 py-md-0 pe-0">
+			<div class="collapse navbar-collapse text-center row flex-row mt-1 mt-md-0 ps-md-2 gap-2" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto col flex-row justify-content-center justify-content-md-start pe-0 gap-2 gap-md-0">
                     <li class="nav-item d-none d-md-block">
                         <a class="nav-link @yield('activeHome')" aria-current="page" href="index">Home</a>
                     </li>

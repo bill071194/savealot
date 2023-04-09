@@ -6,13 +6,13 @@
 
 @section('section')
 <div class="mb-4 border-bottom row">
-    <div class="col-12">
-        <div class="text-center w-100 fw-bold my-2">Inventory</div>
-        <canvas class="my-2 w-100" id="inventoryChart" width="3000" height="1000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+    <div class="col-12 border-bottom">
+        <div class="text-center w-100 fw-bold mt-2">Inventory</div>
+        <canvas class="mb-2 w-100" id="inventoryChart" width="3000" height="1000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
     </div>
     {{$inventory->links()}}
 </div>
-<div class="text-center justify-content-evenly d-flex mt-3 mb-4" id="items">
+<div class="text-center justify-content-evenly d-flex mt-3 mb-4 flex-wrap gap-3" id="items">
     <a class="btn btn-outline-success rounded-5 px-3" href="inventory-create">Create New Item</a>
     <a class="btn btn-outline-success rounded-5 px-3" href="uploadpicture">Add a Product Image</a>
     <a class="btn btn-outline-success rounded-5 px-3" href="uploadfile">Import CSV File</a>
@@ -22,31 +22,29 @@
 		<div class="col" id="id-{{$item->id}}">
 			<div class="card h-100 shadow border-dark rounded-4">
                 <div class="card-header rounded-top-4" style="background-color: {{$item->prod_color}}"></div>
-				<div class="row card-body align-items-center">
-					<a class="col-4 col-md-12 text-decoration-none">
-						<img class="card-img text-center" src='{{$item->prod_picture}}'>
-					</a>
-						<div class="col-8 col-md-12">
-                            <div class="row gap-1 justify-content-center">
+                <div class="row card-body align-items-center py-1 py-md-2">
+                    <a class="col-3 col-md-12 text-decoration-none px-0 px-md-3 mb-md-auto">
+                        <img class="card-img text-center" src='{{ $item->prod_picture}}'>
+                    </a>
+                        <div class="col-9 col-md-12 px-0 px-md-1 mb-md-auto">
+                        <div class="row gap-1 m-auto justify-content-center mt-md-1">
+                            @isset($item->prod_selling_price)
+                                <div class="col-auto badge rounded-pil text-bg-success">${{$item->prod_selling_price}}</div>
+                            @endisset
+                            @isset($item->prod_units)
+                                <div class="col-auto badge rounded-pil text-bg-secondary">{{$item->prod_units}}</div>
+                            @endisset
+                            @isset($item->prod_size)
+                                <div class="col-auto badge rounded-pil text-bg-dark">{{$item->prod_size}}g</div>
                                 @isset($item->prod_selling_price)
-                                    <div class="col-auto badge rounded-pil text-bg-success">${{$item->prod_selling_price}}</div>
+                                    <div class="col-auto badge rounded-pil text-dark bg-success-subtle">${{number_format($item->prod_selling_price / $item->prod_size * 100, 2)}}/100g</div>
                                 @endisset
-                                @isset($item->prod_units)
-                                    <div class="col-auto badge rounded-pil text-bg-secondary">{{$item->prod_units}}</div>
-                                @endisset
-                                @isset($item->prod_size)
-                                    <div class="col-auto badge rounded-pil text-bg-dark">{{$item->prod_size}}g</div>
-                                    @isset($item->prod_selling_price)
-                                        <div class="col-auto badge rounded-pil text-dark bg-success-subtle">${{number_format($item->prod_selling_price / $item->prod_size * 100, 2)}}/100g</div>
-                                    @endisset
-                                @endisset
-                            </div>
-							<h4 class="card-title my-0 text-center">{{$item->prod_name}}</h4>
-							<p class="card-text m-0 text-center">
-								{{$item->prod_description}}
-							</p>
-						</div>
-				</div>
+                            @endisset
+                        </div>
+                            <h5 class="card-title my-0 text-center mt-md-1">{{$item->prod_name}}</h5>
+                            <p class="card-text m-0 text-center small mobile mt-md-1">{{$item->prod_description}}</p>
+                        </div>
+                </div>
 
 				<div class="card-footer p-2">
                     <div class="d-flex justify-content-evenly">

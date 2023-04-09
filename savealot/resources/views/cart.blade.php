@@ -17,23 +17,23 @@
             @endif
         @endforeach
         @if ($itemsInCart >= 1)
-            <div class="card-body">
+            <div class="card-body p-0 p-sm-3">
                 <table class="table table-light table-striped table-bordered border-dark-subtle table-hover m-0">
                     <thead>
-                        <tr class="table-dark">
-                            <th colspan="3">Product</th>
-                            <th>Price</th>
-                            <th>Qty</th>
-                            <th>Total</th>
+                        <tr class="table-dark align-middle text-center">
+                            <th colspan="3" class="px-0">Product</th>
+                            <th class="px-0">Price</th>
+                            <th class="px-0">Qty</th>
+                            <th class="px-0">Total</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
                         @foreach ($inventory as $item)
                             @if (session("cart-$item->id") > 0)
-                                <tr>
-                                    <td colspan="3"><img style="width: 1.5rem;" src="{{$item->prod_picture}}"> {{$item->prod_name}}</td>
-                                    <td>${{$item->prod_selling_price}}</td>
-                                    <td>
+                                <tr class="align-middle text-center">
+                                    <td colspan="3" class="px-0"><img style="width: 1.5rem;" src="{{$item->prod_picture}}"> {{$item->prod_name}}</td>
+                                    <td class="px-0">${{$item->prod_selling_price}}</td>
+                                    <td class="px-1 px-sm-2">
                                         <form class="d-none" action="shop/{{$item->id}}/removeFromCart" method="post">
                                             @csrf
                                             <input type="hidden" name="redirect" value="redirectToCart">
@@ -58,7 +58,7 @@
                                             @endif
                                         </div>
                                     </td>
-                                    <td>${{number_format($item->prod_selling_price * session("cart-$item->id"), 2, '.', ',')}}</td>
+                                    <td class="px-0">${{number_format($item->prod_selling_price * session("cart-$item->id"), 2, '.', ',')}}</td>
                                     @php
                                         $nextItem = number_format($item->prod_selling_price * session("cart-$item->id"), 2, '.', '');
                                         $subtotal += $nextItem;
@@ -70,14 +70,14 @@
                     <tbody class="table-group-divider">
                         @isset(Auth::user()->student)
                             @if (Auth::user()->student == 1)
-                            <tr>
-                                <th colspan="5">Subtotal</th>
-                                <th>${{number_format($subtotal, 2)}}</th>
+                            <tr class="table-secondary align-middle text-center">
+                                <th colspan="5" class="px-0">Subtotal</th>
+                                <th class="px-0">${{number_format($subtotal, 2)}}</th>
                             </tr>
-                            <tr>
-                                <td colspan="3">Student Discount</td>
-                                <td colspan="2" class="text-center">-10%</td>
-                                <td>(${{number_format($subtotal * (0.1),2)}})</td>
+                            <tr class="table-info align-middle text-center">
+                                <td colspan="3" class="px-0">Student Discount</td>
+                                <td colspan="2" class="px-0">-10%</td>
+                                <td class="px-0">(${{number_format($subtotal * (0.1),2)}})</td>
                                 @php
                                     $total = number_format($subtotal * 0.9, 2, '.', '');
                                     session('total', number_format($total,2));
@@ -93,9 +93,9 @@
 
                     </tbody>
                     <tfoot class="table-group-divider">
-                        <tr class="table-success">
-                            <th colspan="5">Total:</th>
-                            <th>${{number_format($total, 2)}}</th>
+                        <tr class="table-success align-middle text-center">
+                            <th colspan="5" class="px-0">Total:</th>
+                            <th class="px-0">${{number_format($total, 2)}}</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -111,25 +111,31 @@
 
                 @endif
             </div>
-            <div class="card-footer">
+            <div class="card-footer p-1 px-sm-3 py-sm-2">
                 <div class="d-flex justify-content-between">
                     <form action="/emptyCart" method="post" class="d-flex justify-content-end">
                         @csrf
-                        <input type="submit" class="btn btn-outline-danger rounded-5 px-3" value="Empty Cart">
+                        <input type="submit" id="emptyCart" name="emptyCart" hidden>
+                        <label for="emptyCart" class="btn btn-danger rounded-5 px-3 my-auto">Empty<span class="d-none d-sm-inline"> Cart</span></label>
                     </form>
                     @auth
                         <form action="/cart/checkout" method="post" class="d-flex justify-content-end">
                             @csrf
                             <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                             <input type="hidden" name="student" value="{{Auth::user()->student}}">
-                            <input type="submit" value="Confirm Purchase" class="btn btn-outline-success rounded-5 px-3">
+                            <input type="submit" id="confirmPurchase" name="confirmPurchase" hidden>
+                            <label for="confirmPurchase" class="btn btn-success rounded-5 px-3" ><span class="d-sm-none">Checkout</span><span class="d-none d-sm-inline">Confirm Purchase</span></label>
                         </form>
                     @endauth
                     @guest
-                        <div>
-                            <a href="login" class="btn btn-outline-success rounded-5 px-3">Log in</a> or
-                            <a href="register" class="btn btn-outline-primary rounded-5 px-3">Create an Account</a> to checkout
-                        </div>
+                    <div class="ms-auto text-center my-auto d-md-none">
+                        <a href="login" class="btn btn-sm btn-outline-success rounded-5 px-1 py-0">Log in</a> or
+                        <a href="register" class="btn btn-sm btn-outline-primary rounded-5 px-1 py-0">Create an Account</a>
+                    </div>
+                    <div class="ms-auto text-center my-auto d-none d-md-block">
+                        <a href="login" class="btn btn-outline-success rounded-5">Log in</a> or
+                        <a href="register" class="btn btn-outline-primary rounded-5">Create an Account</a> to checkout
+                    </div>
                     @endguest
                 </div>
             </div>
@@ -147,13 +153,17 @@
                 @endforeach
             @endif
         </div>
-        <div class="card-footer">
-            <div class="d-flex justify-content-between">
+        <div class="card-footer p-1 px-sm-3 py-sm-2">
+            <div class="d-flex justify-content-between flex-wrap gap-2">
                 <a href="shop" class="btn btn-success rounded-5 px-3">Go Shopping</a>
                 @guest
-                <div>
-                    <a href="login" class="btn btn-outline-success rounded-5 px-3">Log in</a> or
-                    <a href="register" class="btn btn-outline-primary rounded-5 px-3">Create an Account</a> to checkout
+                <div class="ms-auto text-center my-auto d-md-none">
+                    <a href="login" class="btn btn-sm btn-outline-success rounded-5 px-1 py-0">Log in</a> or
+                    <a href="register" class="btn btn-sm btn-outline-primary rounded-5 px-1 py-0">Create an Account</a>
+                </div>
+                <div class="ms-auto text-center my-auto d-none d-md-block">
+                    <a href="login" class="btn btn-outline-success rounded-5">Log in</a> or
+                    <a href="register" class="btn btn-outline-primary rounded-5">Create an Account</a> to checkout
                 </div>
                 @endguest
             </div>

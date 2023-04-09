@@ -5,11 +5,11 @@
 <div class="modal modal-signin position-static d-block" style="z-index: 955;" tabindex="-1" role="dialog" id="modalSignin">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content rounded-4 shadow">
-			<div class="modal-header p-5 pb-4 border-bottom-0">
+			<div class="modal-header p-3 p-sm-5 pb-sm-4 border-bottom-0">
 				<h1 class="fw-bold mb-0 fs-2" id="login_h1">Register</h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body p-5 pt-0">
+			<div class="modal-body p-3 p-sm-5 pt-0">
 				<form method="POST" action="{{ route('register') }}">
                     @csrf
                     <div class="form-floating mb-3">

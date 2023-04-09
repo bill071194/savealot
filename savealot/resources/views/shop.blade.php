@@ -8,12 +8,12 @@
 	@foreach ($inventory as $item)
 		<div class="col" id="id-{{$item->id}}">
 			<div class="card h-100 shadow border-dark rounded-4">
-				<div class="row card-body align-items-center">
-					<a class="col-3 col-md-12 text-decoration-none">
+				<div class="row card-body align-items-center py-1 py-md-2">
+					<a class="col-3 col-md-12 text-decoration-none px-0 px-md-3 mb-md-auto">
 						<img class="card-img text-center" src='{{ $item->prod_picture}}'>
 					</a>
-						<div class="col-9 col-md-12">
-						<div class="row gap-1 m-auto justify-content-center">
+						<div class="col-9 col-md-12 px-0 px-md-1 mb-md-auto">
+						<div class="row gap-1 m-auto justify-content-center mt-md-1">
 							@isset($item->prod_selling_price)
 								<div class="col-auto badge rounded-pil text-bg-success">${{$item->prod_selling_price}}</div>
 							@endisset
@@ -27,10 +27,8 @@
                                 @endisset
 							@endisset
 						</div>
-							<h4 class="card-title my-0 text-center">{{$item->prod_name}}</h4>
-							<p class="card-text m-0 text-center">
-								{{$item->prod_description}}
-							</p>
+							<h5 class="card-title my-0 text-center mt-md-1">{{$item->prod_name}}</h5>
+							<p class="card-text m-0 text-center small mobile mt-md-1">{{$item->prod_description}}</p>
 						</div>
 				</div>
 				<div class="card-footer p-2">

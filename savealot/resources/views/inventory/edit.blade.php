@@ -6,33 +6,32 @@
 
 @section('section')
 <h1 class="text-center">{{$item->prod_name}}</h1>
-<div class="row g-3" id="items">
+<div class="row g-3 align-items-start" id="items">
     {{-- <div class="col-md-3 d-lg-none"></div> --}}
     <div class="col-12 col-md-6 col-lg-4 col-xxl-3 offset-md-3 offset-lg-0">
-        <div class="card h-100 shadow-sm border-dark rounded-4">
-            <div class="row card-body align-items-center">
-                <a class="col-4 col-md-12 text-decoration-none">
-                    <img class="card-img text-center" src='../{{$item->prod_picture}}'>
+        <div class="card h-100 shadow border-dark rounded-4">
+            <div class="card-header rounded-top-4" style="background-color: {{$item->prod_color}}"></div>
+            <div class="row card-body align-items-center py-1 py-md-2">
+                <a class="col-3 col-md-12 text-decoration-none px-0 px-md-3 mb-md-auto">
+                    <img class="card-img text-center" src='{{ $item->prod_picture}}'>
                 </a>
-                    <div class="col-8 col-md-12">
-                        <div class="row gap-1 m-auto justify-content-center">
+                    <div class="col-9 col-md-12 px-0 px-md-1 mb-md-auto">
+                    <div class="row gap-1 m-auto justify-content-center mt-md-1">
+                        @isset($item->prod_selling_price)
+                            <div class="col-auto badge rounded-pil text-bg-success">${{$item->prod_selling_price}}</div>
+                        @endisset
+                        @isset($item->prod_units)
+                            <div class="col-auto badge rounded-pil text-bg-secondary">{{$item->prod_units}}</div>
+                        @endisset
+                        @isset($item->prod_size)
+                            <div class="col-auto badge rounded-pil text-bg-dark">{{$item->prod_size}}g</div>
                             @isset($item->prod_selling_price)
-                                <div class="col-auto badge rounded-pil text-bg-success">${{$item->prod_selling_price}}</div>
+                                <div class="col-auto badge rounded-pil text-dark bg-success-subtle">${{number_format($item->prod_selling_price / $item->prod_size * 100, 2)}}/100g</div>
                             @endisset
-                            @isset($item->prod_units)
-                                <div class="col-auto badge rounded-pil text-bg-secondary">{{$item->prod_units}}</div>
-                            @endisset
-                            @isset($item->prod_size)
-                                <div class="col-auto badge rounded-pil text-bg-dark">{{$item->prod_size}}g</div>
-                                @isset($item->prod_selling_price)
-                                    <div class="col-auto badge rounded-pil text-dark bg-success-subtle">${{number_format($item->prod_selling_price / $item->prod_size * 100, 2)}}/100g</div>
-                                @endisset
-                            @endisset
-                        </div>
-                        <h4 class="card-title my-0 text-center">{{$item->prod_name}}</h4>
-                        <p class="card-text m-0 text-center">
-                            {{$item->prod_description}}
-                        </p>
+                        @endisset
+                    </div>
+                        <h5 class="card-title my-0 text-center mt-md-1">{{$item->prod_name}}</h5>
+                        <p class="card-text m-0 text-center small mobile mt-md-1">{{$item->prod_description}}</p>
                     </div>
             </div>
             <div class="card-footer p-2">
@@ -55,11 +54,11 @@
                         @endif
                         <a class="btn btn-sm btn-light rounded-5 px-3" href="cart">{{session("cart-$item->id")}} in cart</a>
                     @endif
-                    @if (session("cart-$item->id") < $item->prod_quantity)
-                        <form class="" action="../shop/{{$item->id}}/addToCart" method="post">
+                    @if ((session("cart-$item->id") < round($item->prod_quantity / 2)) and session("cart-$item->id") < 10)
+                        <form class="" action="shop/{{$item->id}}/addToCart" method="post">
                             @csrf
                             <input type="submit" class="btn btn-sm btn-outline-success rounded-5 px-3" value="+">
-                    </form>
+                        </form>
                         @else
                         <input type="submit" class="btn btn-sm btn-secondary rounded-5 px-3" value="max">
                     @endif
@@ -113,7 +112,7 @@
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-6 col-sm-4">
-                            <label for="prod_units" class="center">Units (eg. 5x102g)</label>
+                            <label for="prod_units" class="center">Units<span class="d-none d-sm-inline"> (eg. 5x102g)</span></label>
                             <div class="input-group rounded-3">
                                 <input id="prod_units" type="text" class="form-control" name="prod_units" value="{{old('prod_units',$item->prod_units)}}">
                             </div>
@@ -148,46 +147,47 @@
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-4 col-sm-4">
-                            <label for="prod_color">Color selection</label>
+                            <label for="prod_color">Color<span class="d-none d-sm-inline"> selection</span></label>
                             <input style="height: 2.375rem" id="prod_color" type="color" class="form-control" name="prod_color" value="{{old('prod_color', $item->prod_color)}}">
                             <small>{{old('prod_color')}}</small>
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-4 col-sm-4">
-                            <label for="competitor_saveonfoods"><span class="d-inline d-md-none d-lg-inline d-xl-none">SAF</span><span class="d-none d-md-inline d-lg-none d-xl-inline">Save-on-Foods</span> pricing</label>
+                            <label for="competitor_saveonfoods"><span class="d-inline d-md-none d-lg-inline d-xl-none">SAF</span><span class="d-none d-md-inline d-lg-none d-xl-inline">Save-on-Foods</span><span class="d-none d-sm-inline"> pricing</span></label>
                             <input id="competitor_saveonfoods" type="number" class="form-control rounded-3" name="competitor_saveonfoods" value="{{old('competitor_saveonfoods', $item->competitor_saveonfoods)}}" min="0" max="1000" step="0.01">
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-4 col-sm-4">
-                            <label for="competitor_tnt">T&T pricing</label>
+                            <label for="competitor_tnt">T&T<span class="d-none d-sm-inline"> pricing</span></label>
                             <input id="competitor_tnt" type="number" class="form-control rounded-3" name="competitor_tnt" value="{{old('competitor_tnt', $item->competitor_tnt)}}" min="0" max="1000" step="0.01">
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-4 col-sm-4">
-                            <label for="competitor_walmart">Walmart pricing</label>
+                            <label for="competitor_walmart">Walmart<span class="d-none d-sm-inline"> pricing</span></label>
                             <input id="competitor_walmart" type="number" class="form-control rounded-3" name="competitor_walmart" value="{{old('competitor_walmart', $item->competitor_walmart)}}" min="0" max="1000" step="0.01">
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-12 col-sm-6">
                             <label for="created_at">Created at</label>
                             <div class="input-group rounded-3">
-                                <input id="created_at" type="datetime-local" class="form-control" name="created_at-{{$item->id}}" value="{{old('created_at',$item->created_at)}}" disabled readonly>
+                                <input id="created_at" type="text" class="form-control" name="created_at-{{$item->id}}" value="{{old('created_at',$item->created_at)}}" disabled readonly>
                             </div>
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-12 col-sm-6">
                             <label for="updated_at">Updated at</label>
                             <div class="input-group rounded-3">
-                                <input id="updated_at" type="datetime-local" class="form-control" name="updated_at-{{$item->id}}" value="{{old('updated_at',$item->updated_at)}}" disabled readonly>
+                                <input id="updated_at" type="text" class="form-control" name="updated_at-{{$item->id}}" value="{{old('updated_at',$item->updated_at)}}" disabled readonly>
                             </div>
                         </div>
 
+                        <input type="submit" id="saveChanges" name="saveChanges" hidden>
                     </div>
-                    <div class="d-flex flex-row-reverse justify-content-start">
-                        <input type="submit" class="btn btn-primary rounded-5 px-3" value="Save changes">
+                    <div class="d-flex flex-row-reverse justify-content-start mt-2">
+                        <label for="saveChanges" class="btn btn-primary rounded-5 px-3">Save<span class="d-none d-sm-inline"> changes</span></label>
                         <a href="inventory#items" type="button" class="btn btn-secondary rounded-5 px-3 mx-3">Close</a>
                         <div class="flex-grow-1"></div>
-                        <button class="btn btn-sm btn-danger rounded-5 px-3" type="button" data-bs-toggle="modal" data-bs-target="#{{$item->id}}-Modal">Delete</button>
+                        <button class="btn btn-danger rounded-5 px-3" type="button" data-bs-toggle="modal" data-bs-target="#{{$item->id}}-Modal">Delete</button>
                     </div>
                 </div>
             </form>
