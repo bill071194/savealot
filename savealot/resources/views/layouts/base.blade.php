@@ -36,7 +36,7 @@
                 <span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse text-center row flex-row mt-1 mt-md-0 ps-md-2 gap-2" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto col flex-row justify-content-center justify-content-md-start pe-0 gap-2 gap-md-0">
+                <ul class="navbar-nav me-auto col flex-row justify-content-evenly justify-content-md-start pe-0 gap-2 gap-md-0">
                     <li class="nav-item d-none d-md-block">
                         <a class="nav-link p-2 @yield('activeHome')" aria-current="page" href="index">Home</a>
                     </li>
