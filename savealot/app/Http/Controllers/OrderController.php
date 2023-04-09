@@ -166,7 +166,8 @@ class OrderController extends Controller
     }
 
     public function orderHistory() {
-        $orders = Order::selectRaw('*, DATE_FORMAT(created_at, "%M %D, %Y") as date, DATE_FORMAT(created_at, "%W %M %D, %Y, at %l:%i %p") as dateFull')->where('user_id', '=', auth()->id())->get()->sortByDesc('created_at');
+        $orders = Order::selectRaw('*, DATE_FORMAT(created_at, "%M %D, %Y") as date, DATE_FORMAT(created_at, "%W %M %D, %Y, at %l:%i %p") as dateFull')
+                    ->where('user_id', '=', auth()->id())->get()->sortByDesc('created_at');
         $transactions = Transaction::where('user_id', '=', auth()->id())->get();
         $inventory = Inventory::all();
         return view('orderhistory',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory]);
