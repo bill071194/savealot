@@ -61,6 +61,10 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/ordersList', 'allOrders');
     Route::get('/users', 'usersDashboard');
     Route::get('/usersList', 'allUsers');
-    Route::post('/usersList/{id}/delete', 'deleteUser'); 
     Route::get('/transactions', 'transactionsDashboard');
+});
+
+Route::controller(UserController::class)->group(function () {
+    Route::put('/user/{id}', 'update');
+    Route::delete('/user/{id}', 'destroy');
 });
