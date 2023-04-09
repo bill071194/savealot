@@ -118,9 +118,7 @@ class AdminController extends Controller {
         }
         $dates = session('dashboardDates');
         $today = Carbon::today();
-
         $orders = Order::selectRaw('*, DATE_FORMAT(created_at, "%Y") as year, DATE_FORMAT(created_at, "%Y-%m") as month, DATE_FORMAT(created_at, "%Y-%m-%d") as day')->get();
-
         switch ($dates) {
             case 'last5y':
                 for ($i=4; $i >= 0; $i--) {
@@ -155,7 +153,6 @@ class AdminController extends Controller {
                 }
                 break;
         }
-
         session(['lastAdmin' => 'orders']);
         return view('admin.orders',['orders' => $orders, 'ordersGrouped' => $ordersGrouped]);
     } // admin.orders

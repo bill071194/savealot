@@ -61,20 +61,7 @@ class InventoryController extends Controller
         }
         return redirect()->action([InventoryController::class, 'shop']);
     }
-
-    public function homepage()
-    {
-        $inventories = Inventory::all();
-        foreach ($inventories as $item) {
-            if (session("cart-$item->id") > 0) {
-            } else {
-                session(["cart-$item->id" => 0]);
-            }
-        }
-        $inventory = $inventories;
-        return view('index',['inventory' => $inventory]);
-    }
-
+    
     public function cart()
     {
         //
@@ -89,6 +76,19 @@ class InventoryController extends Controller
             }
         }
         return view('cart',['inventory' => $inventory]);
+    }
+
+    public function homepage()
+    {
+        $inventories = Inventory::all();
+        foreach ($inventories as $item) {
+            if (session("cart-$item->id") > 0) {
+            } else {
+                session(["cart-$item->id" => 0]);
+            }
+        }
+        $inventory = $inventories;
+        return view('index',['inventory' => $inventory]);
     }
 
     /**
