@@ -19,9 +19,9 @@
             --bs-nav-link-color: #a3cfbb;
             --bs-nav-link-hover-color: #d1e7dd;
         }
-        @@media screen and (max-width: 533px) {
+        @@media screen and (max-width: 500px) {
             p.mobile {
-                font-size: 3vw;
+                font-size: 2.8vw;
             }
         }
 	</style>
@@ -35,16 +35,16 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse text-center row flex-row mt-1 mt-md-0 ps-md-2" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto col flex-row justify-content-evenly justify-content-md-start py-1 py-md-0 pe-0 gap-2 gap-md-0">
+			<div class="collapse navbar-collapse text-center row flex-row mt-1 mt-md-0 ps-md-2 gap-2" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto col flex-row justify-content-center justify-content-md-start pe-0 gap-2 gap-md-0">
                     <li class="nav-item d-none d-md-block">
-                        <a class="nav-link @yield('activeHome')" aria-current="page" href="index">Home</a>
+                        <a class="nav-link p-2 @yield('activeHome')" aria-current="page" href="index">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @yield('activeShop')" href="shop">Shop</a>
+                        <a class="nav-link p-2 @yield('activeShop')" href="shop">Shop</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link p-2 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             @auth
                                 {{Auth::user()->name}}
                             @endauth

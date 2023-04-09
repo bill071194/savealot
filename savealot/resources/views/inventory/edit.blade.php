@@ -6,33 +6,32 @@
 
 @section('section')
 <h1 class="text-center">{{$item->prod_name}}</h1>
-<div class="row g-3" id="items">
+<div class="row g-3 align-items-start" id="items">
     {{-- <div class="col-md-3 d-lg-none"></div> --}}
     <div class="col-12 col-md-6 col-lg-4 col-xxl-3 offset-md-3 offset-lg-0">
-        <div class="card h-100 shadow-sm border-dark rounded-4">
-            <div class="row card-body align-items-center">
-                <a class="col-4 col-md-12 text-decoration-none">
-                    <img class="card-img text-center" src='../{{$item->prod_picture}}'>
+        <div class="card h-100 shadow border-dark rounded-4">
+            <div class="card-header rounded-top-4" style="background-color: {{$item->prod_color}}"></div>
+            <div class="row card-body align-items-center py-1 py-md-2">
+                <a class="col-3 col-md-12 text-decoration-none px-0 px-md-3 mb-md-auto">
+                    <img class="card-img text-center" src='{{ $item->prod_picture}}'>
                 </a>
-                    <div class="col-8 col-md-12">
-                        <div class="row gap-1 m-auto justify-content-center">
+                    <div class="col-9 col-md-12 px-0 px-md-1 mb-md-auto">
+                    <div class="row gap-1 m-auto justify-content-center mt-md-1">
+                        @isset($item->prod_selling_price)
+                            <div class="col-auto badge rounded-pil text-bg-success">${{$item->prod_selling_price}}</div>
+                        @endisset
+                        @isset($item->prod_units)
+                            <div class="col-auto badge rounded-pil text-bg-secondary">{{$item->prod_units}}</div>
+                        @endisset
+                        @isset($item->prod_size)
+                            <div class="col-auto badge rounded-pil text-bg-dark">{{$item->prod_size}}g</div>
                             @isset($item->prod_selling_price)
-                                <div class="col-auto badge rounded-pil text-bg-success">${{$item->prod_selling_price}}</div>
+                                <div class="col-auto badge rounded-pil text-dark bg-success-subtle">${{number_format($item->prod_selling_price / $item->prod_size * 100, 2)}}/100g</div>
                             @endisset
-                            @isset($item->prod_units)
-                                <div class="col-auto badge rounded-pil text-bg-secondary">{{$item->prod_units}}</div>
-                            @endisset
-                            @isset($item->prod_size)
-                                <div class="col-auto badge rounded-pil text-bg-dark">{{$item->prod_size}}g</div>
-                                @isset($item->prod_selling_price)
-                                    <div class="col-auto badge rounded-pil text-dark bg-success-subtle">${{number_format($item->prod_selling_price / $item->prod_size * 100, 2)}}/100g</div>
-                                @endisset
-                            @endisset
-                        </div>
-                        <h4 class="card-title my-0 text-center">{{$item->prod_name}}</h4>
-                        <p class="card-text m-0 text-center">
-                            {{$item->prod_description}}
-                        </p>
+                        @endisset
+                    </div>
+                        <h5 class="card-title my-0 text-center mt-md-1">{{$item->prod_name}}</h5>
+                        <p class="card-text m-0 text-center small mobile mt-md-1">{{$item->prod_description}}</p>
                     </div>
             </div>
             <div class="card-footer p-2">
@@ -55,11 +54,11 @@
                         @endif
                         <a class="btn btn-sm btn-light rounded-5 px-3" href="cart">{{session("cart-$item->id")}} in cart</a>
                     @endif
-                    @if (session("cart-$item->id") < $item->prod_quantity)
-                        <form class="" action="../shop/{{$item->id}}/addToCart" method="post">
+                    @if ((session("cart-$item->id") < round($item->prod_quantity / 2)) and session("cart-$item->id") < 10)
+                        <form class="" action="shop/{{$item->id}}/addToCart" method="post">
                             @csrf
                             <input type="submit" class="btn btn-sm btn-outline-success rounded-5 px-3" value="+">
-                    </form>
+                        </form>
                         @else
                         <input type="submit" class="btn btn-sm btn-secondary rounded-5 px-3" value="max">
                     @endif
