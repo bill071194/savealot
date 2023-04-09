@@ -53,7 +53,7 @@
                             @endif
                             <a class="btn btn-sm btn-light rounded-5 px-3" href="cart">{{session("cart-$item->id")}} in cart</a>
                         @endif
-                        @if (session("cart-$item->id") < $item->prod_quantity)
+                        @if ((session("cart-$item->id") < round($item->prod_quantity / 2)) and session("cart-$item->id") < 10)
                             <form class="" action="shop/{{$item->id}}/addToCart" method="post">
                                 @csrf
                                 <input type="submit" class="btn btn-sm btn-outline-success rounded-5 px-3" value="+">
