@@ -34,10 +34,8 @@ With Save-a-lot, you can get your groceries with just 3 easy steps:
 ### <ins>Functional Requirements:</ins>
 - Shop interface displaying products with their picture, size, price, quantity in stock, and description.
 - Login and registration system to allow for personalized accounts and order histories.
-- Cart system that allows for added items to be checked out, provided that there is inventory in stock.
-- Admin functions to to edit or delete orders, as well as updating users account information upon request.
-- Inventory can be added or edited through the site either one at a time, or added in bulk via a csv file upload.
-- Business intelligence dashboards graphically summarize information such as daily, monthly, and yearly sales reports.
+- Cart system that allows for added items to be checked out.
+- Admin function with business intelligence dashboards and inventory management.
 
 ### <ins>Non-functional Requirements:</ins>
 - Software development framework that accommodates front end, back end, and database functions.
@@ -232,7 +230,105 @@ The controller methods for the cart comprise of 4 functions: addToCart(), remove
 - addToCart(): adds item in the shop model to the cart session.
 - removeFromCart(): removes the added item from the cart.
 - emptyCart(): empties session and removes all items from the cart.
-- cart(): returns inventory items and passes item information to the cart view. If the user is trying to order more items than available in the inventory, an alert message will inform them that the item has insufficient in-stock quantity and that items have been removed from their cart.
+- cart(): return inventory items and pass item information to the cart view. If the user is trying to order more items than available in the inventory, an alert message will inform them that the item has insufficient in-stock quantity.
+- checkout(): confirms the purchase and redirect user to the order history page with the items they just ordered. The checkout button will also validate whether there is sufficient stock for the ordered inventory item.
+- orderHistory(): displays all of the user's previous orders based on who is logged in.
+
+```
+public function checkOut(Request $request) {
+
+        $user_id = $request->user_id;
+        $inventory = inventory::all();
+        $subtotal = 0;
+        $discount = 0;
+        $total = 0;
+        // check if order can be executed
+        foreach ($inventory as $item) {
+            if (session("cart-$item->id") > $item->prod_quantity) {
+                $difference = session("cart-$item->id") - $item->prod_quantity;
+                session(["cart-$item->id" => $item->prod_quantity]);
+                session(['stop-checkout' => 'true']);
+                session()->flash('cart-update', 'true');
+                session()->flash("cart-update-$item->id", 'true');
+                session()->flash("cart-update-$item->id-message", "Sorry, our stock of $item->prod_name has reduced and we have removed $difference of them from your cart.");
+            }
+        }
+        // give up and go back to cart page if order is not valid
+        if (session('stop-checkout') != 'true') {
+            foreach ($inventory as $item) {
+                if (session("cart-$item->id") > 0) {
+                    $prod_name = $item->prod_name;
+                    $prod_picture = $item->prod_picture;
+                    $prod_price = $item->prod_selling_price;
+                    $item_qty = session("cart-$item->id");
+                    $item_total = $prod_price * $item_qty;
+                    $subtotal += $item_total;
+                }
+            }
+
+            if ($request->student == 1) {
+                $student = 1;
+                $discount = number_format($subtotal * 0.1, 2, '.', '');
+                $total = $subtotal - $discount;
+            } else {
+                $student = 0;
+                $total = $subtotal;
+            }
+
+            $order = new Order();
+            $order->user_id = $user_id;
+            $order->subtotal = $subtotal;
+            $order->total = $total;
+            $order->discount = $discount;
+            $order->student = $student;
+
+            // $DATE = Carbon::today()->subDays(0)->toDateTimeString();    // TEMPORARY FOR BACKDATED ORDERS
+            // $order->created_at = $DATE;                                 // TEMPORARY FOR BACKDATED ORDERS
+
+            if ($order->save()) {
+                // session('status') = 'Purchase Successful!';
+                $row = Order::all()->sortBy('id')->last();
+                $order_id = $row['id'];
+                foreach ($inventory as $item) {
+                    if (session("cart-$item->id") > 0) {
+                        $prod_name = $item->prod_name;
+                        $prod_picture = $item->prod_picture;
+                        $prod_price = $item->prod_selling_price;
+                        $item_qty = session("cart-$item->id");
+                        $item_total = $prod_price * $item_qty;
+                        // Transaction
+                        $transaction = new Transaction();
+                        $transaction->user_id = $user_id;
+                        $transaction->order_id = $order_id;
+                        $transaction->prod_id = $item->id;
+                        $transaction->prod_name = $prod_name;
+                        $transaction->prod_picture = $prod_picture;
+                        $transaction->prod_price = $prod_price;
+                        $transaction->item_qty = $item_qty;
+                        $transaction->item_total = $item_total;
+                        // $transaction->created_at = $DATE;   // TEMPORARY FOR BACKDATED ORDERS
+                        $transaction->save();
+                        session(["cart-$item->id" => 0]);
+                        // Inventory
+                        $item->prod_quantity -= $item_qty;
+                        $item->prod_sold += $item_qty;
+                        $item->prod_revenue += $item_total;
+                        $item->update();
+                    }
+                }
+                return redirect('/orderhistory');
+            } else {
+                return redirect('/cart');
+            }
+        }else {
+            session(['stop-checkout' => 'false']);
+            return back()->withInput();
+        }
+    }
+```
+<br></br>
+
+![](img/orderHistoryController.jpg)
 
 All functions were invoked using the GET method of the URL, routed to the controller in the web.php file.
 <br></br>
@@ -244,6 +340,7 @@ The view uses a @foreach loop to populate items in the session into the cart htm
 
 ![](img/cart2.jpg)
 ![](img/cart3.jpg)
+![](img/orderHistory.jpg)
 
 ## Homepage
 
@@ -271,6 +368,7 @@ The view also restricts access of the dashboards to only the admin user, using t
 ![](img/admin4.jpg)
 ![](img/admin5.jpg)
 ![](img/admin6.jpg)
+![](img/adminNewUsers.jpg)
 ![](img/admin7.jpg)
 ![](img/admin8.jpg)
 ![](img/admin9.jpg)
@@ -299,6 +397,14 @@ The controller functions comprise of dashboard() functions for each data visuali
 
 ![](img/admin14.jpg)
 ![](img/admin15.jpg)
+<br></br>
+
+- allOrders(): display all exising orders and features to edit or delete them
+- allUsers(): display all existing users and features to edit or delete them
+<br></br>
+
+![](img/adminAllOrdersView.jpg)
+![](img/adminAllOrdersController.jpg)
 <br></br>
 
 ### <ins>Responsive Layout</ins>
