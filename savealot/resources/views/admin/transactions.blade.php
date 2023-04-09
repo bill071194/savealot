@@ -6,7 +6,7 @@
 
 @section('section')
 <div class="mb-4 border-bottom row">
-    <div class="btn-group w-100 justify-content-center">
+    <div class="btn-group w-100 px-2 px-sm-3 justify-content-center">
         <form class="" action="" method="get">
             <input type="hidden" name="dashboardDates" value="last7d">
             <input type="submit" id="last7d-sumbit" name="last7d-sumbit" hidden>
@@ -23,14 +23,14 @@
             <input type="hidden" name="dashboardDates" value="last5y">
             <input type="submit" id="last5y-sumbit" name="last5y-sumbit" hidden>
         </form>
-        <label for="last7d-sumbit" class="btn rounded-start-3 @if (session('dashboardDates') == 'last7d') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>7 days</label>
-        <label for="last30d-sumbit" class="btn rounded-0 @if (session('dashboardDates') == 'last30d') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>30 days</label>
-        <label for="last12m-sumbit" class="btn rounded-0 @if (session('dashboardDates') == 'last12m') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>12 months</label>
-        <label for="last5y-sumbit" class="btn rounded-end-3 @if (session('dashboardDates') == 'last5y') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>5 years</label>
+        <label for="last7d-sumbit" class="btn rounded-start-3 px-1 px-sm-2 @if (session('dashboardDates') == 'last7d') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>7 days</label>
+        <label for="last30d-sumbit" class="btn rounded-0 px-1 px-sm-2 @if (session('dashboardDates') == 'last30d') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>30 days</label>
+        <label for="last12m-sumbit" class="btn rounded-0 px-1 px-sm-2 @if (session('dashboardDates') == 'last12m') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>12 months</label>
+        <label for="last5y-sumbit" class="btn rounded-end-3 px-1 px-sm-2 @if (session('dashboardDates') == 'last5y') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>5 years</label>
     </div>
-    <div class="col-12">
-        <div class="text-center w-100 fw-bold my-2">Most Popular Items by Revenue</div>
-        <canvas class="my-2 w-100" id="transactionsChart" width="3000" height="1000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+    <div class="col-12 border-bottom">
+        <div class="text-center w-100 fw-bold mt-2">Most Popular Items by Revenue</div>
+        <canvas class="mb-2 w-100" id="transactionsChart" width="3000" height="1500" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
     </div>
     {{$inventory->links()}}
 </div>

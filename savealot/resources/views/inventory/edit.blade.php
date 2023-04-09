@@ -113,7 +113,7 @@
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-6 col-sm-4">
-                            <label for="prod_units" class="center">Units (eg. 5x102g)</label>
+                            <label for="prod_units" class="center">Units<span class="d-none d-sm-inline"> (eg. 5x102g)</span></label>
                             <div class="input-group rounded-3">
                                 <input id="prod_units" type="text" class="form-control" name="prod_units" value="{{old('prod_units',$item->prod_units)}}">
                             </div>
@@ -148,46 +148,47 @@
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-4 col-sm-4">
-                            <label for="prod_color">Color selection</label>
+                            <label for="prod_color">Color<span class="d-none d-sm-inline"> selection</span></label>
                             <input style="height: 2.375rem" id="prod_color" type="color" class="form-control" name="prod_color" value="{{old('prod_color', $item->prod_color)}}">
                             <small>{{old('prod_color')}}</small>
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-4 col-sm-4">
-                            <label for="competitor_saveonfoods"><span class="d-inline d-md-none d-lg-inline d-xl-none">SAF</span><span class="d-none d-md-inline d-lg-none d-xl-inline">Save-on-Foods</span> pricing</label>
+                            <label for="competitor_saveonfoods"><span class="d-inline d-md-none d-lg-inline d-xl-none">SAF</span><span class="d-none d-md-inline d-lg-none d-xl-inline">Save-on-Foods</span><span class="d-none d-sm-inline"> pricing</span></label>
                             <input id="competitor_saveonfoods" type="number" class="form-control rounded-3" name="competitor_saveonfoods" value="{{old('competitor_saveonfoods', $item->competitor_saveonfoods)}}" min="0" max="1000" step="0.01">
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-4 col-sm-4">
-                            <label for="competitor_tnt">T&T pricing</label>
+                            <label for="competitor_tnt">T&T<span class="d-none d-sm-inline"> pricing</span></label>
                             <input id="competitor_tnt" type="number" class="form-control rounded-3" name="competitor_tnt" value="{{old('competitor_tnt', $item->competitor_tnt)}}" min="0" max="1000" step="0.01">
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-4 col-sm-4">
-                            <label for="competitor_walmart">Walmart pricing</label>
+                            <label for="competitor_walmart">Walmart<span class="d-none d-sm-inline"> pricing</span></label>
                             <input id="competitor_walmart" type="number" class="form-control rounded-3" name="competitor_walmart" value="{{old('competitor_walmart', $item->competitor_walmart)}}" min="0" max="1000" step="0.01">
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-12 col-sm-6">
                             <label for="created_at">Created at</label>
                             <div class="input-group rounded-3">
-                                <input id="created_at" type="datetime-local" class="form-control" name="created_at-{{$item->id}}" value="{{old('created_at',$item->created_at)}}" disabled readonly>
+                                <input id="created_at" type="text" class="form-control" name="created_at-{{$item->id}}" value="{{old('created_at',$item->created_at)}}" disabled readonly>
                             </div>
                         </div>
 
                         <div class="mb-1 mb-sm-3 col-12 col-sm-6">
                             <label for="updated_at">Updated at</label>
                             <div class="input-group rounded-3">
-                                <input id="updated_at" type="datetime-local" class="form-control" name="updated_at-{{$item->id}}" value="{{old('updated_at',$item->updated_at)}}" disabled readonly>
+                                <input id="updated_at" type="text" class="form-control" name="updated_at-{{$item->id}}" value="{{old('updated_at',$item->updated_at)}}" disabled readonly>
                             </div>
                         </div>
 
+                        <input type="submit" id="saveChanges" name="saveChanges" hidden>
                     </div>
-                    <div class="d-flex flex-row-reverse justify-content-start">
-                        <input type="submit" class="btn btn-primary rounded-5 px-3" value="Save changes">
+                    <div class="d-flex flex-row-reverse justify-content-start mt-2">
+                        <label for="saveChanges" class="btn btn-primary rounded-5 px-3">Save<span class="d-none d-sm-inline"> changes</span></label>
                         <a href="inventory#items" type="button" class="btn btn-secondary rounded-5 px-3 mx-3">Close</a>
                         <div class="flex-grow-1"></div>
-                        <button class="btn btn-sm btn-danger rounded-5 px-3" type="button" data-bs-toggle="modal" data-bs-target="#{{$item->id}}-Modal">Delete</button>
+                        <button class="btn btn-danger rounded-5 px-3" type="button" data-bs-toggle="modal" data-bs-target="#{{$item->id}}-Modal">Delete</button>
                     </div>
                 </div>
             </form>
