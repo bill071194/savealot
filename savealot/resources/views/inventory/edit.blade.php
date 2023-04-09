@@ -6,16 +6,16 @@
 
 @section('section')
 <h1 class="text-center">{{$item->prod_name}}</h1>
-<div class="row g-3">
+<div class="row g-3" id="items">
     {{-- <div class="col-md-3 d-lg-none"></div> --}}
     <div class="col-12 col-md-6 col-lg-4 col-xxl-3 offset-md-3 offset-lg-0">
-        <div class="card h-100 shadow-sm border-success rounded-4">
+        <div class="card h-100 shadow-sm border-dark rounded-4">
             <div class="row card-body align-items-center">
                 <a class="col-4 col-md-12 text-decoration-none">
                     <img class="card-img text-center" src='../{{$item->prod_picture}}'>
                 </a>
                     <div class="col-8 col-md-12">
-                        <div class="row gap-1 m-auto">
+                        <div class="row gap-1 m-auto justify-content-center">
                             @isset($item->prod_selling_price)
                                 <div class="col-auto badge rounded-pil text-bg-success">${{$item->prod_selling_price}}</div>
                             @endisset
@@ -142,6 +142,17 @@
                             </div>
                         </div>
 
+                        <div class="mb-1 mb-sm-3 col-8 col-sm-8">
+                            <label for="picture_upload">Picture Upload</label>
+                            <input id="picture_upload" type="file" class="form-control @error('picture_upload') is-invalid @enderror" name="picture_upload" value="{{old('picture_upload')}}" disabled readonly>
+                        </div>
+
+                        <div class="mb-1 mb-sm-3 col-4 col-sm-4">
+                            <label for="prod_color">Color selection</label>
+                            <input style="height: 2.375rem" id="prod_color" type="color" class="form-control" name="prod_color" value="{{old('prod_color', $item->prod_color)}}">
+                            <small>{{old('prod_color')}}</small>
+                        </div>
+
                         <div class="mb-1 mb-sm-3 col-4 col-sm-4">
                             <label for="competitor_saveonfoods"><span class="d-inline d-md-none d-lg-inline d-xl-none">SAF</span><span class="d-none d-md-inline d-lg-none d-xl-inline">Save-on-Foods</span> pricing</label>
                             <input id="competitor_saveonfoods" type="number" class="form-control rounded-3" name="competitor_saveonfoods" value="{{old('competitor_saveonfoods', $item->competitor_saveonfoods)}}" min="0" max="1000" step="0.01">
@@ -174,7 +185,7 @@
                     </div>
                     <div class="d-flex flex-row-reverse justify-content-start">
                         <input type="submit" class="btn btn-primary rounded-5 px-3" value="Save changes">
-                        <a href="{{url()->previous()."#id-$item->id"}}" type="button" class="btn btn-secondary rounded-5 px-3 mx-3">Close</a>
+                        <a href="inventory#items" type="button" class="btn btn-secondary rounded-5 px-3 mx-3">Close</a>
                         <div class="flex-grow-1"></div>
                         <button class="btn btn-sm btn-danger rounded-5 px-3" type="button" data-bs-toggle="modal" data-bs-target="#{{$item->id}}-Modal">Delete</button>
                     </div>

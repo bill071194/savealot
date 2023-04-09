@@ -34,7 +34,7 @@
     </div>
     <div class="col-12">
         <div class="text-center w-100 fw-bold my-2">Most Popular Items by Revenue</div>
-        <canvas class="my-2 w-100" id="transactionsChart" width="3000" height="2000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
+        <canvas class="my-2 w-100" id="transactionsChart" width="3000" height="1000" style="display: block; box-sizing: border-box; height: 301px; width: 715px;"></canvas>
     </div>
     <div class="col-12">
         <div class="text-center w-100 fw-bold my-2">Inventory</div>
@@ -111,15 +111,15 @@
 			datasets: [{
                 label: "Revenue",
 				data: [@foreach ($transactionsGrouped as $item) {{$item['revenue']}}, @endforeach],
-                backgroundColor: ['#40845899', '#6DB75799', '#87BD5399', '#F4CE4699'],
-                borderColor: '#0009',
+                backgroundColor: [@foreach ($inventory as $item) "{{$item['prod_color']}}cc", @endforeach],
+                borderColor: '#000c',
 				borderWidth: 1,
 			},
             {
                 label: "Qty sold",
 				data: [@foreach ($transactionsGrouped as $item) {{$item['qty']}}, @endforeach],
-                backgroundColor: '#0009',
-                borderColor: ['#40845899', '#6DB75799', '#87BD5399', '#F4CE4699'],
+                backgroundColor: [@foreach ($inventory as $item) "{{$item['prod_color']}}cc", @endforeach],
+                borderColor: '#000c',
 				borderWidth: 1,
 			},
         ]
@@ -149,8 +149,8 @@
 			datasets: [{
                 label: "Qty in stock",
 				data: [@foreach ($inventory as $item) {{$item['prod_quantity']}}, @endforeach],
-                backgroundColor: ['#40845899', '#6DB75799', '#87BD5399', '#F4CE4699'],
-                borderColor: '#0009',
+                backgroundColor: [@foreach ($inventory as $item) "{{$item['prod_color']}}cc", @endforeach],
+                borderColor: '#000c',
 				borderWidth: 1,
 			},
         ]

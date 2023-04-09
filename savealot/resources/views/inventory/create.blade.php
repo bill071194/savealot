@@ -5,13 +5,13 @@
 @section('activeInventory', 'active')
 
 @section('section')
-<h1>Inventory</h1>
+<h1 id="items">Inventory</h1>
 <div class="row row-cols-1 g-3">
 	{{-- @foreach ($inventory as $item) --}}
 
 		<div class="col" id="Model" tabindex="-1" aria-labelledby="ModelLabel">
 			<div class="modal-dialog">
-				<form method="POST" action="inventory-create">
+				<form method="POST" action="inventory-create" enctype="multipart/form-data">
 					@csrf
 					<div class="modal-content">
 						<div class="modal-header">
@@ -70,6 +70,17 @@
 							<div class="mb-1 mb-sm-3 col-8 col-sm-12">
 								<label for="prod_picture">Picture URL</label>
                                 <input id="prod_picture" type="text" class="form-control" name="prod_picture" maxlength="255" value="{{old('prod_picture', 'pics/')}}">
+							</div>
+
+                            <div class="mb-1 mb-sm-3 col-8 col-sm-8">
+								<label for="picture_upload">Picture Upload</label>
+                                <input id="picture_upload" type="file" class="form-control @error('picture_upload') is-invalid @enderror" name="picture_upload" value="{{old('picture_upload')}}">
+							</div>
+
+                            <div class="mb-1 mb-sm-3 col-4 col-sm-4">
+								<label for="prod_color">Color selection</label>
+                                <input id="prod_color" type="color" class="form-control" name="prod_color" value="{{old('prod_color')}}">
+                                <small>{{old('prod_color')}}</small>
 							</div>
 
                             <div class="mb-1 mb-sm-3 col-4 col-sm-4">
