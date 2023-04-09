@@ -79,6 +79,15 @@ class InventoryController extends Controller
     {
         //
         $inventory = inventory::orderByDesc('prod_revenue', 'prod_sold')->get();
+        foreach ($inventory as $item) {
+            if (session("cart-$item->id") > $item->prod_quantity) {
+                $difference = session("cart-$item->id") - $item->prod_quantity;
+                session(["cart-$item->id" => $item->prod_quantity]);
+                session()->flash('cart-update', 'true');
+                session()->flash("cart-update-$item->id", 'true');
+                session()->flash("cart-update-$item->id-message", "Sorry, our stock of $item->prod_name has reduced and we have removed $difference of them from your cart.");
+            }
+        }
         return view('cart',['inventory' => $inventory]);
     }
 
