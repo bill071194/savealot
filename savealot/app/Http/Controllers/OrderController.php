@@ -46,6 +46,9 @@ class OrderController extends Controller
         $order->discount = $discount;
         $order->student = $student;
 
+        // $DATE = Carbon::today()->subDays(0)->toDateTimeString();    // TEMPORARY FOR BACKDATED ORDERS
+        // $order->created_at = $DATE;                                 // TEMPORARY FOR BACKDATED ORDERS
+
         if ($order->save()) {
             // session('status') = 'Purchase Successful!';
             $row = Order::all()->sortBy('id')->last();
@@ -67,6 +70,7 @@ class OrderController extends Controller
                     $transaction->prod_price = $prod_price;
                     $transaction->item_qty = $item_qty;
                     $transaction->item_total = $item_total;
+                    // $transaction->created_at = $DATE;   // TEMPORARY FOR BACKDATED ORDERS
                     $transaction->save();
                     session(["cart-$item->id" => 0]);
                     // Inventory

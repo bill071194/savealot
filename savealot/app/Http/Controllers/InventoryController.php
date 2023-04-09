@@ -98,6 +98,7 @@ class InventoryController extends Controller
     {
         // validate the form data
         $this->validate($request, [
+            'picture_upload' => 'required|image',
             'prod_name' => 'unique:inventories|required|max:255',
             'prod_quantity' => 'required',
         ]);
@@ -111,15 +112,18 @@ class InventoryController extends Controller
         $inventory->prod_units = $request->prod_units;
         $inventory->prod_size = $request->prod_size;
         $inventory->prod_quantity = $request->prod_quantity;
-        $inventory->prod_picture = $request->prod_picture;
+        $inventory->prod_picture = "storage/".$request->prod_picture;
+        $inventory->prod_color = $request->prod_color;
         $inventory->competitor_saveonfoods = $request->competitor_saveonfoods;
         $inventory->competitor_tnt = $request->competitor_tnt;
         $inventory->competitor_walmart = $request->competitor_walmart;
 
+        $request->file('picture_upload')->storeAs('public', $request->prod_picture);
+
 
         // if successful we want to redirect
         if ($inventory->save()) {
-            return redirect()->action([InventoryController::class, 'index']);
+            return redirect('/inventory');
         } else {
             return back()->withInput();
         }
@@ -163,7 +167,7 @@ class InventoryController extends Controller
         $inventory = Inventory::whereId($id);
 
         if ($inventory->update($request->except(['_token']))) {
-            return redirect('/inventory');
+            return redirect("inventory#items");
         } else {
             return back()->withInput();
         }
@@ -193,9 +197,9 @@ class InventoryController extends Controller
         $id = $request->id;
         $inventory = Inventory::whereId($id);
         if ($inventory->delete()) {
-            return redirect('/inventory');
+            return redirect(url()->previous()."#items");
         } else {
-            return redirect()->action([InventoryController::class, 'edit']);
+            return back();
         }
     }
 }
