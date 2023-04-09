@@ -13,6 +13,12 @@
 	{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js" integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG" crossorigin="anonymous"></script>
+    <style>
+        footer .nav-link {
+            --bs-nav-link-color: #a3cfbb;
+            --bs-nav-link-hover-color: #d1e7dd;
+        }
+	</style>
 </head>
 <body class="min-vh-100 d-flex flex-column">
 	<nav class="navbar navbar-expand-sm navbar-dark bg-success fixed-top" id="navbarTop">
