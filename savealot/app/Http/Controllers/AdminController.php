@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use DB;
 
 class AdminController extends Controller {
-    
+
     /**
     * Display a listing of the inventory for editing.
     */
@@ -28,7 +28,7 @@ class AdminController extends Controller {
         session(['lastAdmin' => 'inventory']);
         return view('inventory',['inventory' => $inventory]);
     }
-    
+
     public function adminRedirect(Request $request) {
         $lastAdmin = session('lastAdmin');
         switch ($lastAdmin) {
@@ -48,19 +48,19 @@ class AdminController extends Controller {
                 return redirect('/adminDashboard');
         }
     } // admin.admin OR last admin page viewed
-    
+
     public function adminDashboard(Request $request) {
         if (isset($request->dashboardDates)) {
             session(['dashboardDates' => $request->dashboardDates]);
         }
         $dates = session('dashboardDates');
         $today = Carbon::today();
-    
+
         $orders = Order::selectRaw('*, DATE_FORMAT(created_at, "%Y") as year, DATE_FORMAT(created_at, "%Y-%m") as month, DATE_FORMAT(created_at, "%Y-%m-%d") as day')->get();
         $users = User::selectRaw('*, DATE_FORMAT(created_at, "%Y") as year, DATE_FORMAT(created_at, "%Y-%m") as month, DATE_FORMAT(created_at, "%Y-%m-%d") as day')->get();
         $transactions = Transaction::selectRaw("*, SUM(item_total) as revenue, COUNT(item_total) as orders, SUM(item_qty) as qty")->groupByRaw('prod_id')->orderByDesc('revenue')->get();
         $inventory = Inventory::select('*')->orderByDesc('prod_revenue')->paginate(12);
-    
+
         switch ($dates) {
             case 'last5y':
                 for ($i=4; $i >= 0; $i--) {
@@ -107,11 +107,11 @@ class AdminController extends Controller {
                 $transactionsGrouped = Transaction::selectRaw('*, SUM(item_total) as revenue, COUNT(item_total) as orders, SUM(item_qty) as qty')->where("created_at", ">=", $today->subMonths(11)->format("Y-m")."-01 00:00:00")->groupBy('prod_id')->orderByDesc('revenue')->paginate(12);
                 break;
         }
-    
+
         session(['lastAdmin' => 'adminDashboard']);
         return view('admin.admin',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'users' => $users, 'ordersGrouped' => $ordersGrouped, 'usersGrouped' => $usersGrouped, 'transactionsGrouped' => $transactionsGrouped]);
     } // admin.admin
-    
+
     public function ordersDashboard(Request $request) {
         if (isset($request->dashboardDates)) {
             session(['dashboardDates' => $request->dashboardDates]);
@@ -159,7 +159,7 @@ class AdminController extends Controller {
         session(['lastAdmin' => 'orders']);
         return view('admin.orders',['orders' => $orders, 'ordersGrouped' => $ordersGrouped]);
     } // admin.orders
-    
+
     public function allOrders() {
         $orders = Order::selectRaw('*, DATE_FORMAT(created_at, "%M %D, %Y") as date, DATE_FORMAT(created_at, "%W %M %D, %Y, at %l:%i %p") as dateFull')->orderByDesc('created_at')->paginate(12);
         $transactions = Transaction::all();
@@ -168,7 +168,7 @@ class AdminController extends Controller {
         session(['lastAdmin' => 'ordersList']);
         return view('admin.ordersList',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory]);
     } // admin.ordersList
-    
+
     public function usersDashboard(Request $request) {
         if (isset($request->dashboardDates)) {
             session(['dashboardDates' => $request->dashboardDates]);
@@ -216,33 +216,14 @@ class AdminController extends Controller {
         session(['lastAdmin' => 'users']);
         return view('admin.users',['users' => $users, 'usersGrouped' => $usersGrouped]);
     } // admin.users
-    
+
     public function allUsers() {
         $users = User::selectRaw('*, DATE_FORMAT(created_at, "%M %D, %Y") as date, DATE_FORMAT(created_at, "%W %M %D, %Y, at %l:%i %p") as dateFull')->orderBy('created_at')->paginate(12);
 
         session(['lastAdmin' => 'usersList']);
         return view('admin.usersList',['users' => $users]);
     } // admin.usersList
-    
-    public function deleteUser(request $request) 
-    {
-        $id = $request->id;
-        $user = User::whereId($id);
-        
-        if ($user->update([
-            'name'=>'deleted',
-            'email'=>'deleted'.$request->id.'@localhost',
-            'password'=>'deleted123!'
-            ])) 
-        {
-            return back();
-        } 
-        else 
-        {
-            return back()->withInput();
-        }
-    } // usersList.delete
-    
+
     public function transactionsDashboard(Request $request) {
         if (isset($request->dashboardDates)) {
             session(['dashboardDates' => $request->dashboardDates]);
