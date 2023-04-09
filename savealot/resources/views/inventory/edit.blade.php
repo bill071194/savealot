@@ -10,8 +10,8 @@
     {{-- <div class="col-md-3 d-lg-none"></div> --}}
     <div class="col-12 col-md-6 col-lg-4 col-xxl-3 offset-md-3 offset-lg-0">
         <div class="card h-100 shadow-sm border-success rounded-4">
-            <div class="row card-body">
-                <a class="col-4 col-md-12 text-decoration-none" href="">
+            <div class="row card-body align-items-center">
+                <a class="col-4 col-md-12 text-decoration-none">
                     <img class="card-img text-center" src='../{{$item->prod_picture}}'>
                 </a>
                     <div class="col-8 col-md-12">
