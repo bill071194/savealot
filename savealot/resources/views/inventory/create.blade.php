@@ -24,7 +24,7 @@
 							</div>
 							<div class="mb-1 mb-sm-3 col-9 col-sm-8">
 								<label for="prod_name">Name</label>
-								<input id="prod_name" type="text" class="form-control rounded-3 @error('prod_name') is-invalid @enderror" name="prod_name" value="{{old('prod_name')}}" aria-describedby="prod_nameValidation" required>
+								<input id="prod_name" type="text" class="form-control rounded-3 @error('prod_name') is-invalid @enderror" name="prod_name" value="{{old('prod_name')}}" aria-describedby="prod_nameValidation" required autofocus>
                                 <div id="prod_nameValidation" class="invalid-feedback">Please enter a unique product name</div>
 							</div>
 							<div class="mb-1 mb-sm-3 col-12 col-sm-12">

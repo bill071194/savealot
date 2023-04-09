@@ -154,12 +154,12 @@ GRANT ALL PRIVILEGES ON savealot.* TO 'saladmin'@'localhost';
 - Inside the database\migrations directory of the Laravel Save-a-lot project, edit the create_users_table file to make sure that the fields created match with the application's ERD:
 <br></br>
 
-![](img/Lab8_Screenshot1.jpg)
+![](img/login1.jpg)
 - Run the php artisan migrate command in the terminal to perform migration with the aforementioned file. The users table will then be created for the savealot database:
 <br></br>
 
-![](img/Lab8_Screenshot2.jpg)
-![](img/Lab8_Screenshot3.jpg)
+![](img/login2.jpg)
+![](img/login3.jpg)
 - Verify that the User model has similar fields with the table created
 
 ### <ins>Create the auth controllers and view templates </ins>
@@ -169,7 +169,7 @@ composer require laravel/ui
 \n
 php artisan ui:auth
 ```
-![](img/Lab8_Screenshot4.jpg)
+![](img/login4.jpg)
 
 ### <ins>Edit the app, login, and registration templates </ins>
 - Verify that the login template, registration template, login controller, registration controller, and app template were created.
@@ -183,32 +183,32 @@ php artisan ui:auth
 - Testing registering a new account:
 <br></br>
 
-![](img/Lab8_Screenshot5.jpg)
+![](img/login5.jpg)
 - Message notifying that account was created using home.blade.php template:
 <br></br>
 
-![](img/Lab8_Screenshot6.jpg)
+![](img/login6.jpg)
 - Verifying that the account was created and is stored in the savealot users table:
 <br></br>
 
-![](img/Lab8_Screenshot7.jpg)
+![](img/login7.jpg)
 - Testing logging in with user that was just created. Testing that credentials validation is working with the wrong email+password combo:
 <br></br>
 
-![](img/Lab8_Screenshot8.jpg)
+![](img/login8.jpg)
 - Modified app template displaying user who is currently logged in. Dropdown menu from user displays additional features:
 <br></br>
 
-![](img/Lab8_Screenshot9.jpg)
+![](img/login9.jpg)
 
 ## Shop System
 ### <ins>Creating Tables on MariaDB </ins>
 - The tables were created on MariaDB using the same SQL syntax as the Users table in the previous section. Tables created were inventories, orders, and transactions:
 <br></br>
 
-![](img/final1.jpg)
-![](img/final2.jpg)
-![](img/final3.jpg)
+![](img/shop1.jpg)
+![](img/shop2.jpg)
+![](img/shop3.jpg)
 
 ### <ins>Shop controller functions and view templates </ins>
 The controller methods for the shop interface comprise of 2 functions: shop() and search(): 
@@ -218,12 +218,12 @@ The controller methods for the shop interface comprise of 2 functions: shop() an
 All functions were invoked using the GET method of the URL, routed to the controller in the web.php file.
 <br></br>
 
-![](img/final4.jpg)
+![](img/shop4.jpg)
 The view uses a @foreach loop to loop through items returned by the controller and populate them in html modals. Each modal also has specific buttons to add items to the cart as well as adjusting their in-cart quantity using sessions. The search bar is integrated to the nav bar and takes input to return the shop view with items matching the search criteria. The search algorithm uses SQL LIKE keyword. The view template also uses csrf to enforce personalized carts and order history.
 <br></br>
 
-![](img/final5.jpg)
-![](img/final6.jpg)
+![](img/shop5.jpg)
+![](img/shop6.jpg)
 
 ### <ins>Cart controller functions and view template</ins>
 The controller methods for the cart comprise of 4 functions: addToCart(), removeFromCart(), emptyCart(), and cart():
@@ -235,13 +235,13 @@ The controller methods for the cart comprise of 4 functions: addToCart(), remove
 All functions were invoked using the GET method of the URL, routed to the controller in the web.php file.
 <br></br>
 
-![](img/final7.jpg)
+![](img/cart1.jpg)
 
 The view uses a @foreach loop to populate items in the session into the cart html table. An if conditional statement is also used to interact with the model to find the student status of the logged in user. All pricing attributes and student status are used to calculate the order subtotal/total right inside the view.
 <br></br>
 
-![](img/final8.jpg)
-![](img/final9.jpg)
+![](img/cart2.jpg)
+![](img/cart3.jpg)
 
 ## Homepage
 
@@ -249,9 +249,9 @@ The view uses a @foreach loop to populate items in the session into the cart htm
 The view template of the homepage employs a carousel element that automatically scrolls through different advertisement banners to entice shoppers. Each banner also has a specific button that redirects users to the correct page of the application. Additional featurettes underneath the carousel tell the users more on the purpose and values of Save-a-lot. All graphics design elements of the application including the logo were designed from scratch.
 <br></br>
 
-![](img/final10.jpg)
-![](img/final11.jpg)
-![](img/final12.jpg)
+![](img/home1.jpg)
+![](img/home2.jpg)
+![](img/home3.jpg)
 
 ## Admin page
 
@@ -259,21 +259,21 @@ The view template of the homepage employs a carousel element that automatically 
 The view template of the admin function enables powerful data visualization of business intelligence. The api used for the data visualization tool is the Canvas API, using JavaScript to feed data and customize cosmetic elements.
 <br></br>
 
-![](img/final13.jpg)
+![](img/admin1.jpg)
 
 The view also restricts access of the dashboards to only the admin user, using the Auth model. Therefore, the dashboards cannot be access using their URLs without logging in first.  The admin user can monitor revenue, inventory, and users in different time intervals such as last 7 days, last 12 months, and last 12 years.
 <br></br>
 
-![](img/final14.jpg)
-![](img/final15.jpg)
-![](img/final16.jpg)
-![](img/final17.jpg)
-![](img/final18.jpg)
-![](img/final19.jpg)
-![](img/final26.jpg)
-![](img/final27.jpg)
-![](img/final20.jpg)
-![](img/final23.jpg)
+![](img/admin2.jpg)
+![](img/admin3.jpg)
+![](img/admin4.jpg)
+![](img/admin5.jpg)
+![](img/admin6.jpg)
+![](img/admin7.jpg)
+![](img/admin8.jpg)
+![](img/admin9.jpg)
+![](img/admin10.jpg)
+![](img/admin11.jpg)
 
 ### <ins>Admin controller functions </ins>
 The controller functions comprise of dashboard() functions for each data visualization tool, order control functions to modify or delete existing orders, and inventory control functions to edit, create, or delete inventory items:
@@ -333,20 +333,28 @@ public function OrdersDashboard(Request $request) {
         return view('orders',['orders' => $orders, 'transactions' => $transactions, 'inventory' => $inventory, 'ordersGrouped' => $ordersGrouped]);
     }
 ```
-
 - store(): stores a newly created item in the inventory database.
 - update(): edits an existing item in the inventory database.
 - destroy(): delete an existing item in the inventory database.
-
-<br></br>
-![](img/final21.jpg)
-![](img/final22.jpg)
 <br></br>
 
+![](img/admin12.jpg)
+![](img/admin13.jpg)
+<br></br>
 - uploadCSV(): allows for mass importing of inventory items using a CSV file.
 <br></br>
-![](img/final24.jpg)
-![](img/final25.jpg)
+
+![](img/admin14.jpg)
+![](img/admin15.jpg)
+<br></br>
+
+### <ins>Responsive Layout</ins>
+All view templates used in Save-a-lot were configured to be responsive to different screen sizes, in order to provide users the most seamless experience possible.
+
+![](img/responsive1.jpg)
+![](img/responsive2.jpg)
+![](img/responsive3.jpg)
+![](img/responsive4.jpg)
 <br></br>
 
 # V. Potential updates for future iterations
