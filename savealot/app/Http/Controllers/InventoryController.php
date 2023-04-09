@@ -79,6 +79,15 @@ class InventoryController extends Controller
     {
         //
         $inventory = inventory::orderByDesc('prod_revenue', 'prod_sold')->get();
+        foreach ($inventory as $item) {
+            if (session("cart-$item->id") > $item->prod_quantity) {
+                $difference = session("cart-$item->id") - $item->prod_quantity;
+                session(["cart-$item->id" => $item->prod_quantity]);
+                session()->flash('cart-update', 'true');
+                session()->flash("cart-update-$item->id", 'true');
+                session()->flash("cart-update-$item->id-message", "Sorry, our stock of $item->prod_name has reduced and we have removed $difference of them from your cart.");
+            }
+        }
         return view('cart',['inventory' => $inventory]);
     }
 
@@ -102,9 +111,6 @@ class InventoryController extends Controller
             'prod_name' => 'unique:inventories|required|max:255',
             'prod_quantity' => 'required',
         ]);
-        
-        $file = $request->file('picture_upload');
-        
         // process the data and submit it
         $inventory = new Inventory(); // this is the model Inventory
         $inventory->id = $request->id;
@@ -115,13 +121,13 @@ class InventoryController extends Controller
         $inventory->prod_units = $request->prod_units;
         $inventory->prod_size = $request->prod_size;
         $inventory->prod_quantity = $request->prod_quantity;
-        $inventory->prod_picture = "storage/pics/".$file->getClientOriginalName();
+        $inventory->prod_picture = "storage/".$request->prod_picture;
         $inventory->prod_color = $request->prod_color;
         $inventory->competitor_saveonfoods = $request->competitor_saveonfoods;
         $inventory->competitor_tnt = $request->competitor_tnt;
         $inventory->competitor_walmart = $request->competitor_walmart;
 
-        $file->storeAs('public', 'pics/'.$file->getClientOriginalName());
+        $request->file('picture_upload')->storeAs('public', $request->prod_picture);
 
 
         // if successful we want to redirect
@@ -204,55 +210,5 @@ class InventoryController extends Controller
         } else {
             return back();
         }
-    }
-    
-    public function uploadPicture() {
-        return view('inventory.uploadpicture');
-    } // inventory.uploadpicture
-    
-    public function movePicture(Request $request) {
-        $file = $request->file('image');
-        $file->storeAs('public', 'pics/'.$file->getClientOriginalName());
-        
-        return redirect('/inventory');
-    } // submit image file uploaded
-    
-    public function uploadCSV() {
-        return view('inventory.uploadfile');
-    } // inventory.uploadfile
-    
-    function csvToArray($filename = '', $delimiter = ',')
-    {
-        if (!file_exists($filename) || !is_readable($filename))
-            return false;
-    
-        $header = null;
-        $data = array();
-        if (($handle = fopen($filename, 'r')) !== false)
-        {
-            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
-            {
-                if (!$header)
-                    $header = $row;
-                else
-                    $data[] = array_combine($header, $row);
-            }
-            fclose($handle);
-        }
-    
-        return $data;
-    }
-    
-    public function importCSV(Request $request) {
-        $file = $request->file('inventory_csv');
-    
-        $inventoryArr = $this->csvToArray($file);
-
-        for ($i = 0; $i < count($inventoryArr); $i ++)
-        {
-            Inventory::firstOrCreate($inventoryArr[$i]);
-        }
-
-        return redirect('/inventory');
     }
 }
