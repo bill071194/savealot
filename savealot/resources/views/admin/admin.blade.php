@@ -23,7 +23,7 @@
             <input type="hidden" name="dashboardDates" value="last5y">
             <input type="submit" id="last5y-sumbit" name="last5y-sumbit" hidden>
         </form>
-        <label for="last7d-sumbit" class="btn rounded-start-3 @if (session('dashboardDates') == 'last7d') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last 7 days</span>7 days</label>
+        <label for="last7d-sumbit" class="btn rounded-start-3 @if (session('dashboardDates') == 'last7d') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>7 days</label>
         <label for="last30d-sumbit" class="btn rounded-0 @if (session('dashboardDates') == 'last30d') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>30 days</label>
         <label for="last12m-sumbit" class="btn rounded-0 @if (session('dashboardDates') == 'last12m') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>12 months</label>
         <label for="last5y-sumbit" class="btn rounded-end-3 @if (session('dashboardDates') == 'last5y') btn-primary @else btn-outline-primary @endif"><span class="d-none d-sm-inline">Last </span>5 years</label>
