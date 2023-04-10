@@ -29,25 +29,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // validate the form data
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'email' => 'required|max:255',
-            'email' => 'required|unique:users',
-            'password' => 'required|max:255'
-        ]);
-        // process the data and submit it
-        $user = new User(); // this is the model User
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password;
-
-        // if successful we want to redirect
-        if ($user->save()) {
-            return redirect()->route('user.index');
-        } else {
-            return redirect()->route('user.create');
-        }
+        //
     }
 
     /**
