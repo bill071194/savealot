@@ -66,8 +66,8 @@ To understand how the MVC components interact with each other, below is a sequen
 - Controller: all controllers were created using Laravel PHP. Interactions between the controller and the model used Laravel Eloquent statements.
 - View: all front end activities in the views were created using PHP, HTML, Bootstrap, CSS, and JavaScript.
 - Developmental environment: AWS EC2 Instance, AWS Cloud9 IDE
-- Graphics design tool: Canva
 - Collaboration tool: GitHub, Google Drive
+- Graphic design tool: Canva
 
 ### <ins>Database Schema:</ins>
 - The database system was designed using the Star schema with a fact table (orders) containing foreign keys as the hub, and dimension tables containing primary keys connected as spokes.
