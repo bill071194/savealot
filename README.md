@@ -35,7 +35,7 @@ With Save-a-lot, you can get your groceries with just 3 easy steps:
 - Shop interface displaying products with their picture, size, price, quantity in stock, and description.
 - Login and registration system to allow for personalized accounts and order histories.
 - Cart system that allows for added items to be checked out.
-- Admin functions for business intelligence including dashboards for monitoring and decision making.
+- Admin functions for business intelligence including dashboards for monitoring and decision making at different time intervals (last 7 days, 30 days, 12 months, 5 years).
 - Admin functions for inventory management including creating, editing, and deleting items.
 - Admin functions for orders management including editing and deleting existing orders.
 - Admin functions for users management including editing user information and passwords, and deleting users.
