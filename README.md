@@ -419,7 +419,13 @@ All view templates used in Save-a-lot were configured to be responsive to differ
 ![](img/responsive4.jpg)
 <br></br>
 
-# V. Potential updates for future iterations
+# V. Testing
+
+The testing process for the Save-a-lot application comprises of 2 testing methodologies: white-box and black-box testing.
+- White-box testing: developers traced all routes to make sure that views are tethered to the appropriate controller functions. Dummy data were also created in view scaffolds to ensure that the controller functions work properly.
+- Black-box testing: several test user accounts were created to feed data to the model to ensure analytic dashboards display correct visualizations. The application was also handed to different actual testers to examine its behaviors. Testers used the application however they wanted and feedback were collected.
+
+# VI. Potential updates for future iterations
 Due to the shortage of time in the development cycle, several implementations were postponed to future updates of the application. Some of the most notable additions to the software are:
 - Dedicated OLAP database: the current business intelligence queries are made with transactional OLTP data, which compromises a lot of data warehouse design principals. Future BI activities will be conducted on an OLAP database instead. An ETL process will take place to load data from the OLTP database to the OLAP system, enabling BI queries.
 - Application deployment: the application will be deployed on a dedicated server instead of using the Laravel artisan server on the development environment.
