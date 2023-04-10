@@ -15,7 +15,6 @@ class inventory extends Model
         'prod_purchase_price',
         'prod_selling_price',
         'prod_units',
-        'prod_size',
         'prod_quantity',
         'prod_picture',
         'prod_color',
