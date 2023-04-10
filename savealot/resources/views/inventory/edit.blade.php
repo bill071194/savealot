@@ -181,7 +181,7 @@
                             </div>
                         </div>
 
-                        <input type="submit" id="saveChanges" name="saveChanges" hidden>
+                        <input type="submit" id="saveChanges" hidden>
                     </div>
                     <div class="d-flex flex-row-reverse justify-content-start mt-2">
                         <label for="saveChanges" class="btn btn-primary rounded-5 px-3">Save<span class="d-none d-sm-inline"> changes</span></label>
