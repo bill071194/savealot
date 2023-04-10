@@ -44,7 +44,7 @@ With Save-a-lot, you can get your groceries with just 3 easy steps:
 - Software development framework that accommodates front end, back end, and database functions.
 - Database system that store user data, inventory data, and transactional OLTP data.
 - Server to deploy application.
-- User-friendly interface that is engaging and easy to use.
+- User-friendly interface that is engaging and easy to use, and responsive to different device sizes.
 - Software design principles to ensure software quality and security.
 <br></br>
 
