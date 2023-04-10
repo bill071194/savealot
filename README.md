@@ -37,6 +37,8 @@ With Save-a-lot, you can get your groceries with just 3 easy steps:
 - Cart system that allows for added items to be checked out.
 - Admin functions for business intelligence including dashboards for monitoring and decision making.
 - Admin functions for inventory management including creating, editing, and deleting items.
+- Admin functions for orders management including editing and deleting existing orders.
+- Admin functions for users management including editing user information and passwords, and deleting users.
 
 ### <ins>Non-functional Requirements:</ins>
 - Software development framework that accommodates front end, back end, and database functions.
