@@ -52,7 +52,7 @@
                     <div class="mb-1 mb-sm-3 col-8">
                         <label for="name">Name</label>
                         <div class="input-group rounded-3">
-                            <input id="name-{{$user->id}}" type="text" class="form-control" name="name" min="0" max="1" value="{{old("name-$user->id",$user->name)}}">
+                            <input id="name-{{$user->id}}" type="text" class="form-control" name="name" min="0" max="1" value="{{old("name-$user->id",$user->name)}}" @if($user->id == 4) disabled readonly @endif>
                         </div>
                     </div>
                     <div class="mb-1 mb-sm-3 col-4">
@@ -64,19 +64,19 @@
                     <div class="mb-1 mb-sm-3 col-12">
                         <label for="email">Email</label>
                         <div class="input-group rounded-3">
-                            <input id="email-{{$user->id}}" type="email" class="form-control" name="email" value="{{old("email-$user->id",$user->email)}}">
+                            <input id="email-{{$user->id}}" type="email" class="form-control" name="email" value="{{old("email-$user->id",$user->email)}}" @if($user->id == 4) disabled readonly @endif>
                         </div>
                     </div>
                     <div class="mb-1 mb-sm-3 col-8">
                         <label for="password">Password</label>
                         <div class="input-group rounded-3">
-                            <input id="password-{{$user->id}}" type="password" class="form-control" name="password" value="">
+                            <input id="password-{{$user->id}}" type="password" class="form-control" name="password" value="" @if($user->id == 4) disabled readonly @endif>
                         </div>
                     </div>
                     <div class="mb-1 mb-sm-3 col-4">
                         <label for="student">Student</label>
                         <div class="input-group rounded-3">
-                            <input id="student-{{$user->id}}" type="number" class="form-control" name="student" min="0" max="1" value="{{old("student-$user->id",$user->student)}}">
+                            <input id="student-{{$user->id}}" type="number" class="form-control" name="student" min="0" max="1" value="{{old("student-$user->id",$user->student)}}" @if($user->id == 4) disabled readonly @endif>
                         </div>
                     </div>
                     <div class="mb-1 mb-sm-3 col-6">
@@ -91,17 +91,28 @@
                             <input id="updated_at-{{$user->id}}" type="text" class="form-control" name="student-{{$user->id}}" min="0" max="1" value="{{old("updated_at-$user->id",$user->updated_at)}}" disabled readonly>
                         </div>
                     </div>
-                    <input type="submit" name="submit-{{$user->id}}" id="submit-{{$user->id}}" class="btn btn-danger rounded-5 px-3" value="Update" hidden>
+                    @if($user->id == 4)
+                    <input type="hidden" name="submit-{{$user->id}}" id="submit-{{$user->id}}" class="btn btn-primary rounded-5 px-3" value="Update" hidden disabled>
+                    @else
+                    <input type="submit" name="submit-{{$user->id}}" id="submit-{{$user->id}}" class="btn btn-primary rounded-5 px-3" value="Update" hidden>
+                    @endif
                 </form>
             </div>
             <div class="card-footer">
                 <div class="d-flex justify-content-evenly">
+                    @if($user->id == 4)
+                    <button class="btn btn-sm btn-danger rounded-5 px-3" type="button" data-bs-toggle="modal" data-bs-target="#{{$user->id}}-Modal" disabled>Delete</button>
+                    <button class="btn btn-primary rounded-5 px-3" type="button" disabled>Update</button>
+                    @else
                     <button class="btn btn-sm btn-danger rounded-5 px-3" type="button" data-bs-toggle="modal" data-bs-target="#{{$user->id}}-Modal">Delete</button>
                     <label for="submit-{{$user->id}}" class="btn btn-primary rounded-5 px-3">Update</label>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
+    @if($user->id == 4)
+    @else
     <div class="modal fade" id="{{$user->id}}-Modal" tabindex="-1" aria-labelledby="{{$user->id}}ModelLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -123,6 +134,7 @@
             </div>
         </div>
     </div>
+    @endif
     @endforeach
     {{$users->links()}}
 </div>

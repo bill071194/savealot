@@ -21,10 +21,12 @@
 								<div class="col-auto badge rounded-pil text-bg-secondary">{{$item->prod_units}}</div>
 							@endisset
 							@isset($item->prod_size)
-								<div class="col-auto badge rounded-pil text-bg-dark">{{$item->prod_size}}g</div>
-                                @isset($item->prod_selling_price)
-                                    <div class="col-auto badge rounded-pil text-dark bg-success-subtle">${{number_format($item->prod_selling_price / $item->prod_size * 100, 2)}}/100g</div>
-                                @endisset
+							    @if($item->prod_size > 0)
+    								<div class="col-auto badge rounded-pil text-bg-dark">{{$item->prod_size}}g</div>
+                                    @isset($item->prod_selling_price)
+                                        <div class="col-auto badge rounded-pil text-dark bg-success-subtle">${{number_format($item->prod_selling_price / $item->prod_size * 100, 2)}}/100g</div>
+                                    @endisset
+                                @endif
 							@endisset
 						</div>
 							<h5 class="card-title my-0 text-center mt-md-1">{{$item->prod_name}}</h5>

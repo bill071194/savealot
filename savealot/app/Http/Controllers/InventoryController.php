@@ -107,13 +107,11 @@ class InventoryController extends Controller
     {
         // validate the form data
         $this->validate($request, [
-            'picture_upload' => 'required|image',
+            'picture_upload' => 'image',
             'prod_name' => 'unique:inventories|required|max:255',
             'prod_quantity' => 'required',
         ]);
-        
-        $file = $request->file('picture_upload');
-        
+
         // process the data and submit it
         $inventory = new Inventory(); // this is the model Inventory
         $inventory->id = $request->id;
@@ -124,14 +122,16 @@ class InventoryController extends Controller
         $inventory->prod_units = $request->prod_units;
         $inventory->prod_size = $request->prod_size;
         $inventory->prod_quantity = $request->prod_quantity;
-        $inventory->prod_picture = "storage/pics/".$file->getClientOriginalName();
         $inventory->prod_color = $request->prod_color;
         $inventory->competitor_saveonfoods = $request->competitor_saveonfoods;
         $inventory->competitor_tnt = $request->competitor_tnt;
         $inventory->competitor_walmart = $request->competitor_walmart;
-
-        $file->storeAs('public', 'pics/'.$file->getClientOriginalName());
-
+        
+        $file = $request->file('picture_upload');
+        if (file_exists($file) and is_readable($file)) {
+            $inventory->prod_picture = "storage/pics/".$file->getClientOriginalName();
+            $file->storeAs('public', 'pics/'.$file->getClientOriginalName());
+        }
 
         // if successful we want to redirect
         if ($inventory->save()) {
