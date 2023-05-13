@@ -135,13 +135,13 @@
 			<div class="collapse navbar-collapse text-center row flex-row mt-1 mt-md-0 ps-md-2 gap-2" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto col flex-row justify-content-evenly justify-content-md-start pe-0 gap-2 gap-md-0">
                     <li class="nav-item d-none d-md-block">
-                        <a class="nav-link @yield('activeHome')" aria-current="page" href="index">Home</a>
+                        <a class="nav-link p-2 @yield('activeHome')" aria-current="page" href="index">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @yield('activeShop')" href="shop">Shop</a>
+                        <a class="nav-link p-2 @yield('activeShop')" href="shop">Shop</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link p-2 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             @auth
                                 {{Auth::user()->name}}
                             @endauth
@@ -156,14 +156,12 @@
                                 <li><hr class="dropdown-divider"></li>
                             @endguest
                             <li><a class="dropdown-item @yield('activeCart')" href="/cart"><i class="bi bi-cart"></i> Cart</a></li>
-                            @isset(Auth::user()->email)
+                            @auth
                                 <li><a class="dropdown-item @yield('activeOrderHistory')" href="/orderhistory"><i class="bi bi-receipt"></i> Order History</a></li>
-                                @if (Auth::user()->email == "saladmin@localhost")
+                                @if (Auth::user()->admin == true)
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item @yield('activeAdmin')" href="/admin"><i class="bi bi-file-earmark-bar-graph"></i> Admin</a></li>
                                 @endif
-                            @endisset
-                            @auth
                                 <li><hr class="dropdown-divider"></li>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();

@@ -59,14 +59,12 @@
                                 <li><hr class="dropdown-divider"></li>
                             @endguest
                             <li><a class="dropdown-item @yield('activeCart')" href="/cart"><i class="bi bi-cart"></i> Cart</a></li>
-                            @isset(Auth::user()->email)
+                            @auth
                                 <li><a class="dropdown-item @yield('activeOrderHistory')" href="/orderhistory"><i class="bi bi-receipt"></i> Order History</a></li>
-                                @if (Auth::user()->email == "saladmin@localhost")
+                                @if (Auth::user()->admin == true)
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item @yield('activeAdmin')" href="/admin"><i class="bi bi-file-earmark-bar-graph"></i> Admin</a></li>
                                 @endif
-                            @endisset
-                            @auth
                                 <li><hr class="dropdown-divider"></li>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();

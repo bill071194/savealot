@@ -5,8 +5,8 @@
 @section('main')
 <h1 class="h2 text-center">@yield('adminTitle')</h1>
 <div class="row flex-column flex-md-row justify-content-evenly border-top py-3 border-bottom">
-    @isset(Auth::user()->email)
-        @if (Auth::user()->email == "saladmin@localhost")
+    @auth
+        @if (Auth::user()->admin == true)
             <ul class="col nav nav-pills justify-content-center justify-content-md-start p-0 flex-md-column text-center mb-3">
                 <li class="nav-item"><a class="nav-link px-1 @yield('activeAdmin')" href="adminDashboard"><i class="bi bi-file-earmark-bar-graph"></i> Admin</a></li>
                 <li class="nav-item dropdown">
@@ -34,7 +34,7 @@
         @endif
     @else
     <h4 class="text-center">Sorry, you don't have access to this page!</h4>
-    @endisset
+    @endauth
 </div>
 
 @endsection

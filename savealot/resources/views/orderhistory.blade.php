@@ -55,31 +55,33 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    @if (Auth::user()->email == "saladmin@localhost")
-                    <div class="d-flex justify-content-center">
-                        <button class="btn btn-danger rounded-5 px-3" type="button" data-bs-toggle="modal" data-bs-target="#{{$order->id}}-Modal">Delete</button>
-                        <div class="modal fade" id="{{$order->id}}-Modal" tabindex="-1" aria-labelledby="{{$order->id}}ModelLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="{{$order->id}}ModelLabel">Are you sure you want to delete this order?</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h6>Seriously it'll be gone!</h6>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary rounded-5 px-3" data-bs-dismiss="modal">No go back!</button>
-                                        <form action="order/{{$order->id}}" method="post">
-                                            @csrf @method('DELETE')
-                                            <input type="submit" class="btn btn-danger rounded-5 px-3" value="Delete Order">
-                                        </form>
+                    @auth
+                        @if (Auth::user()->admin == true)
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-danger rounded-5 px-3" type="button" data-bs-toggle="modal" data-bs-target="#{{$order->id}}-Modal">Delete</button>
+                            <div class="modal fade" id="{{$order->id}}-Modal" tabindex="-1" aria-labelledby="{{$order->id}}ModelLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="{{$order->id}}ModelLabel">Are you sure you want to delete this order?</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h6>Seriously it'll be gone!</h6>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary rounded-5 px-3" data-bs-dismiss="modal">No go back!</button>
+                                            <form action="order/{{$order->id}}" method="post">
+                                                @csrf @method('DELETE')
+                                                <input type="submit" class="btn btn-danger rounded-5 px-3" value="Delete Order">
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    @endif
+                        @endif
+                    @endauth
                 </div>
             </div>
         </div>
