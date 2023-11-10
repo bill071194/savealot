@@ -1,4 +1,4 @@
-# Team 3 [Save-a-lot] - Official Documentation
+# [Save-a-lot] - Official Documentation
 
 ## This documentation describes the components of the Save-a-lot application
 
